@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html xmlns:v-on="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8"/>
+    <link rel="stylesheet" href="../../t_css/elementui.css">
+
+    <link rel="stylesheet" href="../../t_css/bootstrap.css"/>
+    <link rel="stylesheet" href="../../t_css/layout.css"/>
+    <link rel="stylesheet" type="text/css" href="../../t_css/student.css"/>
+    <script src="../../t_js/jquery.js"></script>
+    <script src="../../t_js/layer.js"></script>
+    <script type="text/javascript" src="../../t_js/jquery.min.js"></script>
+    <script type="text/javascript" src="../../t_js/bootstrap.min.js"></script>
+    <script type="text/javascript" charset="utf-8" src="../../t_js/plugins/kindeditor/kindeditor.js"></script>
+    <script type="text/javascript" charset="utf-8" src="../../t_js/plugins/kindeditor/lang/zh_CN.js"></script>
+    <title></title>
+    <script>
+        KindEditor.ready(function (K) {
+            window.editor = K.create('#editor_id');
+        });
+    </script>
+    <style>
+.input1 button,.input1 input{
+    margin: 10px;
+}
+    </style>
+</head>
+<body>
+<div id="app">
+    <div style="width: 50%;margin-top: 100px" class="input1">
+        <el-input v-model="pojo.name" placeholder="教师姓名"></el-input>
+        <el-input v-model="pojo.department" placeholder="教师系别"></el-input>
+        <el-input v-model="pojo.position" placeholder="教师职务"></el-input>
+        <el-input v-model="pojo.field" placeholder="负责领域"></el-input>
+        <el-button type="primary" @click="save()">主要按钮</el-button>
+    </div>
+
+
+</div>
+</body>
+</html>
+<script src="../../t_js/vue.js"></script>
+<script src="../../t_js/axios.js"></script>
+<!--<script src="../../js/util.js"></script>-->
+<script src="../../t_js/elementui.js"></script>
+<script src="../../t_js/util.js"></script>
+<script>
+    new Vue({
+        el: '#app',
+        data() {
+            return {
+                tableData: [],
+                tid: null,
+                currentPage: 1,
+                total: 10,
+                size: 10,
+                searchMap: {},
+                pojo: {},
+                formVisible: false,
+                imageUrl: '',
+
+            }
+        },
+        created() {
+            this.tid = getQueryString("tid")
+            this.pojo = {tid: getQueryString("tid")}
+            this.fetchData();
+        },
+        methods: {
+            fetchData() {
+
+            },
+            save() {
+                axios.post(`/teacher/add.do`, this.pojo).then(response => {
+                    layer.msg('添加成功');
+                    var index = parent.layer.getFrameIndex(window.name);
+                    window.parent.location.reload();
+                });
+
+            },
+            // edit(id) {
+            //     this.formVisible = true // 打开窗口
+            //     // 调用查询
+            //     axios.get(`/order/findById.do?id=${id}`).then(response => {
+            //         this.pojo = response.data;
+            //         // this.fileUrl=this.pojo.image //显示图片  如页面有图片上传功能放开注释
+            //     })
+            // },
+            // dele(id) {
+            //     this.$confirm('确定要删除此记录吗?', '提示', {
+            //         confirmButtonText: '确定',
+            //         cancelButtonText: '取消',
+            //         type: 'warning'
+            //     }).then(() => {
+            //         axios.get(`/order/delete.do?id=${id}`).then(response => {
+            //             this.fetchData(); //刷新列表
+            //         })
+            //     })
+            // },
+            /* ****图片上传相关代码  如页面有图片上传功能放开注释 *****/
+            handleAvatarSuccess(res, file) {
+                this.fileUrl = file.response;
+                console.log(this.fileUrl)
+            },
+            beforeAvatarUpload(file) {
+                // const isJPG = file.type === 'docx/doc';
+                const isLt2M = file.size / 1024 / 1024 < 2;
+
+                // if (!isJPG) {
+                //     this.$message.error('上传头像图片只能是 docx/doc 格式!');
+                // }
+                if (!isLt2M) {
+                    this.$message.error('上传头像图片大小不能超过 2MB!');
+                }
+                // return isJPG && isLt2M;
+                return isLt2M;
+            }
+        }
+    })
+</script>

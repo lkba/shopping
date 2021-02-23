@@ -1,0 +1,18 @@
+/*分页列表*/
+.pagelist{margin-top:10px;margin-left:250px;}
+.pagelist a{margin:0 5px;border:1px solid #ddd;padding:1px 4px;color:#666;}
+.pagelist a:hover{text-decoration: none;}
+.pagelist span{padding:1px 4px;}
+/*内容编辑*/
+.data-edit{border:1px solid #ddd;background:#F7F7F7;max-width:450px;padding:20px 40px;}
+.data-edit th{font-weight:normal;text-align:right;vertical-align:top;}
+.data-edit td{padding:0 10px;}
+.data-edit select{min-width:100px;height:26px;}
+.data-edit .file{font-size:12px;}
+.data-edit textarea{width:200px;height:50px;}
+.data-edit input{width:200px;}
+/*内容按钮*/
+.tr_btn input{width:70px;height:25px;margin:20px;}
+/*分类嵌套*/
+.data-tree{width:600px;font-size:14px;background:#F2F9FD;padding:20px;box-shadow:6px 6px 2px #ECF5FB; }
+.data-tree div{margin-left:20px;border-top:2px dotted #fff;}

@@ -1,0 +1,106 @@
+<mxfile host="www.draw.io" modified="2020-02-29T12:30:36.676Z" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/80.0.3987.122 Safari/537.36" etag="dA1VXb4kTYiMQ3C0EnxI" version="12.7.9" type="github">
+  <diagram id="OodCDWJzPJ34XgKxqgvO" name="第 1 页">
+    <mxGraphModel dx="637" dy="436" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="846506SnemvekgGAFMrD-1" value="赛事" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="280" y="150" width="90" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="846506SnemvekgGAFMrD-2" value="标题" style="ellipse;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="190" y="40" width="80" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="846506SnemvekgGAFMrD-4" value="举办方" style="ellipse;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="310" y="10" width="80" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="846506SnemvekgGAFMrD-5" value="举办地点" style="ellipse;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="414" y="30" width="80" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="846506SnemvekgGAFMrD-6" value="报名状态" style="ellipse;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="480" y="80" width="80" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="846506SnemvekgGAFMrD-7" value="内容" style="ellipse;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="480" y="170" width="80" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="846506SnemvekgGAFMrD-8" value="发布时间" style="ellipse;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="450" y="250" width="80" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="846506SnemvekgGAFMrD-9" value="编写时间" style="ellipse;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="340" y="290" width="80" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="846506SnemvekgGAFMrD-10" value="报名人数" style="ellipse;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="110" y="140" width="80" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="846506SnemvekgGAFMrD-11" value="团队ID" style="ellipse;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="140" y="240" width="80" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="846506SnemvekgGAFMrD-12" value="分类ID" style="ellipse;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="230" y="290" width="80" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="846506SnemvekgGAFMrD-13" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=1;exitDx=0;exitDy=0;entryX=0.753;entryY=0.983;entryDx=0;entryDy=0;entryPerimeter=0;" edge="1" parent="1" source="846506SnemvekgGAFMrD-4" target="846506SnemvekgGAFMrD-4">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="846506SnemvekgGAFMrD-14" value="" style="endArrow=none;html=1;exitX=0;exitY=0.5;exitDx=0;exitDy=0;" edge="1" parent="1" source="846506SnemvekgGAFMrD-1" target="846506SnemvekgGAFMrD-10">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="300" y="250" as="sourcePoint" />
+            <mxPoint x="350" y="200" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="846506SnemvekgGAFMrD-15" value="" style="endArrow=none;html=1;entryX=0.948;entryY=0.217;entryDx=0;entryDy=0;entryPerimeter=0;exitX=0;exitY=0.5;exitDx=0;exitDy=0;" edge="1" parent="1" source="846506SnemvekgGAFMrD-1" target="846506SnemvekgGAFMrD-11">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="290" y="185" as="sourcePoint" />
+            <mxPoint x="199.94750653906374" y="181.53644255919482" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="846506SnemvekgGAFMrD-16" value="" style="endArrow=none;html=1;entryX=0.5;entryY=0;entryDx=0;entryDy=0;exitX=0.5;exitY=1;exitDx=0;exitDy=0;" edge="1" parent="1" source="846506SnemvekgGAFMrD-1" target="846506SnemvekgGAFMrD-12">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="290" y="185" as="sourcePoint" />
+            <mxPoint x="225.84000000000003" y="263.02" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="846506SnemvekgGAFMrD-17" value="" style="endArrow=none;html=1;entryX=0.5;entryY=0;entryDx=0;entryDy=0;exitX=0.5;exitY=1;exitDx=0;exitDy=0;" edge="1" parent="1" source="846506SnemvekgGAFMrD-1" target="846506SnemvekgGAFMrD-9">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="335" y="210" as="sourcePoint" />
+            <mxPoint x="280" y="300" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="846506SnemvekgGAFMrD-18" value="" style="endArrow=none;html=1;entryX=0.013;entryY=0.277;entryDx=0;entryDy=0;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryPerimeter=0;" edge="1" parent="1" source="846506SnemvekgGAFMrD-1" target="846506SnemvekgGAFMrD-8">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="335" y="210" as="sourcePoint" />
+            <mxPoint x="390" y="300" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="846506SnemvekgGAFMrD-19" value="" style="endArrow=none;html=1;entryX=0;entryY=0.5;entryDx=0;entryDy=0;exitX=1;exitY=0.5;exitDx=0;exitDy=0;" edge="1" parent="1" source="846506SnemvekgGAFMrD-1" target="846506SnemvekgGAFMrD-7">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="335" y="210" as="sourcePoint" />
+            <mxPoint x="461.03999999999996" y="276.62" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="846506SnemvekgGAFMrD-20" value="" style="endArrow=none;html=1;entryX=0;entryY=0.5;entryDx=0;entryDy=0;exitX=1;exitY=0.5;exitDx=0;exitDy=0;" edge="1" parent="1" source="846506SnemvekgGAFMrD-1" target="846506SnemvekgGAFMrD-6">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="380" y="185" as="sourcePoint" />
+            <mxPoint x="490" y="210" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="846506SnemvekgGAFMrD-21" value="" style="endArrow=none;html=1;entryX=0;entryY=1;entryDx=0;entryDy=0;" edge="1" parent="1" target="846506SnemvekgGAFMrD-5">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="370" y="170" as="sourcePoint" />
+            <mxPoint x="490" y="120" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="846506SnemvekgGAFMrD-22" value="" style="endArrow=none;html=1;entryX=0.5;entryY=1;entryDx=0;entryDy=0;exitX=0.5;exitY=0;exitDx=0;exitDy=0;" edge="1" parent="1" source="846506SnemvekgGAFMrD-1" target="846506SnemvekgGAFMrD-4">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="380" y="180" as="sourcePoint" />
+            <mxPoint x="435.7157287525381" y="91.21320343559637" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="846506SnemvekgGAFMrD-23" value="" style="endArrow=none;html=1;entryX=0.5;entryY=1;entryDx=0;entryDy=0;exitX=0.5;exitY=0;exitDx=0;exitDy=0;" edge="1" parent="1" source="846506SnemvekgGAFMrD-1" target="846506SnemvekgGAFMrD-2">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="320" y="140" as="sourcePoint" />
+            <mxPoint x="360" y="80" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

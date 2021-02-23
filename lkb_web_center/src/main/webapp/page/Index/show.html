@@ -1,0 +1,56 @@
+{__NOLAYOUT__}<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<link rel="stylesheet" href="__PUBLIC__/css/bootstrap.css" />
+		<link rel="stylesheet" href="__PUBLIC__/css/layout.css" />
+		<link rel="stylesheet" type="text/css" href="__PUBLIC__/css/student.css"/>
+		<script src="__PUBLIC__/js/jquery.js"></script>
+		<script src="__PUBLIC__/js/layer.js"></script>
+		<script type="text/javascript" src="__PUBLIC__/js/jquery.min.js" ></script>
+		<script type="text/javascript" src="__PUBLIC__/js/bootstrap.min.js" ></script>		
+		<title></title>
+		<style>
+			.header{
+				margin-bottom: 50px;
+			}
+			.dec{
+				margin-top: 20px;
+				margin-bottom: 50px;
+			}
+			.dec span{
+				margin-right: 20px;
+				font-size: 18px;
+			}
+		</style>
+	</head>
+	<body>
+		<div class="header"><span>创新创业学院团队管理系统</span><button type="button" class="btn btn-info" style="float: right;margin-right: 50px;margin-top: 20px;" onclick="back()"><返回></button></div>
+		<div class="bodyer">
+			<center><h1 style="color: #0063a1;margin-top: 10px" class="center">{$match.title}</h1></center>
+		    <center><div class="clear dec">
+		        <span>举办方：{$match.host}</span>
+		        <span>开始时间：{$match.host_time}</span>
+		        <span>报名通道：<eq name="match.status" value="yes"><b style="color: red;">已开启报名</b><else/><b style="color: red;">已关闭报名</b></eq></span>
+		    </div></center>
+		    <div class="contents mr ml" id="content1">
+		        &nbsp;&nbsp;{$match.content}
+		    </div>
+			<form method="post">
+			<input type="hidden" name="id" value="{$match.id}"/>
+			<button type="button" class="btn btn-info" style="float: right;margin-left: 20px;margin-bottom: 100px;" onclick="back()">返回</button>
+			</form>
+		</div>
+		<div class="footer text-center" >
+			<span>技术支持：阔鱼飞鸟云孵平台</span>
+			<span> &nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp; 联系方式：xxxxxxxxxx</span> 
+		</div>
+	</body>
+</html>
+<script>
+	function back(){
+		window.location.href = "__MODULE__/Index/index";
+	}
+	//
+</script>
+

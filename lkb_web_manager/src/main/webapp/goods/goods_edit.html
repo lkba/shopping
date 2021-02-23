@@ -1,0 +1,567 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>template管理</title>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <!-- 引入样式 -->
+    <!--    <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">-->
+    <link rel="stylesheet" href="../plugins/font-awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../css/elementui.css">
+    <!--    <link rel="stylesheet" href="../css/location.css">-->
+
+    <!-- 上传图片框样式，不使用上传组件可以删除此样式 -->
+    <style>
+        .avatar-uploader .el-upload {
+            border: 1px dashed #d9d9d9;
+            border-radius: 6px;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .avatar-uploader .el-upload:hover {
+            border-color: #409EFF;
+        }
+
+        .avatar-uploader-icon {
+            font-size: 28px;
+            color: #8c939d;
+            width: 150px;
+            height: 70px;
+            line-height: 150px;
+            text-align: center;
+        }
+
+        .avatar {
+            width: 150px;
+            height: 70px;
+            display: block;
+        }
+
+    </style>
+</head>
+<body class="hold-transition">
+<div id="app">
+
+    <div class="content-header">
+        <h1>添加<small>商品</small></h1>
+        <el-breadcrumb separator-class="el-icon-arrow-right" class="breadcrumb">
+            <el-breadcrumb-item :to="{ path: '/' }">首页</el-breadcrumb-item>
+            <el-breadcrumb-item>管理</el-breadcrumb-item>
+            <el-breadcrumb-item>添加商品</el-breadcrumb-item>
+        </el-breadcrumb>
+    </div>
+
+    <div class="app-container">
+        <div class="box">
+            <h3>SPU<small>商品基础信息</small></h3>
+            <el-form label-width="100px" style="width: 50%">
+                <el-form-item label="货号">
+                    <el-input v-model="pojo.spu.sn"></el-input>
+                </el-form-item>
+                <el-form-item label="商品名">
+                    <el-input v-model="pojo.spu.name"></el-input>
+                </el-form-item>
+                <el-form-item label="副标题">
+                    <el-input v-model="pojo.spu.caption"></el-input>
+                </el-form-item>
+                <el-form-item label="品牌ID">
+                    <!--                    <el-input v-model="pojo.spu.brandId"></el-input>-->
+                    <template>
+                        <el-select v-model="pojo.spu.brandId" clearable placeholder="请选择">
+                            <el-option
+                                    v-for="item in brandIds"
+                                    :key="item.name"
+                                    :label="item.name"
+                                    :value="item.id"
+                            >
+                            </el-option>
+                        </el-select>
+                    </template>
+                </el-form-item>
+                <el-form-item label="一级分类">
+                    <!--                    <el-input v-model="pojo.spu.category1Id"></el-input>-->
+                    <template>
+                        <el-select v-model="pojo.spu.category1Id" clearable placeholder="请选择"
+                                   @change="category2Select()">
+                            <el-option
+                                    v-for="item in category1s"
+                                    :key="item.name"
+                                    :label="item.name"
+                                    :value="item.id"
+
+                            >
+                            </el-option>
+                        </el-select>
+                    </template>
+                </el-form-item>
+                <el-form-item label="二级分类">
+                    <!--                    <el-input v-model="pojo.spu.category2Id"></el-input>-->
+                    <template>
+                        <el-select v-model="pojo.spu.category2Id" clearable placeholder="请选择"
+                                   @change="category3Select()">
+                            <el-option
+                                    v-for="item in category2s"
+                                    :key="item.name"
+                                    :label="item.name"
+                                    :value="item.id"
+
+                            >
+                            </el-option>
+                        </el-select>
+                    </template>
+                </el-form-item>
+                <el-form-item label="三级分类">
+                    <!--                    <el-input v-model="pojo.spu.category3Id"></el-input>-->
+                    <template>
+                        <el-select v-model="pojo.spu.category3Id" clearable placeholder="请选择">
+                            <el-option
+                                    v-for="item in category3s"
+                                    :key="item.name"
+                                    :label="item.name"
+                                    :value="item.id"
+                            >
+                            </el-option>
+                        </el-select>
+                    </template>
+                </el-form-item>
+                <el-form-item label="模板ID">
+                    <!--                    <el-input v-model="pojo.spu.templateId"></el-input>-->
+                    <template>
+                        <el-select v-model="pojo.spu.templateId" clearable placeholder="请选择"
+                                   @change="templateChange()">
+                            <el-option
+                                    v-for="item in templateIds"
+                                    :key="item.name"
+                                    :label="item.name"
+                                    :value="item.id"
+                            >
+                            </el-option>
+                        </el-select>
+                    </template>
+                </el-form-item>
+                <el-form-item label="运费模板id">
+                    <!--                    <el-input v-model="pojo.spu.freightId"></el-input>-->
+                    <template>
+                        <el-select v-model="pojo.spu.freightId" clearable placeholder="请选择">
+                            <el-option
+                                    v-for="item in freightIds"
+                                    :key="item.name"
+                                    :label="item.name"
+                                    :value="item.id"
+                            >
+                            </el-option>
+                        </el-select>
+                    </template>
+                </el-form-item>
+                <el-form-item label="图片">
+                    <!--                    <el-input v-model="pojo.spu.image"></el-input>-->
+                    <el-upload
+                            class="avatar-uploader"
+                            action="/upload/native.do"
+                            :show-file-list="false"
+                            :on-success="handleAvatarSuccess"
+                            :before-upload="beforeAvatarUpload">
+                        <img v-if="imageUrl" :src="imageUrl" class="avatar">
+                        <i v-else class="el-icon-plus avatar-uploader-icon"></i>
+                    </el-upload>
+                </el-form-item>
+                <el-form-item label="图片列表">
+                    <!--                    <el-input v-model="pojo.spu.images"></el-input>-->
+                    <el-upload
+                            class="avatar-uploader"
+                            action="/upload/native.do"
+                            :show-file-list="false"
+                            :on-success="handleAvatarSuccess2"
+                            :before-upload="beforeAvatarUpload">
+                        <img v-if="imageUrls" :src="imageUrls" class="avatar">
+                        <i v-else class="el-icon-plus avatar-uploader-icon"></i>
+                    </el-upload>
+                </el-form-item>
+                <el-form-item label="售后服务">
+                    <el-input v-model="pojo.spu.saleService"></el-input>
+                </el-form-item>
+                <el-form-item label="介绍">
+                    <el-input v-model="pojo.spu.introduction"></el-input>
+                </el-form-item>
+                <el-form-item label="规格列表">
+                    <el-input type="textarea" v-model="pojo.spu.specItems"></el-input>
+                    <el-form>
+                        <el-form-item v-for="(it, index) in list" :key="index">
+                            <el-select v-model="oneId[index]" placeholder="请选择"
+                                       @change="saveList($event, index)">
+                                <el-option v-for="item in specItemsAll" :key="item.id" :label="item.name"
+                                           :value="item">
+                                </el-option>
+                            </el-select>
+
+                            <el-button @click="addItem" type="primary">增加</el-button>
+                            <el-button @click="removeItem(it, index)" type="danger">删除</el-button>
+                        </el-form-item>
+
+                        <el-button type="success" @click="submit">提交</el-button>
+                    </el-form>
+                </el-form-item>
+
+
+                <el-form-item label="参数列表">
+                    <el-input type="textarea" v-model="pojo.spu.paraItems"></el-input>
+                    <el-form>
+                        <el-form-item v-for="(it, index) in list2" :key="index">
+                            <el-select v-model="oneId2[index]" placeholder="请选择"
+                                       @change="saveList2($event, index)">
+                                <el-option v-for="item in paraItemsAll" :key="item.id" :label="item.name"
+                                           :value="item">
+                                </el-option>
+                            </el-select>
+
+                            <el-button @click="addItem2" type="primary">增加</el-button>
+                            <el-button @click="removeItem2(it, index)" type="danger">删除</el-button>
+                        </el-form-item>
+
+                        <el-button type="success" @click="submit2">提交</el-button>
+                    </el-form>
+                </el-form-item>
+            </el-form>
+
+
+        </div>
+
+        <div class="box">
+            <h3>SKU<small>商品详细</small></h3>
+            <el-form label-width="100px" style="width: 50%">
+
+
+                <el-form-item v-for="(it, index) in listSku" :key="index">
+                    <el-form>
+                        <el-form-item label="货号">
+                            <el-input v-model="oneIdSku[index].sn"></el-input>
+                        </el-form-item>
+                        <el-form-item label="数量">
+                            <el-input v-model="oneIdSku[index].num"></el-input>
+                        </el-form-item>
+                        <el-form-item label="预警数量">
+                            <el-input v-model="oneIdSku[index].alertNum"></el-input>
+                        </el-form-item>
+                        <el-form-item label="价格">
+                            <el-input v-model="oneIdSku[index].price"></el-input>
+                        </el-form-item>
+                        <el-form-item label="规格">
+                            <el-input v-model="oneIdSku[index].spec"></el-input>
+                        </el-form-item>
+                        <el-form-item label="图片">
+                            <!--                    <el-input v-model="pojo.spu.image"></el-input>-->
+                            <el-upload
+                                    class="avatar-uploader"
+                                    action="/upload/native.do"
+                                    :show-file-list="false"
+                                    :on-success="handleAvatarSuccessSku"
+                                    :before-upload="beforeAvatarUpload">
+                                <img v-if="oneIdSku[index].image" :src="oneIdSku[index].image" class="avatar">
+                                <i v-else class="el-icon-plus avatar-uploader-icon"></i>
+                            </el-upload>
+                        </el-form-item>
+                        <el-form-item label="图片列表">
+                            <!--                    <el-input v-model="pojo.spu.images"></el-input>-->
+                            <el-upload
+                                    class="avatar-uploader"
+                                    action="/upload/native.do"
+                                    :show-file-list="false"
+                                    :on-success="handleAvatarSuccess2Sku"
+                                    :before-upload="beforeAvatarUpload">
+                                <img v-if="oneIdSku[index].images" :src="oneIdSku[index].images" class="avatar">
+                                <i v-else class="el-icon-plus avatar-uploader-icon"></i>
+                            </el-upload>
+                        </el-form-item>
+                        <el-form-item label="状态">
+                            <el-input v-model="oneIdSku[index].status"></el-input>
+                            <el-span>商品状态 1-正常，2-下架，3-删除</el-span>
+                        </el-form-item>
+                        <el-form-item label="重量">
+                            <el-input v-model="oneIdSku[index].weight"></el-input>
+                        </el-form-item>
+                        <el-button @click="addItemSku" type="primary">增加</el-button>
+                        <el-button @click="removeItemSku(it, index)" type="danger">删除</el-button>
+                    </el-form>
+                </el-form-item>
+                <el-button type="success" @click="save()">提交商品</el-button>
+            </el-form>
+
+            </el-form-item>
+            </el-form>
+
+        </div>
+    </div>
+
+
+</div>
+</body>
+<script src="/js/vue.js"></script>
+<script src="/js/axios.js"></script>
+<script src="/js/elementui.js"></script>
+<script src="/js/layer.js"></script>
+<script>
+    new Vue({
+        el: '#app',
+        data() {
+            return {
+                tableData: [],
+                currentPage: 1,
+                total: 10,
+                size: 10,
+                category1s: [],
+                category2s: [],
+                category3s: [],
+                brandIds: [],
+                templateIds: [],
+                freightIds: [],
+                paraItemsAll: [],
+                specItemsAll: [],
+                categorySearchMap: {},
+                templateSearchMap: {},
+                searchMap: {},
+                pojo: {
+                    spu: {
+                        specItems: {},
+                        paraItems: {}
+                    },
+                    skuList: []
+                },
+                zhongzhuan: {},
+                skuOneId: [],
+                // pojoTest: {
+                //     specItems2:{},
+                // },
+                oneId: [],
+                list: [{"oneId": {}}],
+                oneId2: [],
+                oneIdSku: [{
+                    sn: "",
+                    num: "",
+                    alertNum: "",
+                    price: "",
+                    spec: "",
+                    image: "",
+                    images: "",
+                    status: "1",
+                    weight: ""
+                }, {
+                    sn: "",
+                    num: "",
+                    alertNum: "",
+                    price: "",
+                    spec: "",
+                    image: "",
+                    images: "",
+                    status: "1",
+                    weight: ""
+                }],
+                list2: [{"oneId": {}}],
+                listSku: [{"oneId": {}}],
+                formVisible: false,
+                imageUrl: '',
+                imageUrls: '',
+                imageUrlSku: '',
+                imageUrlSkus: '',
+            }
+        },
+        created() {
+            this.fetchData();
+        },
+        methods: {
+            fetchData() {
+                // axios.post(`/template/findPage.do?page=${this.currentPage}&size=${this.size}`, this.searchMap).then(response => {
+                //     this.tableData = response.data.rows;
+                //     this.total = response.data.total;
+                // });
+                this.categorySearchMap.parentId = "0"
+                axios.post(`/category/findList.do?`, this.categorySearchMap).then(response => {
+                    this.category1s = response.data;
+                });
+                axios.get(`/brand/findAll.do?`).then(response => {
+                    this.brandIds = response.data;
+                    console.log(response.data)
+                });
+                axios.get(`/template/findAll.do?`).then(response => {
+                    this.templateIds = response.data;
+                    // console.log(respons.edata)
+                });
+            },
+            show() {
+                for(var oIS=this.oneIdSku.length-1;oIS>=0;oIS--){
+                    if (this.oneIdSku[oIS].sn==""){
+                        this.oneIdSku.pop();
+                    }
+                }
+                this.pojo.skuList=this.oneIdSku;
+                console.log(this.pojo)
+                console.log(this.pojo.skuList)
+                console.log(this.oneIdSku)
+            },
+            category2Select() {
+                this.categorySearchMap.parentId = this.pojo.spu.category1Id;
+                axios.post(`/category/findList.do?`, this.categorySearchMap).then(response => {
+                    this.category2s = response.data;
+                });
+            },
+            category3Select() {
+                this.categorySearchMap.parentId = this.pojo.spu.category2Id;
+                axios.post(`/category/findList.do?`, this.categorySearchMap).then(response => {
+                    this.category3s = response.data;
+                });
+            },
+            templateChange() {
+                this.templateSearchMap.templateId = this.pojo.spu.templateId;
+                axios.post(`/para/findList.do?`, this.templateSearchMap).then(response => {
+                    this.paraItemsAll = response.data;
+                });
+                axios.post(`/spec/findList.do?`, this.templateSearchMap).then(response => {
+                    this.specItemsAll = response.data;
+                });
+            },
+            submit() { // 这里我们打印一下 最后的 list,确保我们都拿到数据了
+                // alert(`最终的数据: ${JSON.stringify(this.list)}`);
+                for (var i = 0; i < this.list.length; i++) {
+                    this.pojo.spu.specItems[this.list[i].oneId.name] = this.list[i].oneId.options.split(",");
+                    this.zhongzhuan[this.list[i].oneId.name] = this.list[i].oneId.options;
+                }
+                // [{"oneId":{"id":27,"name":"颜色","options":"红色,蓝色,黑色,槟色,白色,金色,银色,灰色.紫色","seq":null,"templateId":42}}]
+                this.oneIdSku[0].spec = `${JSON.stringify(this.zhongzhuan)}`;
+                this.oneIdSku[1].spec = `${JSON.stringify(this.zhongzhuan)}`;
+                this.pojo.spu.specItems = `${JSON.stringify(this.pojo.spu.specItems)}`;
+                console.log(this.pojo.spu.specItems)
+            },
+            submit2() { // 这里我们打印一下 最后的 list,确保我们都拿到数据了
+                for (var i = 0; i < this.list2.length; i++) {
+                    this.pojo.spu.paraItems[this.list2[i].oneId.name] = this.list2[i].oneId.options;
+                    // this.zhongzhuan[this.list2[i].oneId.name]=this.list2[i].oneId.options;
+                }
+
+                this.pojo.spu.paraItems = `${JSON.stringify(this.pojo.spu.paraItems)}`;
+            },
+            save() {
+                this.pojo.spu.image = this.imageUrl; //如页面有图片上传功能放开注释
+                this.pojo.spu.images = this.imageUrls; //如页面有图片上传功能放开注释
+                // this.pojo.skuList[0].image = this.imageUrlSku; //如页面有图片上传功能放开注释
+                // this.pojo.skuList[0].images = this.imageUrlSkus; //如页面有图片上传功能放开注释
+                // this.oneIdSku[0].image = this.imageUrlSku;
+                // this.oneIdSku[1].image = this.imageUrlSku;
+                // this.oneIdSku[0].images = this.imageUrlSkus;
+                // this.oneIdSku[1].images = this.imageUrlSkus;
+                for(var oIS=this.oneIdSku.length-1;oIS>=0;oIS--){
+                    if (this.oneIdSku[oIS].sn==""){
+                        this.oneIdSku.pop();
+                    }
+                }
+                this.pojo.skuList=this.oneIdSku;
+                axios.post(`/spu/save.do`, this.pojo).then(response => {
+                    // layer.msg("添加成功")
+                    alert("添加成功");
+                    location.href = `spu.html`;
+                    this.fetchData(); //刷新列表
+                    // this.formVisible = false;//关闭窗口
+                });
+                // console.log(this.pojo)
+            },
+            edit(id) {
+                this.formVisible = true // 打开窗口
+                // 调用查询
+                axios.get(`/template/findById.do?id=${id}`).then(response => {
+                    this.pojo = response.data;
+                    // this.imageUrl=this.pojo.spu.image //显示图片  如页面有图片上传功能放开注释
+                })
+            },
+            dele(id) {
+                this.$confirm('确定要删除此记录吗?', '提示', {
+                    confirmButtonText: '确定',
+                    cancelButtonText: '取消',
+                    type: 'warning'
+                }).then(() => {
+                    axios.get(`/template/delete.do?id=${id}`).then(response => {
+                        this.fetchData(); //刷新列表
+                    })
+                })
+            },
+            goSpec(id) {
+                location.href = `spec.html?id=` + id
+            },
+            goPara(id) {
+                location.href = `para.html?id=` + id
+            },
+            /* ****图片上传相关代码  如页面有图片上传功能放开注释 *****/
+            handleAvatarSuccess(res, file) {
+                this.imageUrl = file.response;
+            },
+            handleAvatarSuccess2(res, file) {
+                this.imageUrls = file.response;
+            },
+            handleAvatarSuccessSku(res, file) {
+                this.oneIdSku[0].image = file.response;
+            },
+            handleAvatarSuccessSku2(res, file) {
+                this.oneIdSku[0].image2 = file.response;
+            },
+            beforeAvatarUpload(file) {
+                const isJPG = file.type === 'image/jpeg';
+                const isLt2M = file.size / 1024 / 1024 < 2;
+
+                if (!isJPG) {
+                    this.$message.error('上传头像图片只能是 JPG 格式!');
+                }
+                if (!isLt2M) {
+                    this.$message.error('上传头像图片大小不能超过 2MB!');
+                }
+                return isJPG && isLt2M;
+            },
+            addItem() {
+                // 1。这里为什么改变list的大小就能实现动态增加呢？因为 el-form-item 遍历的是 list,list 中的每一项都是一个 el-form-item
+                // 也就是说因为刚开始 list:[{"oneId":''}] 中,只有一个对象,所以才会只出现一个 el-form-item
+                // 不信可以自己在初始化时 list 中多加入几个对象进行尝试(一定要理解，这里 list 集合的大小与 el-form-item 之间的关系)
+                // 2、第二个问题:el-form-item 是动态增加了,但是如果 el-select 那里写的是 v-model="oneId" 呢？会发生什么？结果你会发现,只要增加一项 el-form-item ,每一项绑定的值都是你所选中的那一个值.为什么呢？因为每一项的 el-option的 :value 值都绑定在 el-select 的 v-model 上,但这是一个全局唯一值,当下一个 el-form-item 产生后,它里面的 el-select 中绑定的 v-model 还是那个 oneId 的值,因此才会出现这样的问题.好了,我们既然找到了原因,那就要来解决一下了,怎么解决呢？很简单:因为我前面说了,每一个 list 的遍历对象,都是一项 el-form-item,即 el-form-item 项数是和 list 的下标(里面存的对象的索引下标)相关联的,而这个下标,在每一个 el-form-item 中肯定是不一样的,因此我们只需要将 oneId 与这个 下标(即此处的 index) 发生关系即可,因此我们这里将 oneId 声明为了一个数组,当你每选中一个 option 时,都将这个 option 的value放入 oneId[当前el-form-item项数下标] 数组中
+
+                this.list.push({"oneId": ''});
+            },
+
+            removeItem(it, index) { // 删除时,我们带两个参数,这个 it 可用可不用,因为我当时只是想看到删除的这个对象的信息,故而带上了; index 是 list 中该对象对应的下标,也是 el-form-item 的项数
+                // 根据这个 index 下标删除 list 中 的该对象
+                if (index != 0) {
+                    this.list.splice(index, 1);
+                }
+            },
+
+            saveList(event, index) { // 当每选一个 option 时,我们需要将这个 选中的 oneId 放入 对应的 list 中即可,最后都选中完后,我们只要获取这个 list,即可拿到所有的数据
+                this.list[index].oneId = event;
+            },
+            addItem2() {
+                this.list2.push({"oneId": ''});
+            },
+            removeItem2(it, index) {
+                if (index != 0) {
+                    this.list2.splice(index, 1);
+                }
+            },
+            saveList2(event, index) {
+                this.list2[index].oneId = event;
+            },
+            addItemSku() {
+                this.listSku.push({"oneId": ''});
+            },
+            removeItemSku(it, index) {
+                if (index != 0) {
+                    this.listSku.splice(index, 1);
+                }
+            },
+            saveListSku(event, index) {
+                this.listSku[index].oneId = event;
+            },
+            submitsku(){ // 这里我们打印一下 最后的 list,确保我们都拿到数据了
+                alert(`最终的数据: ${JSON.stringify(this.oneIdSku)}`);
+            },
+
+
+        }
+    })
+</script>
+</html>

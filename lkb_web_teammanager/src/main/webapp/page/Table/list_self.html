@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8"/>
+    <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
+<!--    <link rel="stylesheet" href="../../plugins/font-awesome/css/font-awesome.min.css">-->
+    <link rel="stylesheet" href="../../css/el-index.css">
+    <!--    <link rel="stylesheet" href="../../css/style-el.css">-->
+    <link rel="stylesheet" type="text/css" href="../../css/backstage.css">
+    <link rel="stylesheet" type="text/css" href="../../css/bootstrap.min.css"/>
+    <link rel="stylesheet" type="text/css" href="../../css/teacher.css"/>
+    <link rel="stylesheet" type="text/css" href="../../css/common.css">
+    <!--<script type="text/javascript" src="./js/bootstrap.min.js"></script>-->
+    <script src="../../js/jquery.min.js"></script>
+    <script type="text/javascript" src="../../js/bootstrap.win.js"></script>
+    <script type="text/javascript" src="../../js/common.js"></script>
+    <script src="../../js/layer.js"></script>
+    <script src="../../js/jquery.js"></script>
+    <script src="../../js/util.js"></script>
+    <title></title>
+    <style>
+        /*table{
+            text-align: center;
+        }*/
+    </style>
+</head>
+
+<body>
+
+<div style="padding: 10px 50px 20px 50px;" id="app">
+
+    <h2 style="color: #0063a1;">自查表</h2>
+    <button type="button" class="btn btn-info fr"
+            onclick="show('查看详情','http://localhost:9105/page/Table/Add_SelfTab.html','724px','90%');">增加时间段
+    </button>
+    <select class="form-control fr btn-primary" style="width: 120px;margin: 0 10px" id="time"
+            onchange='requirement(this.value)'>
+        <!--//当有更改的时候调用-->
+        <option value="">-自查时间-</option>
+        <template v-for="time in times">
+            <option :value="time.id">
+                <!--                    {{time.gradeDate }}-->
+                {{time.selfDate.substr(0,10)}}
+
+                <!--                    <fmt:formatDate :value="time.gradeDate" pattern="yyyy-MM-dd"/>-->
+            </option>
+        </template>
+    </select>
+
+    <div class="fr" id="so" style="width: 250px;margin: 0 10px;height: 25px;">
+        <div class="input-group">
+            <input type="text" class="form-control" id="search" onkeydown="onKeyDown(event)"/>
+            <span class="input-group-addon" onclick="search()">
+								<a href="#">
+								<i class="glyphicon glyphicon-search"> <span>搜索</span></i>
+								</a>
+							</span>
+        </div>
+    </div>
+
+    <el-table :data="tableData" border style="width: 100%;margin-top:10px ">
+        <el-table-column prop="sid" label="序列" width="80"></el-table-column>
+        <el-table-column prop="team" label="团队名称" width="80"></el-table-column>
+        <el-table-column prop="project" label="项目名称" width="80"></el-table-column>
+        <el-table-column prop="name" label="负责人" width="80"></el-table-column>
+        <el-table-column prop="phone" label="联系方式" width="80"></el-table-column>
+        <el-table-column prop="is_grade" label="是否审核" width="80">
+            <!--            {{is_grade}}-->
+            <template slot-scope="scope">
+                            <span v-if="scope.row.is_self=='0'">
+                                已审核/通过
+                            </span>
+                <span v-else-if="scope.row.is_self=='1'">
+                                未审核
+                            </span>
+                <span v-else-if="scope.row.is_self=='2'">
+                                已审核/未通过
+                            </span>
+            </template>
+        </el-table-column>
+        <el-table-column prop="is_sub" label="是否提交" width="80">
+            <!--            {{is_grade}}-->
+            <template slot-scope="scope">
+                            <span v-if="scope.row.is_sub=='1'">
+                                已提交
+                            </span>
+                <span v-else>
+                                未提交
+                            </span>
+            </template>
+        </el-table-column>
+        <el-table-column label="操作">
+            <template slot-scope="scope">
+       <span v-if="scope.row.is_sub=='1'">
+                             <el-button @click="show(scope.row.sid,scope.row.tid)" size="mini" type="primary" size="small">
+                    查看
+                </el-button>
+                            </span>
+                <span v-else>
+                            <el-button size="mini" type="primary" size="small" style="background: darkgrey">
+                    查看
+                </el-button>
+                            </span>
+
+                <el-button @click="dele(scope.row.sid);" size="mini" type="primary" size="small">
+                    删除
+                </el-button>
+            </template>
+        </el-table-column>
+    </el-table>
+    <div class="app-container">
+        <template>
+            <div class="block">
+                <el-pagination
+                        class="pagiantion"
+                        @size-change="fetchData"
+                        @current-change="fetchData"
+                        :current-page.sync="currentPage"
+                        :page-sizes="[10, 20, 30, 40]"
+                        :page-size="size"
+                        layout="total, sizes, prev, pager, next, jumper"
+                        :total="total">
+                </el-pagination>
+            </div>
+        </template>
+    </div>
+</div>
+<script src="../../js/vue.js"></script>
+<script src="../../js/axios.js"></script>
+<script src="../../js/elementui.js"></script>
+<script src="../../js/util.js"></script>
+<script>
+    new Vue({
+        el: '#app',
+        data() {
+            return {
+                tableData: [],
+                currentPage: 1,
+                total: 10,
+                size: 10,
+                searchMap: {},
+                seaAreawork: "",
+                seaTime: "",
+                times: "",
+                pojo: {},
+                formVisible: false,
+                imageUrl: ''
+            }
+        },
+        created() {
+
+            this.searchMap.self_date_id=getQueryString("self_date_id");
+            this.fetchData();
+        },
+        methods: {
+                fetchData() {
+                    axios.post(`http://localhost:9105/tableSelf/findPageSelfList.do?page=${this.currentPage}&size=${this.size}`, this.searchMap).then(response => {
+
+                        this.tableData = response.data.rows;
+                        this.total = response.data.total[0].count;
+                    // console.log("all");
+                    console.log(response.data)
+                });
+                // axios.post(`http://localhost:9105/tableGrade/findTeamAll.do`).then(response => {
+                //     this.total = response.data.length;
+                //     // console.log(response.data)
+                // });
+                axios.get(`http://localhost:9105/tableSelfDate/findAll.do`).then(response => {
+                    this.times = response.data;
+                    // console.log(response.data)
+                });
+            },
+
+            reqSearch: function (new_time, new_areawork) {
+                if (new_time == "") {
+                    new_time = "";
+                }
+                if (new_areawork == "" || new_areawork == "undefined") {
+                    new_areawork = "";
+                }
+                window.location = "http://localhost:9105/page/Team/team_list.html?time=" + new_time + "&areawork=" + new_areawork;
+                // $("#areawork").val(getQueryString("areawork"));
+                // $("#time").val(getQueryString("time"));
+            }
+            ,
+            save() {
+                // this.pojo.image= this.imageUrl; //如页面有图片上传功能放开注释
+                axios.post(`/order/${this.pojo.id == null ? 'add' : 'update'}.do`, this.pojo).then(response => {
+                    this.fetchData(); //刷新列表
+                    this.formVisible = false;//关闭窗口
+                });
+
+            },
+            // edit(id) {
+            //     // console.log(id)
+            //     show('查看详情', `http://localhost:9105/page/Table/edit_Self.html?gid=${id}`, '1024px', '90%')
+            // },
+            show(id,tid) {
+                console.log("tid"+tid)
+                show('查看详情', `http://localhost:9105/page/Table/show_SelfTab.html?sid=${id}&tid=${tid}`, '1024px', '90%')
+            },
+            dele(id) {
+                this.$confirm('确定要删除此记录吗?', '提示', {
+                    confirmButtonText: '确定',
+                    cancelButtonText: '取消',
+                    type: 'warning'
+                }).then(() => {
+                    // console.log(id)
+                    axios.get(`http://localhost:9105/tableSelf/delete.do?sid=${id}`).then(response => {
+                        this.fetchData(); //刷新列表
+                    })
+                })
+            }
+
+        }
+    })
+</script>
+</body>
+
+</html>
+<script type="text/javascript">
+    /* 搜索框  */
+    function onKeyDown(event) {
+        var e = event || window.event || arguments.callee.caller.arguments[0];
+        if (e && e.keyCode == 27) { // 按 Esc
+            //要做的事情
+//            alert("你按下了Esc");
+        }
+        if (e && e.keyCode == 113) { // 按 F2
+            //要做的事情
+//            alert("你按下了F2");
+        }
+        if (e && e.keyCode == 13) { // enter 键
+            search()
+        }
+    }
+
+    function requirement(new_time) {
+        if (new_time == "") {
+            new_time = null;
+        }
+        window.location.href = " http://localhost:9105/page/Table/list_self.html?self_date_id=" + new_time;
+    }
+
+    $("#time").val("{$new_time}");
+
+    $(".state").each(function (i, n) {
+        if (n.innerText == 0) {
+            console.log(1);
+            $(".state").eq(i).text("已审核");
+            $(".state").eq(i).css("color", "");
+        } else if (n.innerText == 1) {
+            $(".state").eq(i).text("未审核");
+            $(".state").eq(i).css("color", "red");
+        }
+    });
+
+    function del(obj, id, name) {
+
+        layer.confirm('是否删除' + name, {icon: 3, title: "删除：" + name}, function (index) {
+
+            $.get("__CONTROLLER__/Tab_del_O", {id: id, table: "table_self", tid: "sid"}, function (msg) {
+                layer.msg('成功删除！', {icon: 1, time: 1000, title: "确认"}, function (res) {
+//                        var index = parent.layer.getFrameIndex(window.name);
+                    window.location.reload();
+                });
+            }, "text");
+            layer.close(index);
+        });
+    }
+
+    function search() {
+        var key = $("#search").val();
+        if (key == "") {
+            window.location.href = "__MODULE__/Table/list_self/"
+        } else {
+            window.location.href = "__MODULE__/Table/list_self/key/" + key;
+        }
+    }
+</script>

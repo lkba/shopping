@@ -1,0 +1,125 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+
+	<head>
+		<meta charset="utf-8" />
+	<script type="text/javascript" charset="utf-8" src="__PUBLIC__/js/plugins/kindeditor/kindeditor.js"></script>
+    <script type="text/javascript" charset="utf-8" src="__PUBLIC__/js/plugins/kindeditor/lang/zh_CN.js"></script>
+		<script>
+			KindEditor.ready(function(K) {
+				window.editor = K.create('#editor_id');
+			});
+			$(document).ready(function() {
+				$("#selectFileBtn").click(function() {
+					$fileField = $('<input type="file" name="thumbs[]"/>');
+					$fileField.hide();
+					$("#attachList").append($fileField);
+					$fileField.trigger("click");
+					$fileField.change(function() {
+						$path = $(this).val();
+						$filename = $path.substring($path.lastIndexOf("\\") + 1);
+						$attachItem = $('<div class="attachItem"><div class="left">a.gif</div><div class="right"><a href="#" title="删除附件">删除</a></div></div>');
+						$attachItem.find(".left").html($filename);
+						$("#attachList").append($attachItem);
+					});
+				});
+				$("#attachList>.attachItem").find('a').live('click', function(obj, i) {
+					$(this).parents('.attachItem').prev('input').remove();
+					$(this).parents('.attachItem').remove();
+				});
+			});
+		</script>
+		<title></title>
+		<style>
+			.bodyer {
+				width: 1024px;
+				margin-top: 50px;
+			}
+			
+			.text span {
+				float: left;
+				margin-left: 30px;
+				display: inline;
+			}
+			
+			.select {
+				background-color: #E8E8E8;
+				height: 30px;
+				float: left;
+			}
+			
+			.select {
+				font-family: "微软雅黑";
+				font-size: 14px;
+				height: 22px;
+				margin: 4px 8px;
+			}
+		</style>
+	</head>
+
+	<body>
+		<div class="header">
+
+		</div>
+		<div class="bodyer center-block">
+			<div class="title" style="margin: 20px 0;">
+				<input type="text" name="username" class="form-control" placeholder="请输入新闻标题" />
+			</div>
+			<div>
+				<textarea name="pDesc" id="editor_id" style="width:100%;height:350px;"></textarea>
+			</div>
+			<div>
+				<div class="text" style="margin: 20px 0;">
+					<span>选择发送的团队：</span>
+					<div class="bui_select">
+						<select id="" class="select" onchange="change(this.value)">
+							<!--//当有更改的时候调用-->
+							<option>-请选择-</option>
+							<option value="">阔鱼飞鸟</option>
+							<option value="">财宝通</option>
+							<option value="">阿里巴巴</option>
+							<option value="">阿里妈妈</option>
+						</select>
+					</div>
+					<span>或者发送至：</span>
+					<div class="bui_select">
+						<input type="text" class="form-control" placeholder="请输入完整团队名称"/>
+					</div>
+					
+					<span>或者发送给所有人：</span>
+					
+						是：<input type="radio" name="all_rad" id="all_rad"  onclick="">
+						否：<input type="radio" name="all_rad" id="no_rad" checked="" onclick="">
+				</div>
+				
+			</div>
+			<div id="" style="clear: both;">
+				<button type="button" class="btn btn-info fr" onclick="add()">发送</button>
+			</div>
+		</div>
+		<div class="footer">
+
+		</div>
+	</body>
+
+</html>
+<script>
+	//	function change(val){
+	//		window.location="listPro.php?order="+val;
+	//	}
+	function alltream(){
+		var radio_a=$("#all_rad").is(":checked");
+		alert(radio_a);
+		if(radio_a==true){
+			$("#all_rad").removeAttr('checked');
+//			$("#all_rad").prop("checked",false);
+			
+			alert('1');
+		}else if(radio_a==false){
+			$("#all_rad").addAttr('checked');
+//			$("#all_rad").prop("checked",true);
+			
+			alert('2');
+		}
+	}
+</script>

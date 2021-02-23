@@ -1,0 +1,523 @@
+{__NOLAYOUT__}<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8"/>
+    <link rel="stylesheet" href="__PUBLIC__/css/bootstrap.css"/>
+    <link rel="stylesheet" href="__PUBLIC__/css/layout.css"/>
+    <link rel="stylesheet" type="text/css" href="__PUBLIC__/css/student.css"/>
+    <script src="__PUBLIC__/js/jquery.js"></script>
+    <script src="__PUBLIC__/js/layer.js"></script>
+    <script type="text/javascript" src="__PUBLIC__/js/jquery.min.js"></script>
+    <script type="text/javascript" src="__PUBLIC__/js/bootstrap.min.js"></script>
+    <title></title>
+    <style>
+        body {
+            padding-bottom: 120px;
+        }
+
+        label {
+            margin: 0 72px 0 10px;
+            display: inline-block;
+            vertical-align: middle;
+        }
+
+        input[type="radio"] {
+            vertical-align: middle;
+            margin: 0;
+        }
+
+        input[type="checkbox"] {
+            vertical-align: middle;
+            margin: 10px;
+        }
+
+        td {
+            vertical-align: middle !important;
+        }
+
+        table th {
+            vertical-align: middle !important;
+            text-align: center;
+            width: 200px;
+            min-width: 100px;
+        }
+
+        textarea {
+            resize: none;
+            word-wrap: break-word;
+            background: none;
+            height: 100%;
+            width: 100%;
+            overflow: hidden;
+        }
+    </style>
+</head>
+<body>
+<div class="header"><span>创新创业学院团队管理系统</span>
+    <button type="button" class="btn btn-info" style="float: right;margin-right: 50px;margin-top: 20px;"
+            onclick="back()">
+        <返回>
+    </button>
+</div>
+<div style="width: 80%;">
+    <center style="margin-bottom: 40px;"><h1>创新创业学院创业孵化基地团队入驻表</h1></center>
+    <form method="post" enctype='multipart/form-data'>
+        <table class="table table-bordered">
+            <tr>
+                <th colspan="1">团队名称</th>
+                <td colspan="7"><textarea rows="2" maxlength="120" name="team" required="required"></textarea></td>
+            </tr>
+            <tr>
+                <th colspan="1">项目名称</th>
+                <td colspan="7"><textarea rows="2" maxlength="120" name="project" required="required"></textarea></td>
+            </tr>
+            <tr>
+                <th colspan="1">公司是否注册</th>
+                <td colspan="1">
+                    <select name="registered" id="registered">
+                        <option value="是">是</option>
+                        <option value="否" selected>否</option>
+                    </select>
+                </td>
+                <th colspan="1">注册时间</th>
+                <td colspan="2"><input type="date" name="reg_time" value="" id="reg_time"/></td>
+                <th colspan="1">注册资金<br>（万元）</th>
+                <td colspan="2"><textarea rows="2" maxlength="120" name="money" id="money"></textarea></td>
+            </tr>
+            <tr>
+                <th colspan="1">经营范围<br>（产品/服务）</th>
+                <td colspan="7"><textarea rows="3" maxlength="150" name="business_scope" required="required"></textarea>
+                </td>
+            </tr>
+            <tr>
+                <th>行业类别</th>
+                <td colspan="7">
+                    <input type="radio" name="class" value="产品开发类" id="c" checked style="margin-left: 72px;"/><label
+                        for="c">产品开发类</label>
+                    <input type="radio" name="class" value="技术服务类" id="j"/><label for="j">技术服务类</label>
+                    <input type="radio" name="class" value="商业服务类" id="s"/><label for="s">商业服务类</label>
+                </td>
+            </tr>
+            <tr>
+            <tr>
+                <th rowspan="2" colspan="1" id="teacher">项目指导教师</th>
+            </tr>
+
+            <tr id="tadd">
+                <th colspan="1">操作</th>
+                <td colspan="7">
+                    <a href="javascript:;" class="file" onclick="teacher_add()" title="添加导师">添加指导教师</a>
+                    &nbsp;&nbsp;&nbsp;
+                    <a href="javascript:;" class="file">删除指导教师：点击姓名傍边的“X”，确认后即可删除！
+                    </a>
+                </td>
+            </tr>
+
+
+            <th rowspan="4" colspan="1">项目主创<br>团队人员<br>基本情况</th>
+            <tr>
+                <th colspan="1">负责人</th>
+                <td colspan="2"><textarea rows="1" maxlength="120" name="name" required="required"></textarea></td>
+                <th colspan="1">年龄</th>
+                <td colspan="1" style="width: 180px;"><textarea rows="1" maxlength="120" name="age"
+                                                                required="required"></textarea></td>
+                <th colspan="1">性别</th>
+                <td colspan="1">
+                    <select name="sex">
+                        <option value="男" selected>男</option>
+                        <option value="女">女</option>
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <th colspan="1">系别</th>
+                <td colspan="2"><textarea rows="1" maxlength="120" name="department" required="required"></textarea>
+                </td>
+                <th colspan="2">专业班级</th>
+                <td colspan="2"><textarea rows="1" maxlength="120" name="professional" required="required"></textarea>
+                </td>
+            </tr>
+            <tr>
+                <th colspan="1">手机号码</th>
+                <td colspan="2"><textarea rows="1" maxlength="120" name="phone" class="phone"
+                                          required="required"></textarea></td>
+                <th colspan="2">E-mail/QQ</th>
+                <td colspan="2"><textarea rows="1" maxlength="120" name="email"></textarea></td>
+            </tr>
+
+            <tr>
+                <th rowspan="2" colspan="1" id="teammate">核心团队成员信息<br>（不超9个）</th>
+                <th colspan="1">姓名</th>
+                <th colspan="1">性别</th>
+                <th colspan="1">系别</th>
+                <th colspan="2">专业班级</th>
+                <th colspan="1">手机号码</th>
+                <th colspan="1">E-mail/QQ</th>
+            </tr>
+
+            <tr id="tmadd">
+                <th colspan="1">操作</th>
+                <td colspan="7">
+                    <a href="javascript:;" class="file"
+                       onclick="team_add('添加成员','__CONTROLLER__/addteam','600px','370px')" title="添加成员">添加成员</a>
+                    &nbsp;&nbsp;&nbsp;
+                    <a href="javascript:;" class="file">删除成员：点击“姓名”傍边的“X”，确认后即可删除！
+                    </a>
+
+                </td>
+            </tr>
+
+            <tr>
+                <th colspan="1" rowspan="4">项目规模</th>
+            </tr>
+            <tr>
+                <td colspan="1">启动资金</td>
+                <td colspan="6"><textarea rows="1" cols="80" overflow="hidden" maxlength="150" name="fund"
+                                          required="required"></textarea></td>
+            </tr>
+            <tr>
+                <td colspan="1">办公场地</td>
+                <td colspan="6">
+                    <select name="areawork">
+                        <option value="实践园" selected>实践园</option>
+                        <option value="创新创业学院">创新创业学院</option>
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="1">员工人数
+                </th>
+                <td colspan="6"><textarea rows="1" cols="80" overflow="hidden" maxlength="150" name="persons"
+                                          required="required"></textarea></td>
+            </tr>
+
+
+            <tr>
+                <th colspan="1">企业形式</th>
+                <td colspan="7">
+                    <input type="radio" name="form" value="无限责任公司" id="wx" style="margin-left: 72px;" checked=""/><label
+                        for="wx">无限责任公司</label>
+                    <input type="radio" name="form" value="有限责任公司" id="yx"/><label for="yx">有限责任公司</label>
+                    <input type="radio" name="form" value="股份有限公司" id="gf"/><label for="gf">股份有限公司</label><br>
+                    <input type="radio" name="form" value="个人独资企业" id="gr" style="margin-left: 72px;"/><label for="gr">个人独资企业</label>
+                    <input type="radio" name="form" value="合伙企业" id="hh"/><label for="hh"
+                                                                                 style="width: 84px;">合伙企业</label>
+                    <input type="radio" name="form" value="公司制企业" id="gs"/><label for="gs">公司制企业</label><br>
+                    <input type="radio" id="other" name="form" value="" style="margin-left: 72px;"/><label for="other"
+                                                                                                           style="margin: 0 0 0 10px;">其他</label>
+                    （请填写）<input type="text" onfocus="other.checked=true" onblur="other.value=this.value"
+                                style="border-bottom: 1px solid #000000;" value="" id="txt"/>
+                </td>
+            </tr>
+            <tr>
+                <th colspan="1">
+                    项目基本思路（可附思维导图）
+                </th>
+                <td colspan="7"><textarea rows="3" cols="80" overflow="hidden" maxlength="600" name="thinking"
+                                          required="required"></textarea></td>
+            </tr>
+
+            <tr>
+                <th colspan="1">
+                    项目预期效果（包括社会效益和经济效益）
+                </th>
+                <td colspan="7"><textarea rows="3" cols="80" overflow="hidden" maxlength="600" name="effect"
+                                          required="required"></textarea></td>
+            </tr>
+            <tr>
+                <th colspan="1">
+                    项目简介（300字以内）
+                </th>
+                <td colspan="7"><textarea rows="5" cols="80" overflow="hidden" maxlength="300" name="abstract"
+                                          required="required"></textarea></td>
+            </tr>
+
+            <tr>
+                <th colspan="1">
+                    项目特色（200字以内）
+                </th>
+                <td colspan="7"><textarea rows="4" cols="80" overflow="hidden" maxlength="200" name="character"
+                                          required="required"></textarea></td>
+            </tr>
+
+            <tr>
+                <th colspan="1">
+                    项目可行性简述（技术保障、市场容量、团队能力支持、资金来源、发展方向，600字以内）
+                </th>
+                <td colspan="7"><textarea rows="8" cols="80" overflow="hidden" maxlength="600" name="feasibility"
+                                          required="required"></textarea></td>
+            </tr>
+
+            <tr>
+                <th colspan="1">
+                    其他说明（300字以内）
+                </th>
+                <td colspan="7"><textarea rows="4" cols="80" overflow="hidden" maxlength="300" name="explain"
+                                          required="required"></textarea></td>
+            </tr>
+
+            <tr>
+                <th colspan="1">
+                    创业计划书丶资料
+                </th>
+                <td colspan="7">
+                    <a href="javascript:;" class="file" title="上传计划书">文件上传
+                        <input type="file" class="file" name="cont" style="float:left;" value="" placeholder="请选择文件"/>
+                    </a>
+                    <span style="position: relative;top: -8px;">将创业计划书丶资料等文件压缩上传，上传仅限zip,rar的压缩格式</span>
+                    <div class="showFileName1"></div>
+                    <div class="fileerrorTip1"></div>
+                </td>
+            </tr>
+
+            <tr height="150px">
+                <th colspan="1">
+                    创业团队负责人所在系意见（系党总支盖章）
+                </th>
+                <td colspan="7" style="position: relative;">
+                    <div style="position: absolute;bottom: 30px;right: 100px;">（盖章）</div>
+                    <div style="position: absolute;bottom: 5px;right: 50px;">&nbsp;&nbsp;&nbsp;&nbsp;年&nbsp;&nbsp;&nbsp;&nbsp;月&nbsp;&nbsp;&nbsp;&nbsp;日</div>
+                </td>
+            </tr>
+
+        </table>
+        <div>
+            备注： 申请表和商业计划书需上交打印稿和电子稿，申请表和创业计划书分开装订，A4纸双面打印，于左侧双颗钉装订成册，各一份。
+        </div>
+        <button type="button" class="btn btn-info" style="float: right;margin-left: 20px;margin-bottom: 50px;"
+                onclick="back()">返回
+        </button>
+        <button type="reset" class="btn btn-info" style="float: right;margin-left: 20px;">重置</button>
+        <button type="submit" class="btn btn-info" style="float: right;margin-left: 20px;" id="sub">确认提交</button>
+    </form>
+</div>
+<div class="footer text-center">
+    <span>技术支持：阔鱼飞鸟云孵平台</span>
+    <span> &nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp; 联系方式：xxxxxxxxxx</span>
+</div>
+</body>
+</html>
+<script>
+    function back() {
+        window.location.href = "__MODULE__/Login/index";
+    }
+
+    function getUrlParam() {
+        var reg = new RegExp("success"); //构造一个含有目标参数的正则表达式对象
+        var r = window.location.href.match(reg); //匹配目标参数
+        if (r == 'success') {
+            var index = parent.layer.getFrameIndex(window.name);
+            window.parent.location.reload();
+        }
+    }
+
+    window.getUrlParam();
+
+    //
+    function teacher_del(obj) {
+
+        layer.confirm('确认要删除吗？', {
+                btn: ['确定', '取消'] //按钮
+
+            }, function (index) {
+                $(obj).parents("tr").next().remove();
+                $(obj).parents("tr").remove();
+                var n = $("#teacher").attr("rowspan");
+                $("#teacher").attr('rowspan', n - 2);
+                layer.msg('已删除!', {icon: 1, time: 1000, title: "确认"});
+                layer.close(index);
+                return true;
+            },
+            function (index) {
+                layer.msg('已取消！', {icon: 1, time: 1000, title: "确认"});
+                return false;
+            }
+        );
+    }
+
+    //添加导师
+    function teacher_add() {
+        var data = '<tr>';
+        data += '<th colspan="1">姓名&nbsp;<a title="删除" href="javascript:;" onclick="teacher_del(this)" >X</a></th><td colspan="2"><textarea rows="1" maxlength="120" name="tname[]" required="required"></textarea></td>';
+        data += '<th colspan="2">系别</th><td colspan="2"><textarea rows="1" maxlength="120" name="tdepartment[]" required="required"></textarea></td></tr>';
+        data += '<tr>';
+        data += '<th colspan="1">职务</th><td colspan="2"><textarea rows="1" maxlength="120" name="position[]" required="required"></textarea></td>';
+        data += '<th colspan="2">负责领域</th><td colspan="2"><textarea rows="1" maxlength="120" name="field[]" required="required"></textarea></td>';
+        data += '</tr>';
+        var n = $("#teacher").attr("rowspan");
+        $("#teacher").attr('rowspan', parseInt(n) + 2);
+        $('#tadd').before(data);
+    }
+
+    //
+    function team_del(obj) {
+        layer.confirm('确认要删除吗？', {icon: 3, title: "是否删除?"}, function (index) {
+            $(obj).parents("tr").remove();
+            var n = $("#teammate").attr("rowspan");
+            $("#teammate").attr('rowspan', n - 1);
+            layer.msg('已删除!', {icon: 1, time: 1000, title: "确认"});
+        });
+    }
+
+    //添加成员
+    function team_add() {
+        var data = '<tr><td colspan="1">';
+        data += '<a title="删除" href="javascript:;" onclick="team_del(this)" >X</a>&nbsp;&nbsp;';
+        data += '<textarea rows="1" maxlength="20" name="dname[]" style="width: 70%;" required="required"></textarea>';
+        data += '</td>';
+        data += '<td colspan="1">';
+        data += '<select name="dsex[]">';
+        data += '<option value="男" selected>男</option>';
+        data += '<option value="女" >女</option>';
+        data += '</select>';
+        data += '</td>';
+        data += '<td colspan="1"><textarea rows="1" maxlength="120" name="ddepartment[]" required="required"></textarea></td>';
+        data += '<td colspan="2"><textarea rows="1" maxlength="120" name="dprofessional[]" required="required"></textarea></td>';
+        data += '<td colspan="1"><textarea rows="1" maxlength="120" name="dphone[]" class="phone" required="required"></textarea></td>';
+        data += '<td colspan="1"><textarea rows="1" maxlength="120" name="demail[]"></textarea></td>';
+        data += '</tr>';
+        var n = $("#teammate").attr("rowspan");
+        $("#teammate").attr('rowspan', parseInt(n) + 1);
+        $('#tmadd').before(data);
+    }
+
+    //上传
+    function upload(title, url, w, h) {
+        layer.open({
+            type: 2,
+            title: title,
+            shadeClose: true,
+            shade: 0.4,
+            area: [w, h],
+            content: url //iframe的url
+        });
+    }
+
+    $(function () {
+        var x = $('input:radio[name="form"]:checked').val();
+        if (x != "无限责任公司" && x != "有限责任公司" && x != "份有限公司" && x != "个人独资企业" && x != "合伙企业" && x != "公司制企业") {
+            $('#other').attr('checked', 2);
+            $('#txt').show();
+        } else {
+            $('#txt').hide();
+        }
+    });
+    $('#other').click(function () {
+        $('#txt').show();
+    });
+    $("form").submit(function () { //表单提交时判断
+		$("#btn").css("color","red");
+        if ($('#registered').val() == '是') {
+            if ($('#reg_time').val().trim().length == 0) {
+                $("#reg_time").focus();
+                return false;
+            }
+            if ($('#money').val().trim().length == 0) {
+                $("#money").focus();
+                return false;
+            }
+        }
+        if ($("#other").is(":checked") && $("#txt").val().trim().length == 0) {
+            $("#txt").val('');
+            $("#txt").focus();
+            alert('请补充“其他”！');
+            return false;
+        }
+        var f1 = true;
+        $(".phone").each(function () {
+            var f2 = checkPhone($(this).val().trim());
+            if (f2 == false) {
+                alert('手机号有误！');
+                $(this).focus();
+                f1 = false;
+                return false;
+            }
+        });
+        if (f1 == false) {
+            return f1;
+        }
+        var filePath = $("input[type='file']").val();
+        if (filePath.indexOf("zip") == -1 && filePath.indexOf("rar") == -1) {
+            alert('您未上传文件，或者您上传文件类型有误！');
+            return false;
+        }
+		$("#sub").attr('disabled','disabled');
+    });
+
+    function checkPhone(phone) {
+        if (!(/^1(3|4|5|7|8)\d{9}$/.test(phone))) {
+            //alert("手机号码有误!");
+            return false;
+        }
+    }
+
+    $("#registered").change(function () {
+        if ($('#registered').val() == '否') {
+            $('#reg_time').hide();
+            $('#reg_time').val('');
+            $('#money').val('');
+            $('#money').hide();
+        } else {
+            $('#reg_time').show();
+            $('#money').show();
+        }
+    });
+    $(function () {
+        if ($('#registered').val() == '否') {
+            $('#reg_time').hide();
+            $('#reg_time').val('');
+            $('#money').val('');
+            $('#money').hide();
+        } else {
+            $('#reg_time').show();
+            $('#money').show();
+        }
+    });
+    $(".file").on("change", "input[type='file']", function () {
+        var filePath = $(this).val();
+        if (filePath.indexOf("zip") != -1 || filePath.indexOf("rar") != -1) {
+            $(".fileerrorTip1").html("").hide();
+            var arr = filePath.split('\\');
+            var fileName = arr[arr.length - 1];
+            $(".showFileName1").html(fileName);
+        } else {
+            $(".showFileName1").html("");
+            $(".fileerrorTip1").html("您未上传文件，或者您上传文件类型有误！").show();
+            return false
+        }
+    })
+</script>
+
+
+<style>
+    /*样式2*/
+    .file {
+        position: relative;
+        display: inline-block;
+        background: #D0EEFF;
+        border: 1px solid #99D3F5;
+        border-radius: 4px;
+        padding: 4px 12px;
+        overflow: hidden;
+        color: #1E88C7;
+        text-decoration: none;
+        text-indent: 0;
+        line-height: 20px;
+    }
+
+    .file input {
+        position: absolute;
+        font-size: 100px;
+        right: 0;
+        top: 0;
+        opacity: 0;
+    }
+
+    .file:hover {
+        background: #AADFFD;
+        border-color: #78C3F3;
+        color: #004974;
+        text-decoration: none;
+    }
+</style>
+

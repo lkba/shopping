@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="js/stomp.min.js"></script>
+    <script>
+        // Stomp.js boilerplate
+        var client = Stomp.client('ws://localhost:15674/ws');
+
+
+        var on_connect = function(x) {
+            id = client.subscribe("/exchange/paynotify", function(d) {
+                // print_first(d.body);
+                alert(d.body)
+            });
+        };
+
+        var on_error =  function() {
+            console.log('error');
+        };
+
+        client.connect('webguest', 'webguest', on_connect, on_error, '/');
+
+        // $('#first input').focus(function() {
+        //     if (!has_had_focus) {
+        //         has_had_focus = true;
+        //         $(this).val("");
+        //     }
+        // });
+    </script>
+</head>
+<body>
+
+</body>
+</html>

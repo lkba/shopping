@@ -1,0 +1,385 @@
+<!DOCTYPE html>
+<html xmlns:v-on="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8"/>
+    <link rel="stylesheet" href="../../t_css/el-index.css">
+    <link rel="stylesheet" href="../../t_css/bootstrap.css"/>
+    <link rel="stylesheet" href="../../t_css/layout.css"/>
+    <link rel="stylesheet" type="text/css" href="../../t_css/student.css"/>
+    <script src="../../t_js/jquery.js"></script>
+    <script src="../../t_js/layer.js"></script>
+    <script type="text/javascript" src="../../t_js/jquery.min.js"></script>
+    <title></title>
+    <style>
+        table {
+            table-layout: fixed;
+        }
+
+        table tr td:first-child, table tr td:first-child {
+            width: 200px;
+        }
+
+        table tr th:first-child, table tr th:first-child {
+            width: 140px;
+        }
+
+        .select {
+            background-color: #1688d0 !important;
+        }
+    </style>
+</head>
+<body>
+<div class="header">
+    <!--			<span><a <eq name='is_pass' value="1">href="__MODULE__/Match/index"<else/>href="__MODULE__/Temp/index"</eq>  >创新创业学院团队管理系统</a></span>-->
+    <span><a href="http://localhost:9102/page/Team/index.html">团队云孵综合平台</a></span>
+</div>
+<div class="bodyer" id="app">
+    <div class="content_top">
+        <div>
+            <div v-if="basics.logo==null">
+                <img src="../../t_img/preview.jpg" style="height: 70px;margin-right: 10px;">
+            </div>
+            <div v-else>
+                <img :src="basics.logo" style="height: 70px;margin-right: 10px;">
+            </div>
+        </div>
+        <div>
+            <span>YONGHU</span><br/>
+            <span>欢迎你，{{username}}</span>
+        </div>
+
+        <div>
+            <input type="button" value="退出" onclick="out()"/>
+
+            <input type="button" value="搜索" id="sbtn"/>
+            <input type="search" value="" placeholder="   搜索" id="search_layout"/>
+        </div>
+
+    </div>
+    <div class="content_bottom">
+        <div style="margin-bottom: 65px;">
+            <ul>
+                <div v-if="user.isPass=='1'">
+                    <li>
+                        <button><a href="../Team/index.html"> 团&nbsp;&nbsp;队</a></button>
+                    </li>
+                    <li>
+                        <button><a href="../Tab/index.html"> 表&nbsp;&nbsp;单</a></button>
+                    </li>
+                    <li>
+                        <button><a href="../Files/index.html"> 资&nbsp;&nbsp;料</a></button>
+                    </li>
+                    <li>
+                        <button><a href="../Match/index.html"> 赛&nbsp;&nbsp;事</a></button>
+                    </li>
+                    <li>
+                        <button><a href="../News/index.html"> 消&nbsp;&nbsp;息</a></button>
+                    </li>
+                    <li>
+                        <button><a href="http://localhost:9102/index.do"> 商&nbsp;&nbsp;城</a></button>
+                    </li>
+                    <li>
+                        <button><a href="http://localhost:9102/orderAll.html"> 地&nbsp;&nbsp;址</a></button>
+                    </li>
+                    <li>
+                        <button><a href="http://localhost:9102/location.html"> 订&nbsp;&nbsp;单</a></button>
+                    </li>
+                    <li>
+                        <button><a href="http://localhost:9102/chat.html?nick='名字'" target="right"> 聊天室</a></button>
+                    </li>
+                    <li>
+                        <button><a href="../Set/index.html"> 设&nbsp;&nbsp;置</a></button>
+                    </li>
+                </div>
+                <div v-else>
+                    <li>
+                        <button><a href="../Team/index.html"> 团&nbsp;&nbsp;队</a></button>
+                    </li>
+                    <li>
+                        <button><a href="http://localhost:9102/index.do"> 商&nbsp;&nbsp;城</a></button>
+                    </li>
+                    <li>
+                        <button><a href="http://localhost:9102/orderAll.html"> 地&nbsp;&nbsp;址</a></button>
+                    </li>
+                    <li>
+                        <button><a href="http://localhost:9102/location.html"> 订&nbsp;&nbsp;单</a></button>
+                    </li>
+                    <li>
+                        <button><a :href="'http://localhost:9102/chat.html?nick='+user.name" target="right"> 聊天室</a>
+                        </button>
+                    </li>
+                    <li>
+                        <button><a href="../Set/index.html"> 设&nbsp;&nbsp;置</a></button>
+                    </li>
+                </div>
+            </ul>
+        </div>
+        <!--				{__CONTENT__}-->
+        <div style="padding: 10px 50px 20px 50px;margin-bottom: 65px;">
+
+            <table class="table table-striped">
+                <caption>自查表
+                    <button type="button" class="btn btn-info" style="float: right;margin-right: 20px;"
+                            onclick="back()">返回
+                    </button>
+                </caption>
+                <thead>
+                <tr>
+                    <th>序号</th>
+                    <th>日期</th>
+                    <th>状态</th>
+                    <th>操作</th>
+                </tr>
+                </thead>
+                <tbody>
+                <!--				<foreach name="data" item="v" key='key'>-->
+                <tr v-for="v in tableSelfDate">
+                    <td>{{v.sid}}</td>
+                    <td>{{v.date}}</td>
+                    <td>
+                        <span v-if="v.isSub==0" style="color: red;">未提交</span><span v-else>已提交</span>&nbsp;/
+                        <span v-if="v.isSelf==1" style="color: red;">未审核</span><span v-else-if="v.isSelf==0">审核通过</span><span v-else-if="v.isSelf==2">未通过</span>
+                    </td>
+                    <td><a title="修改" v-if="v.isSub==0" href="javascript:;"
+                           v-on:click="edit('修改','reITab.html?sid='+v.sid+'&tid='+user.tid,'80%','90%')">修改</a>
+                        <a title="修改" v-else href="#" style="opacity: 0.4">修改</a>&nbsp;&nbsp;
+                        &nbsp;&nbsp;
+                        <a title="查看 / 打印 / 提交" href="javascript:;"
+                           v-on:click="show('查看 / 打印 / 提交','ITab.html?sid='+v.sid+'&tid='+user.tid,'80%','90%')">查看 / 打印
+                            / 提交</a></td>
+                </tr>
+                <!--				</foreach>-->
+                </tbody>
+            </table>
+            <center>
+                <ol class="pagination">
+                    <!--					<div class="block">-->
+                    <!--						<span class="demonstration">大于 7 页时的效果</span>-->
+                    <!--                    						<el-pagination-->
+                    <!--                    								layout="prev, pager, next"-->
+                    <!--                    								:total="total">-->
+                    <!--                    						</el-pagination>-->
+                    <!--					</div>-->
+                </ol>
+            </center>
+        </div>
+
+    </div>
+</div>
+<div class="footer text-center">
+    <span>技术支持：阔鱼飞鸟云孵平台</span>
+    <span> &nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp; 联系方式：xxxxxxxxxx</span>
+</div>
+</body>
+</html>
+
+<!-- 引入组件库 -->
+<script src="../../t_js/axios.js"></script>
+<script src="../../t_js/vue.js"></script><!-- vue -->
+<script src="../../t_js/elementui.js"></script><!-- element-ui -->
+<script src="../../js/util.js"></script>
+<script>
+    new Vue({
+        el: '#app',
+        data() {
+            return {
+                tableSelfDate: [],
+                enter: {},
+                user: {},
+                basics: {},
+                team: [],
+                teachers: [],
+                len: "",
+                len2: "",
+                times: "",
+                tid: null,
+                currentPage: 1,
+                total: 10,
+                size: 10,
+                searchMap: {},
+                pojo: {},
+                formVisible: false,
+                imageUrl: '',
+                username: '',
+                phone: '',
+            }
+        },
+        created() {
+            // this.tid = getQueryString("tid")
+
+            // this.searchMap = {tid: getQueryString("tid")}
+            this.fetchData();
+        },
+        methods: {
+            fetchData() {
+                //查使用者账户
+                axios.get(`/login/username.do`).then(response => {
+                    this.username = response.data.username;
+
+                }),
+                    axios.get(`/user/getPhone.do`).then(response => {
+                        this.phone = response.data.phone;
+                        console.log("getPhone")
+                        console.log(this.phone)
+                        this.searchMap = {'username': this.phone}
+                        // console.log(this.searchMap)
+                        if (this.phone != '') {
+                            this.searchMap = {'username': this.phone}
+                            axios.post(`/userTeam/findList.do`, this.searchMap).then(response => {
+                                this.user = response.data[0];
+                                console.log(this.user);
+                                this.searchMap = {'tid': this.user.tid}
+                                axios.post(`/tableEnter/findList.do`, this.searchMap).then(response => {
+                                    this.enter = response.data[0];
+                                });
+                                axios.post(`/basicInfor/findList.do`, this.searchMap).then(response => {
+                                    // response.date[0].regTime=new Date(response.date[0].regTime).format("yyyy-MM-dd");
+                                    this.basics = response.data[0];
+                                    console.log(this.basics)
+                                });
+                                axios.post(`/tableSelf/findPage.do?page=${this.currentPage}&size=${this.size}`, this.searchMap).then(response => {
+                                    this.tableSelfDate = response.data.rows;
+                                    this.total = response.data.total;
+                                    console.log(response.data)
+                                });
+                            });
+                        }
+                    })
+
+            },
+            show(title, url, w, h) {
+                layer.open({
+                    type: 2,
+                    title: title,
+                    shadeClose: true,
+                    shade: 0.4,
+                    area: [w, h],
+                    content: url //iframe的url
+                })
+            },
+            edit(title, url, w, h) {
+                layer.open({
+                    type: 2,
+                    title: title,
+                    shadeClose: true,
+                    shade: 0.4,
+                    area: [w, h],
+                    content: url //iframe的url
+                })
+            },
+            /* ****图片上传相关代码  如页面有图片上传功能放开注释 ****
+            handleAvatarSuccess(res, file) {
+                this.imageUrl = file.response;
+            },
+            beforeAvatarUpload(file) {
+                const isJPG = file.type === 'image/jpeg';
+                const isLt2M = file.size / 1024 / 1024 < 2;
+
+                if (!isJPG) {
+                    this.$message.error('上传头像图片只能是 JPG 格式!');
+                }
+                if (!isLt2M) {
+                    this.$message.error('上传头像图片大小不能超过 2MB!');
+                }
+                return isJPG && isLt2M;
+            }*/
+        }
+    })
+</script>
+
+<script>
+    function out() {
+        window.location.href = "http://localhost:9102/logout/cas";
+    }
+
+    // $("#{$Think.CONTROLLER_NAME}_{$Think.ACTION_NAME}").addClass("select");
+</script>
+<script>
+    function show(title, url, w, h) {
+        layer.open({
+            type: 2,
+            title: title,
+            shadeClose: true,
+            shade: 0.4,
+            area: [w, h],
+            content: url //iframe的url
+        });
+    }
+
+    function edit(title, url, w, h) {
+        layer.open({
+            type: 2,
+            title: title,
+            shadeClose: true,
+            shade: 0.4,
+            area: [w, h],
+            content: url //iframe的url
+        });
+    }
+</script>
+<script type="text/javascript">
+    $(function () {
+        $("#fileUpload").change(function () {
+            uploadImage();
+            //$(this).get(0).files
+        })
+    })
+
+    function uploadImage() {
+//  判断是否有选择上传文件
+        var imgPath = $("#fileUpload").val();
+        if (imgPath == "") {
+            alert("请选择上传图片！");
+            return;
+        }
+        //判断上传文件的后缀名
+        var strExtension = imgPath.substr(imgPath.lastIndexOf('.') + 1);
+        if (strExtension != 'jpg' && strExtension != 'gif'
+            && strExtension != 'png' && strExtension != 'bmp') {
+            alert("请选择图片文件");
+            return;
+        }
+        var formData = new FormData($('#art_form')[0]);
+        $.ajax({
+            type: "POST",
+            url: "__CONTROLLER__/upload",
+            data: formData,
+            contentType: false,
+            processData: false,
+            success: function (data) {
+                $('#logo').attr('src', "__PUBLIC__/uploads/logo/" + data);
+            },
+            error: function (XMLHttpRequest, textStatus, errorThrown) {
+                alert("上传失败，请检查网络后重试");
+            }
+        });
+    }
+</script>
+
+<script>
+    function show(title, url, w, h) {
+        layer.open({
+            type: 2,
+            title: title,
+            shadeClose: true,
+            shade: 0.4,
+            area: [w, h],
+            content: url //iframe的url
+        });
+    }
+
+    function edit(title, url, w, h) {
+        layer.open({
+            type: 2,
+            title: title,
+            shadeClose: true,
+            shade: 0.4,
+            area: [w, h],
+            content: url //iframe的url
+        });
+    }
+
+    function back() {
+        window.location.href = "__MODULE__/Tab/index";
+    }
+</script>

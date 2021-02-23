@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" type="text/css" href="../../css/backstage.css">
+    <link rel="stylesheet" href="../../css/bootstrap.css" />
+    <!--<link rel="stylesheet" href="../css/layout.css" />-->
+    <link rel="stylesheet" type="text/css" href="../../css/teacher.css" />
+    <script type="text/javascript" src="../../js/jquery.min.js"></script>
+    <script type="text/javascript" src="../../js/bootstrap.min.js"></script>
+    <title></title>
+    <style>
+        .a-upload {
+            padding: 4px 10px;
+            height: 100%;
+            line-height: 20px;
+            position: relative;
+            cursor: pointer;
+            color: #888;
+            background: #fafafa;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            overflow: hidden;
+            display: inline-block;
+            *display: inline;
+            *zoom: 1
+        }
+
+        .a-upload  input {
+            position: absolute;
+            font-size: 100px;
+            right: 0;
+            top: 0;
+            opacity: 0;
+            filter: alpha(opacity=0);
+            cursor: pointer
+        }
+
+        .a-upload:hover {
+            color: #444;
+            background: #eee;
+            border-color: #ccc;
+            text-decoration: none
+        }
+    </style>
+    <script>
+    </script>
+</head>
+
+<body>
+<form action="" method="post" enctype="multipart/form-data" style="width: 600px;">
+    <div style="padding: 10px 50px 20px 50px;">
+        <!--<h2 style="color: #0063a1;">修改期数</h2>-->
+        <table class="table table-striped">
+            <tr>
+                <td align="right">logo</td>
+                <td><img src="../../uploads/logo/{$logo}"></td>
+            </tr>
+            <tr>
+                <td align="right">技术书</td>
+                <td><a href="__CONTROLLER__/file_down/tid/{$tid}/file/prospectus" class="a-upload">下载文件</a></td>
+            </tr>
+            <tr>
+                <td align="right">其他文件</td>
+                <td><a href="__CONTROLLER__/file_down/tid/{$tid}/file/data" class="a-upload">下载文件</a></td>
+            </tr>
+            <tr>
+                <td colspan="2"><input class="btn btn-primary" type="submit" value="修改" /></td>
+            </tr>
+
+        </table>
+    </div>
+</form>
+</body>
+<footer style="margin-top: 100px;">
+
+</footer>
+</body>
+
+</html>
+<script>
+    new Vue({
+        el: '#app',
+        data() {
+            return {
+                tableData: [],
+                enter: [],
+                basics: [],
+                tid: null,
+                currentPage: 1,
+                total: 10,
+                size: 10,
+                searchMap: {},
+                pojo: {},
+                formVisible: false,
+                imageUrl: ''
+            }
+        },
+        created() {
+            this.tid = getQueryString("tid")
+            this.searchMap = {tid: getQueryString("tid")}
+            this.fetchData();
+        },
+        methods: {
+            fetchData() {
+                axios.post(`http://localhost:9105/tableEnter/findList.do`, this.searchMap).then(response => {
+                    this.enter = response.data[0];
+                });
+                axios.post(`http://localhost:9105/basicInfor/findList.do`, this.searchMap).then(response => {
+                    this.basics = response.data;
+                });
+            },
+        }
+    })
+</script>
+

@@ -1,0 +1,23 @@
+{__NOLAYOUT__}<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<link rel="stylesheet" href="__PUBLIC__/css/bootstrap.min.css" />
+		<link rel="stylesheet" href="__PUBLIC__/css/style.css" />
+		<link rel="stylesheet" type="text/css" href="__PUBLIC__/css/layout.css"/>
+		<script type="text/javascript" src="__PUBLIC__/js/jquery.min.js"></script>
+		<title></title>
+		<style>
+			body{
+				padding: 20px;
+			}
+		</style>
+	</head>
+	<body>
+		<h5><eq name="type" value="1">系统消息<else/>个人通知</eq></h5>
+		<h6>时间：{$date}</h6>
+		<div>
+			内容：{$content}
+		</div>
+	</body>
+</html>

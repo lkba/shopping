@@ -1,0 +1,183 @@
+{__NOLAYOUT__}<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<link rel="stylesheet" href="__PUBLIC__/css/bootstrap.css" />
+		<link rel="stylesheet" href="__PUBLIC__/css/style.css" />
+		<link rel="stylesheet" type="text/css" href="__PUBLIC__/css/layout.css"/>
+		<script type="text/javascript" src="__PUBLIC__/js/jquery.js" ></script>
+		<script type="text/javascript" src="__PUBLIC__/js/bootstrap.min.js" ></script>
+		<title></title>
+		<style>
+		
+		/*修改提示文字的颜色*/
+		
+		input::-webkit-input-placeholder { /* WebKit browsers */ 
+		
+		font-size: 14px; 
+		text-indent: 10px;
+		} 
+		
+		input:-moz-placeholder { /* Mozilla Firefox 4 to 18 */ 
+		
+		font-size: 14px; 
+		text-indent: 10px;
+		} 
+		
+		input::-moz-placeholder { /* Mozilla Firefox 19+ */ 
+		
+		font-size: 14px; 
+		text-indent: 10px;
+		} 
+		
+		input:-ms-input-placeholder { /* Internet Explorer 10+ */ 
+		
+		font-size: 14px; 
+		text-indent: 10px;
+		}
+		input{
+			outline: none;
+			border: 1px solid #45a9e7 !important;
+			background: none;
+		}
+		.yz{
+			float: left;
+			height: 28px !important;
+			margin-left: 130px;
+			border: none !important;
+			border-bottom: 1px solid !important;
+			border-radius:0 !important;
+			width: 110px !important;
+		}
+		.box{
+				background-image: url(__PUBLIC__/img/index.png);
+				background-repeat: no-repeat;
+				background-size: 100% 100%;
+				margin-top: 10px;
+				padding: 30px 0 0 0;
+				height: 765px;
+			}
+		</style>
+	</head>
+	<body>
+		<div class="header"><span><a href="__MODULE__/Index/index">创新创业学院团队管理系统</a></span></div>
+		<div class="box">
+		<div class="bodyer" style="margin-top: 70px;margin-bottom: 70px;">
+			<form method="post" onsubmit="return check()" style="width: 400px;">
+				<div class="login" style="height: 100%;padding-bottom: 20px;border: 1px solid #45a9e7 !important;background-color:rgb(255,255,255,0.5);">
+					<p style="margin-top: 10px;">请使用账号（手机号）找回密码！</p>
+					<div style="margin: 0;">账 &nbsp;&nbsp;&nbsp;号：<input type="text" name="username" id="user_id" required="required" placeholder="手机号"></div>
+					<p id="error" style="color: red;display: none;">手机格式不对！<p>
+					<div style="margin: 0;text-align: right;font-size: 12px;">
+						<input placeholder="验证码" class="yz" type="text" name="yz" autocomplete="off"/>
+						<p style="margin: 10px 50px 10px 0;height: 28px;line-height: 28px;">
+							<a href="javascript:;" id="vcode">获取手机验证码</a>
+							<span style="display: none;" id="countdown"></span>
+						</p></div>
+					<div style="margin:0 0 10px 0;">新密码：<input placeholder="密码" type="password" name="password" id="pwd1" required="required"></div>
+					<p id="c_pwd1" style="color: red;display: none;">密码位数不合法（6~20位）！<p>
+					<div style="margin:0 0 10px 0;font-size: 16px;">确认密码：<input placeholder="确认密码" type="password" id="pwd2" required="required"></div>
+					<p id="c_pwd2" style="color: red;display: none;">密码不一致！<p>
+					<div style="margin:0 0 10px 0;">验证码：<input type="text" id="stu_code_hide" name="verify" value="" autocomplete="off"/></div>
+					<img src="__CONTROLLER__/getVerify" title="点击更换" alt="验证码占位图" onclick="this.src='__CONTROLLER__/getVerify/'+Math.random()" />
+				</div>
+				<div class="login_2">
+					<input type="button"  value="返&nbsp;&nbsp;回" onclick="back()"/>
+					<input type="submit"  value="修&nbsp;&nbsp;改">
+				</div>
+			</form>
+		</div>
+		</div>
+		<div class="footer text-center" >
+			<span>技术支持：阔鱼飞鸟云孵平台</span>
+			<span> &nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp; 联系方式：xxxxxxxxxx</span> 
+		</div> 
+		
+		<script>
+			function back(){
+				window.location.href = "__MODULE__/Login/index";
+			}
+			function checkPhone(phone) {
+		        if (!(/^1(3|4|5|7|8)\d{9}$/.test(phone))) {
+		            //alert("手机号码有误!");
+		            return false;
+		        }else{
+		        	return true;
+		        }
+		    }
+			$("#vcode").click(function(){
+		        var phone=$("#user_id").val();
+		        if(checkPhone(phone)==false){
+		        	alert('手机格式有误！');
+		        }else{
+		        	$.ajax({
+			            type: "POST",
+			            url: "__CONTROLLER__/sjyz_c",
+			            data: {username:phone},
+			            success: function(msg){
+			            	if(msg==1){
+			            		updateTime(180);
+			            	}else{
+			            		alert(msg[0]);
+			            	}	
+			            }
+			        });
+		        }
+		   	})
+			window.onload = function () {
+				document.getElementById("pwd1").oninput = validatePassword1;
+				document.getElementById("pwd2").oninput = validatePassword2;
+				document.getElementById("user_id").oninput = validatePhome; 
+			}
+			function validatePhome() {
+				var r = checkPhone($('#user_id').val());
+				if(r==false){
+					document.getElementById("user_id").setCustomValidity("手机格式不对！");
+					$('#error').text('手机格式不对！').show();
+				}else{
+		            document.getElementById("user_id").setCustomValidity("");
+		            $('#error').hide();
+		        }
+			}
+			function validatePassword1() {
+				var pass1 = document.getElementById("pwd1").value;
+				if(pass1.length<6 || pass1.length>20){
+					document.getElementById("pwd1").setCustomValidity("密码位数不合法（6~20位）！");
+					$('#c_pwd1').show();
+				}else{
+					document.getElementById("pwd1").setCustomValidity("");
+					$('#c_pwd1').hide();
+				}
+			}
+			function validatePassword2() {
+				var pass1 = document.getElementById("pwd1").value;
+				var pass2 = document.getElementById("pwd2").value;
+				if (pass1 != pass2){
+					document.getElementById("pwd2").setCustomValidity("密码不一致！");
+					$('#c_pwd2').show();
+				}
+				else{
+					document.getElementById("pwd2").setCustomValidity('');
+					$('#c_pwd2').hide();
+				}
+			}
+			function updateTime(time) {
+				$('#vcode').hide();
+			    var linkBtn = $("#countdown");
+			    linkBtn.show();
+			    linkBtn.text(time+"秒后失效");
+			    var hander = setInterval(function () {
+			        if (time <= 1) {
+			            clearInterval(hander);
+			            $('#vcode').show();
+			            linkBtn.hide();
+			        }
+			        else {
+			        	time-=1;
+			            linkBtn.text(time + "秒后失效");
+			        }
+			    }, 1000);
+			}
+		</script>
+	</body>
+</html>

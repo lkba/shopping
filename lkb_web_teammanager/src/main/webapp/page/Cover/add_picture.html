@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8"/>
+    <link rel="stylesheet" type="text/css" href="../../css/backstage.css">
+    <link rel="stylesheet" href="../../css/bootstrap.css"/>
+    <!--<link rel="stylesheet" href="../css/layout.css" />-->
+    <link rel="stylesheet" type="text/css" href="../../css/teacher.css"/>
+    <script type="text/javascript" src="../../js/jquery.min.js"></script>
+    <script type="text/javascript" src="../../js/bootstrap.min.js"></script>
+    <script src="../../js/layer.js"></script>
+    <script src="../../js/jquery.js"></script>
+    <title></title>
+    <style>
+
+    </style>
+</head>
+
+<body>
+<div class="bodyer">
+    <div style="padding: 50px 50px 10px;">
+        <form class="bs-example bs-example-form" enctype="multipart/form-data" method="post" style="width:500px;">
+            <h2 style="color: #0063a1;">添加图片</h2>
+            <div class="ui-widget "  style="margin: 20px 0px;">
+                <label  class="fl">图片名称: </label>&nbsp;&nbsp;
+                <input type="text"  name="title" class="form-control fl" style="margin: 0 10px">
+            </div>
+
+            <div class="ui-widget " style="margin: 20px 0px;">
+                <div style="margin-top: 30px"><label class="">图片url: </label><input name="url" style="margin-left: 10px" type="text" class="form-control"></input></div>
+            </div>
+            <div>
+                <a href="javascript:;" class="file" title="上传计划书">文件上传
+                    <input type="file" class="file" name="appendix" value="选择图片">
+                </a>
+                <span style="position: relative;top: -8px;">上传仅限jpg,png的图片</span>
+                <div class="showFileName1"></div>
+                <div class="fileerrorTip1"></div>
+            </div>
+            <div>
+                <input type="submit" value="提交" class="btn btn-info fr">
+            </div>
+        </form>
+    </div>
+</div>
+</body>
+<footer style="margin-top: 100px;">
+
+</footer>
+</body>
+</html>
+<script src="../../js/vue.js"></script>
+<script src="../../js/axios.js"></script>
+<script src="../../js/util.js"></script>
+<script src="../../js/elementui.js"></script>
+<script>
+    new Vue({
+        el: '#app',
+        data() {
+            return {
+                tableData: [],
+                enter: [],
+                user: {},
+                basics: [],
+                team: [],
+                teachers: [],
+                len: "",
+                len2: "",
+                times: "",
+                tid: null,
+                currentPage: 1,
+                total: 10,
+                size: 10,
+                searchMap: {},
+                pojo: {
+                    teams: [{"mateid":"add"}, {"mateid":"add"}, {"mateid":"add"}, {"mateid":"add"}],
+                    teacher: [{"id":"add"}, {"id":"add"}, {"id":"add"}, {"id":"add"}],
+                },
+                formVisible: false,
+                fileUrl: ''
+            }
+        },
+        created() {
+            this.tid = getQueryString("tid")
+            this.searchMap = {tid: getQueryString("tid")}
+            this.fetchData();
+        },
+        methods: {
+            fetchData() {
+                axios.get(`http://localhost:9105/enterTime/findAll.do`).then(response => {
+                    this.times = response.data;
+                });
+            },
+
+            save() {
+                this.pojo.prospectus = this.fileUrl; //如页面有图片上传功能放开注释
+                // layer.confirm('确认要添加吗？', {icon: 3, title: "是否保存?"}, function (index) {
+
+                axios.post(`http://localhost:9105/user/input_team.do`, this.pojo).then(response => {
+                    console.log(response.data)
+                    if (response.data.flag){
+                        //提示层
+                        layer.msg('添加成功');
+                        var index = parent.layer.getFrameIndex(window.name);
+                        window.parent.location.reload();
+                    }else {
+                        layer.msg('添加失败');
+                    }
+                });
+                // layer.close(index);
+
+                // });
+            },
+            // edit(id) {
+            //     this.formVisible = true // 打开窗口
+            //     // 调用查询
+            //     axios.get(`/order/findById.do?id=${id}`).then(response => {
+            //         this.pojo = response.data;
+            //         // this.fileUrl=this.pojo.image //显示图片  如页面有图片上传功能放开注释
+            //     })
+            // },
+            // dele(id) {
+            //     this.$confirm('确定要删除此记录吗?', '提示', {
+            //         confirmButtonText: '确定',
+            //         cancelButtonText: '取消',
+            //         type: 'warning'
+            //     }).then(() => {
+            //         axios.get(`/order/delete.do?id=${id}`).then(response => {
+            //             this.fetchData(); //刷新列表
+            //         })
+            //     })
+            // },
+            /* ****图片上传相关代码  如页面有图片上传功能放开注释 *****/
+            handleAvatarSuccess(res, file) {
+                this.fileUrl = file.response;
+                console.log(this.fileUrl)
+            },
+            beforeAvatarUpload(file) {
+                // const isJPG = file.type === 'docx/doc';
+                const isLt2M = file.size / 1024 / 1024 < 2;
+
+                // if (!isJPG) {
+                //     this.$message.error('上传头像图片只能是 docx/doc 格式!');
+                // }
+                if (!isLt2M) {
+                    this.$message.error('上传头像图片大小不能超过 2MB!');
+                }
+                // return isJPG && isLt2M;
+                return isLt2M;
+            }
+        }
+    })
+</script>
+
+<script>
+    function back() {
+        window.history.back(-1);
+    }
+
+    function getUrlParam() {
+        var reg = new RegExp("success"); //构造一个含有目标参数的正则表达式对象
+        var r = window.location.href.match(reg); //匹配目标参数
+        if (r == 'success'){
+            var index = parent.layer.getFrameIndex(window.name);
+            window.parent.location.reload();
+        }
+    }
+    window.getUrlParam();
+
+    $(".file").on("change", "input[type='file']", function () {
+        var filePath = $(this).val();
+        if (filePath.indexOf("jpg") != -1 || filePath.indexOf("png") != -1) {
+            $(".fileerrorTip1").html("").hide();
+            var arr = filePath.split('\\');
+            var fileName = arr[arr.length - 1];
+            $(".showFileName1").html(fileName);
+        }
+//        else {
+//            $(".showFileName1").html("");
+//            $(".fileerrorTip1").html("您未上传文件，或者您上传文件类型有误！").show();
+//            return false
+//        }
+    })
+</script>
+
+<style>
+    /*样式2*/
+    .file {
+        position: relative;
+        display: inline-block;
+        background: #D0EEFF;
+        border: 1px solid #99D3F5;
+        border-radius: 4px;
+        padding: 4px 12px;
+        overflow: hidden;
+        color: #1E88C7;
+        text-decoration: none;
+        text-indent: 0;
+        line-height: 20px;
+    }
+
+    .file input {
+        position: absolute;
+        font-size: 100px;
+        right: 0;
+        top: 0;
+        opacity: 0;
+    }
+
+    .file:hover {
+        background: #AADFFD;
+        border-color: #78C3F3;
+        color: #004974;
+        text-decoration: none;
+    }
+</style>

@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="../../css/el-index.css">
+    <link rel="stylesheet" href="../../css/bootstrap.css" />
+    <link rel="stylesheet" href="../../css/layout.css" />
+    <link rel="stylesheet" type="text/css" href="../../css/student.css"/>
+    <script src="../../js/jquery.js"></script>
+    <script src="../../js/layer.js"></script>
+    <script src="../../js/jquery.jqprint-0.3.js"></script>
+    <link href="../../css/print3.css" rel="stylesheet" type="text/css" >
+    <script type="text/javascript" src="../../js/bootstrap.min.js" ></script>
+    <title></title>
+    <style>
+        .header{
+            margin-bottom: 50px;
+        }
+        label{
+            margin:0 72px 0 10px;
+            display: inline-block;
+            vertical-align:middle;
+        }
+
+    </style>
+</head>
+<body>
+<div id="app">
+    <div class="header"><span>团队云孵综合平台</span></div>
+    <div class="bodyer">
+        <div id="print-area">
+            <center style="margin: 30px;"><h1>项目退出申请表</h1></center>
+            <div style="float: right;margin-right: 20px;"><h4>填表时间：   {{out.edate}}</h4></div>
+            <table class="table table-bordered">
+                <tr>
+                    <th colspan="1">团队名称</th><td colspan="3">{{basic.team}}</td>
+                    <th colspan="2">申请入驻时间</th><td colspan="2">{{basic.inTime}}</td>
+                </tr>
+                <tr>
+                    <th colspan="1">公司是否注册</th>
+                    <td colspan="1" id="registered">{{basic.registered}}</td>
+                    <th colspan="1">注册时间</th>
+                    <td colspan="2" id="reg_time">{{basic.regTime}}</td>
+                    <th colspan="1">注册资金<br>（万元）</th>
+                    <td colspan="2" id="money">{{basic.money}}</td>
+                </tr>
+                <tr>
+                    <th colspan="1">经营范围<br>（产品/服务）</th>
+                    <td colspan="7">{{basic.businessScope}}</td>
+                </tr>
+                <tr>
+                    <th>行业类别</th>
+                    <td colspan="7">
+                        {{basic.class}}
+                    </td>
+                </tr>
+
+                <tr><th rowspan="3" colspan="1">项目主创<br>团队人员<br>基本情况</th>
+                    <th colspan="1">负责人</th><td colspan="2">{{user.name}}</td>
+                    <th colspan="1">年龄</th><td colspan="1">{{user.age}}</td>
+                    <th colspan="1">性别</th><td colspan="1" style="width: 180px;">{{user.sex}}</td></tr>
+                <tr><th colspan="1">系别</th>
+                    <td colspan="2">{{user.department}}</td>
+                    <th colspan="2">专业班级</th><td colspan="2">{{user.professional}}</td></tr>
+                <tr><th colspan="1">手机号码</th><td colspan="2">{{user.phone}}</td>
+                    <th colspan="2">E-mail/QQ</th><td colspan="2">{{user.email}}</td></tr>
+
+                <tr>
+                    <th colspan="1">项目基本情况<br>（概括）</th>
+                    <td colspan="7">{{out.baseStiu}}</td>
+                </tr>
+
+                <tr>
+                    <th>退出原因</th>
+                    <td colspan="7" style="padding-left: 72px;">
+                        {{out.outReason}}
+                    </td>
+                </tr>
+
+                <tr>
+                    <th colspan="1">对两创学院建议</th>
+                    <td colspan="7">{{out.idea}}</td>
+                </tr>
+                <tr>
+                    <th colspan="1">申请人</th><td colspan="3">{{out.proposer}}</td>
+                    <th colspan="1">申请退出时间</th><td colspan="3">{{out.outdate}}</td>
+                </tr>
+
+                <tr>
+                    <th colspan="1">团队办公区域<br>（座位号）</th><td colspan="3">{{out.workarea}}</td>
+                    <th colspan="1">蝴蝶账号密码</th><td colspan="3">{{out.account}}</td>
+                </tr>
+
+                <tr>
+                    <th colspan="1">卫生情况<br>（由两创验收）</th><td colspan="3">{{out.health}}</td>
+                    <th colspan="1">办公设备验收<br>（由两创验收）</th><td colspan="3">{{out.equip}}</td>
+                </tr>
+
+                <tr height="150px">
+                    <th colspan="1">两创学院<br>审批意见<br>（由主管领导批复）</th>
+                    <td colspan="7" class="w">
+                        {{out.adminIdea}}
+                        <div style="position: absolute;bottom: 30px;right: 100px;">审批人：</div>
+                        <div style="position: absolute;bottom: 5px;right: 50px;">&nbsp;&nbsp;&nbsp;&nbsp;年&nbsp;&nbsp;&nbsp;&nbsp;月&nbsp;&nbsp;&nbsp;&nbsp;日</div>
+                    </td>
+                </tr>
+            </table>
+        </div>
+        			<button type="button" class="btn btn-info" style="float: right;margin-left: 20px;" @click="subTable()">审核通过</button>
+        			<button type="button" class="btn btn-info" style="float: right;margin-left: 20px;" @click="goback()">退回</button>
+        <button type="button" class="btn btn-info" style="float: right;margin-left: 20px;margin-bottom: 50px;" onclick="print()">打印</button>
+        <button type="button" class="btn btn-info" style="float: right;margin-left: 20px;" onclick="back()">关闭</button>
+    </div>
+</div>
+</body>
+</html>
+<script src="../../js/vue.js"></script>
+<script src="../../js/axios.js"></script>
+<script src="../../js/elementui.js"></script>
+<script src="../../js/util.js"></script>
+<script>
+    new Vue({
+        el: '#app',
+        data() {
+            return {
+                tableData: [],
+                enter: [],
+                user: {},
+                basic: {},
+                out:{},
+                team: [],
+                teachers: [],
+                len: "",
+                len2: "",
+                times: "",
+                tid: null,
+                oid: null,
+                currentPage: 1,
+                total: 10,
+                size: 10,
+                searchMap: {},
+                pojo: {},
+                formVisible: false,
+                imageUrl: ''
+            }
+        },
+        created() {
+
+            this.tid = getQueryString("tid")
+            this.oid = getQueryString("oid")
+            this.searchMap = {tid: getQueryString("tid")}
+            this.fetchData();
+        },
+        methods: {
+            fetchData() {
+                // console.log(this.tid)
+                // console.log("this.tid")
+                //
+                // console.log( this.oid )
+                axios.get(`/tableOut/findById.do?oid=`+this.oid).then(response=>{
+                    this.pojo= response.data;
+                    this.out= response.data;
+                    // console.log(response.data)
+                })
+                axios.post(`/tableEnter/findList.do`, this.searchMap).then(response => {
+                    this.enter = response.data[0];
+                });
+                axios.post(`/userTeam/findList.do`, this.searchMap).then(response => {
+                    this.user = response.data[0];
+                    // console.log(this.user)
+                });
+                axios.post(`/basicInfor/findList.do`, this.searchMap).then(response => {
+                    // response.date[0].regTime=new Date(response.date[0].regTime).format("yyyy-MM-dd");
+                    this.basic = response.data[0];
+                    // console.log(response.data)
+                });
+                axios.post(`/teammate/findList.do`, this.searchMap).then(response => {
+                    this.team = response.data;
+                    if (this.team.length <= 0 || this.team.length == "") {
+                        this.team.content = "";
+                    }
+                    this.len2 = this.team.length + 1;
+                });
+                axios.post(`/teacher/findList.do`, this.searchMap).then(response => {
+                    this.teachers = response.data;
+                    if (this.teachers.length <= 0 || this.teachers.length == "") {
+                        // this.teachers[0].id = "1";
+                        this.teachers[0] = {phone: ""};
+                        this.teachers[0] = {department: ""};
+                        this.teachers[0] = {position: ""};
+                        this.teachers[0] = {field: ""};
+                    }
+                    if(this.teachers.length>1){
+                        this.len = this.teachers.length * 2 +this.teachers.length;
+                    }else {
+                        this.len = this.teachers.length * 2 ;
+                    }
+
+                    // $('#th1').css('rowspan', "2");
+                });
+
+            },
+            subTable(){
+                this.$confirm('是否审核?', '提示', {
+                    confirmButtonText: '确定',
+                    cancelButtonText: '取消',
+                    type: 'warning'
+                }).then(() => {
+                    // console.log(id)
+                    this.pojo.isOut=0;
+                    // this.pojo={"tid":this.user.tid}
+                    console.log(this.pojo)
+                    axios.post(`/tableOut/update.do`, this.pojo).then(response => {
+                        this.user.isOut=0;
+                        axios.post(`/user/update.do`, this.user).then(response => {
+                            // alert("审核通过")
+                            this.fetchData();
+                            // // this.user = response.data[0];
+                            // console.log(response.data);
+                            // console.log(this.user);
+                            var index = parent.layer.getFrameIndex(window.name); //先得到当前iframe层的索引
+                            parent.layer.close(index); //再执行关闭
+
+                        });
+
+                    });
+
+                })
+
+            },
+            goback(){
+                this.$confirm('是否退回?', '提示', {
+                    confirmButtonText: '确定',
+                    cancelButtonText: '取消',
+                    type: 'warning'
+                }).then(() => {
+                    this.pojo.isOut=2;
+                    this.pojo.isSub=0;
+                    this.pojo.goback=1;
+                    // this.pojo={"tid":this.user.tid}
+                    axios.post(`/tableOut/update.do`, this.pojo).then(response => {
+                        this.fetchData();
+                        // // this.user = response.data[0];
+                        // console.log(response.data);
+                        // console.log(this.user);
+                        var index = parent.layer.getFrameIndex(window.name); //先得到当前iframe层的索引
+                        parent.layer.close(index); //再执行关闭
+
+                    });
+                })
+
+            },
+
+            /* ****图片上传相关代码  如页面有图片上传功能放开注释 ****
+            handleAvatarSuccess(res, file) {
+                this.imageUrl = file.response;
+            },
+            beforeAvatarUpload(file) {
+                const isJPG = file.type === 'image/jpeg';
+                const isLt2M = file.size / 1024 / 1024 < 2;
+
+                if (!isJPG) {
+                    this.$message.error('上传头像图片只能是 JPG 格式!');
+                }
+                if (!isLt2M) {
+                    this.$message.error('上传头像图片大小不能超过 2MB!');
+                }
+                return isJPG && isLt2M;
+            }*/
+        }
+    })
+</script>
+<script>
+    function back(){
+        var index = parent.layer.getFrameIndex(window.name); //先得到当前iframe层的索引
+        parent.layer.close(index); //再执行关闭
+    }
+    //
+    function sub(obj,id,name){
+        layer.confirm('确认提交吗？',{icon:3,title : "是否确认提交？"},function(index){
+            $.get("__CONTROLLER__/sub", {oid: id}, function (msg) {
+                if (msg.flag === true) {
+                    layer.msg('已提交!',{icon:1,time:1000,title : "确认"});
+                    var t=setTimeout("window.parent.location.reload();",1000);
+
+                }else{
+                    alert(msg.msg);
+                }
+            }, "json");
+        });
+    }
+    //打印
+    function print(){
+        $("#print-area").jqprint({
+            debug: false,
+            importCSS: true,
+            printContainer: true,
+            operaSupport: false
+        });
+    }
+    $(function () {
+        if($('#registered').text()=='否'){
+            $('#reg_time').text('无');
+            $('#money').text('无');
+        }
+    });
+</script>

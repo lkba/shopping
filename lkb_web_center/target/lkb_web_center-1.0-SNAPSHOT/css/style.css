@@ -1,0 +1,70 @@
+*{
+	margin: 0;
+	padding: 0;
+	border: 0;
+
+}
+
+.bodyer{
+	margin-top: 150px;
+    text-align: center;
+    width: 350px;
+}
+
+.login{
+	height: 220px;
+	border: 1px solid #0063a1;
+	text-align: center;
+	background: white;
+	color: #0063a1;
+	border-radius: 10px;
+	box-shadow: 10px 10px 5px #1233;
+}
+.login div{
+	margin: 30px 10px;
+	font-size: 20px;
+}
+.login div:first-child{
+	margin-top: 50px;
+}
+.login div input{
+	width: 220px;
+	height: 35px;
+	border: 1px solid #0063a1;
+	border-radius: 5px;
+	box-shadow: none;
+}
+.login_2 input{
+	margin: 35px 20px;
+	background: #32afff;
+	border-radius: 5px;
+	font-size: 20px;
+	color: white;
+	width: 105px;
+	height: 40px;
+}
+.set_m {
+    text-align: center;
+    color: #0063a1;
+}
+.set_m div{
+	margin: 30px 10px;
+	font-size: 20px;
+}
+.set_m div input{
+	width: 220px;
+	height: 35px;
+	background: none;
+	border-bottom: 1px solid #0063a1;
+	box-shadow: none;
+	outline: none;
+}
+.set_m_2 input{
+	margin: 20px;
+	background: #32afff;
+	border-radius: 5px;
+	font-size: 20px;
+	color: white;
+	width: 105px;
+	height: 40px;
+}

@@ -1,0 +1,441 @@
+
+<!DOCTYPE html>
+<html xmlns:v-on="http://www.w3.org/1999/xhtml">
+
+<head>
+	<meta charset="utf-8"/>
+
+	<link rel="stylesheet" href="../../css/el-index.css">
+	<!--    <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">-->
+	<link rel="stylesheet" href="../../plugins/font-awesome/css/font-awesome.min.css">
+	<!--    <link rel="stylesheet" href="../../css/style-el.css">-->
+	<link rel="stylesheet" type="text/css" href="../../css/backstage.css">
+	<link rel="stylesheet" type="text/css" href="../../css/bootstrap.min.css"/>
+	<link rel="stylesheet" type="text/css" href="../../css/teacher.css"/>
+	<link rel="stylesheet" type="text/css" href="../../css/common.css">
+	<!--<script type="text/javascript" src="./js/bootstrap.min.js"></script>-->
+	<script src="../../js/jquery.min.js"></script>
+	<script type="text/javascript" src="../../js/bootstrap.win.js"></script>
+	<script type="text/javascript" src="../../js/common.js"></script>
+	<script src="../../js/layer.js"></script>
+	<script src="../../js/jquery.js"></script>
+	<script src="../../js/util.js"></script>
+
+	<title></title>
+	<style>
+		/*浏览器出现滚动条*/
+		html {
+			overflow: scroll;
+		}
+
+		.pr li {
+			float: left;
+			margin: 10px 10px;
+		}
+
+		.pr, .pt {
+			margin-left: 100px;
+			margin-right: 100px;
+		}
+
+		.pf li {
+			/*width: 100px;*/
+			float: left;
+			margin: 10px 15px;
+		}
+
+		.dec {
+			text-align: center;
+			margin: 0 auto;
+		}
+
+		.dec span {
+			font-size: 14px;
+			text-align: center;
+			margin: 10px;
+		}
+
+		.contents {
+			font-size: 16px;
+			margin: 10px 50px;
+		}
+
+		.ml {
+			margin-left: 50px;
+		}
+
+		.mr {
+			margin-right: 50px;
+		}
+
+		img {
+			width: 300px;
+			height: 300px;
+		}
+		.table th, .table td {
+			text-align: center;
+			vertical-align: middle!important;
+		}
+	</style>
+
+</head>
+
+<body>
+<div class="bodyer" id="app">
+
+	<div  style="width: 80%;margin: 20px" >
+		<table class="table center">
+			<tr >
+				<td colspan="1">入驻团队</td>
+				<td colspan="2">{{count.user}}个&nbsp;/
+					<span style="color: red;">{{remarks.rteam}}</span>
+					<input type="button" value="修改" onclick="add_input(this,'rteam')" id="revise2rteam"
+						   style="color: #1E9FFF;">
+				</td>
+				<td colspan="1">团队总人数</td>
+				<td colspan="2">{{count.teammate}}人
+					&nbsp;/
+					<span style="color: red;">{{remarks.totle_team}}</span>
+					<input type="button" value="修改" onclick="add_input(this,'totle_team')" id="revise2totle_team"
+						   style="color: #1E9FFF;">
+				</td>
+			</tr>
+
+			<tr>
+				<td colspan="1">已注册公司</td>
+				<td colspan="5">{{count.registeredIn}}个
+					<!--（其中有25个是在孵时注册公司，其余18个是注册公司后再入孵或注册地址在校外）。-->
+					&nbsp;/
+					<span style="color: red;">{{remarks.rcompany}}</span>
+					<input type="button" value="修改" onclick="add_input(this,'rcompany')" id="revise2rcompany"
+						   style="color: #1E9FFF;">
+				</td>
+			</tr>
+
+			<tr>
+				<td rowspan="2" colspan="2">两创团队在位情况</td>
+				<td  colspan="1">未注册公司</td>
+				<td  colspan="2">{{count.registeredOut}}
+					&nbsp;/
+					<span style="color: red;">{{remarks.noCompany}}</span>
+					<input type="button" value="修改" onclick="add_input(this,'no_company')" id="revise2no_company"
+						   style="color: #1E9FFF;">
+				</td>
+				<td rowspan="2" colspan="1">{{count.registeredAll}}
+					&nbsp;/
+					<span style="color: red;">{{remarks.allCompany}}</span>
+					<input type="button" value="修改" onclick="add_input(this,'all_company')" id="revise2all_company"
+						   style="color: #1E9FFF;">
+				</td>
+			</tr>
+			<tr>
+				<td  colspan="1">已注册公司</td>
+				<td  colspan="2">{{count.registeredIn}}
+					&nbsp;/
+					<span style="color: red;">{{remarks.yesCompany}}</span>
+					<input type="button" value="修改" onclick="add_input(this,'yes_company')" id="revise2yes_company"
+						   style="color: #1E9FFF;">
+				</td>
+			</tr>
+			<tr>
+				<td rowspan="3" colspan="2">退出情况</td>
+				<td  colspan="1">因项目停止、团队解散等原因而退出</td>
+				<td  colspan="2">70％
+					&nbsp;/
+					<span style="color: red;">{{remarks.outTeam1}}</span>
+					<input type="button" value="修改" onclick="add_input(this,'out_team1')" id="revise2out_team_1"
+						   style="color: #1E9FFF;">
+				</td>
+				<td rowspan="3" colspan="1">退出总数：15
+					&nbsp;/
+					<span style="color: red;">{{remarks.outTeamAll}}</span>
+					<input type="button" value="修改" onclick="add_input(this,'out_team_all')" id="revise2out_team_all"
+						   style="color: #1E9FFF;">
+				</td>
+			</tr>
+			<tr>
+				<td  colspan="1">已注册公司外出发展的</td>
+				<td  colspan="2">20％
+					&nbsp;/
+					<span style="color: red;">{{remarks.outTeam2}}</span>
+					<input type="button" value="修改" onclick="add_input(this,'out_team2')" id="revise2out_team_2"
+						   style="color: #1E9FFF;">
+				</td>
+			</tr>
+			<tr>
+				<td  colspan="1">其他</td>
+				<td  colspan="2">10％
+					&nbsp;/
+					<span style="color: red;">{{remarks.outTeam3}}</span>
+					<input type="button" value="修改" onclick="add_input(this,'out_team3')" id="revise2out_team_3"
+						   style="color: #1E9FFF;">
+				</td>
+			</tr>
+			<tr>
+				<td rowspan="4" colspan="2">注册公司情况</td>
+				<td  colspan="1">注册公司仍在位</td>
+				<td  colspan="2">10
+					&nbsp;/
+					<span style="color: red;">{{remarks.regCompany1}}</span>
+					<input type="button" value="修改" onclick="add_input(this,'reg_company1')" id="revise2reg_company_1"
+						   style="color: #1E9FFF;">
+				</td>
+				<td rowspan="4" colspan="1">{{count.registered}}
+					&nbsp;/
+					<span style="color: red;">{{remarks.regCompanyAll}}</span>
+					<input type="button" value="修改" onclick="add_input(this,'reg_company_all')" id="revise2reg_company_all"
+						   style="color: #1E9FFF;">
+				</td>
+			</tr>
+			<tr>
+				<td  colspan="1">注册公司不在位</td>
+				<td  colspan="2">0
+					&nbsp;/
+					<span style="color: red;">{{remarks.regCompany2}}</span>
+					<input type="button" value="修改" onclick="add_input(this,'reg_company2')" id="revise2reg_company_2"
+						   style="color: #1E9FFF;">
+				</td>
+			</tr>
+			<tr>
+				<td  colspan="1">注册公司，但项目停止</td>
+				<td  colspan="2">3
+					&nbsp;/
+					<span style="color: red;">{{remarks.regCompany3}}</span>
+					<input type="button" value="修改" onclick="add_input(this,'reg_company3')" id="revise2reg_company_3"
+						   style="color: #1E9FFF;">
+				</td>
+			</tr>
+			<tr>
+				<td  colspan="1">公司注销</td>
+				<td  colspan="2">3
+					&nbsp;/
+					<span style="color: red;">{{remarks.regCompany4}}</span>
+					<input type="button" value="修改" onclick="add_input(this,'reg_company_4')" id="revise2reg_company_4"
+						   style="color: #1E9FFF;">
+				</td>
+			</tr>
+			<tr>
+				<td  colspan="6">相关专业创业占100%
+					&nbsp;/
+					<span style="color: red;">{{remarks.proEnt}}</span>
+					<input type="button" value="(修改)" onclick="add_input(this,'pro_ent')" id="revise2pro_ent"
+						   style="color: #1E9FFF;">
+					,      软件开发与服务占0%
+					&nbsp;/
+					<span style="color: red;">{{remarks.soft}}</span>
+					<input type="button" value="(修改)" onclick="add_input(this,'soft')" id="revise2soft"
+						   style="color: #1E9FFF;">
+					,  0%
+					&nbsp;/
+					<span style="color: red;">{{remarks.softPro}}</span>
+					<input type="button" value="(修改)" onclick="add_input(this,'soft_pro')" id="revise2soft_pro"
+						   style="color: #1E9FFF;">
+				</td>
+			</tr>
+		</table>
+	</div>
+
+</div>
+</body>
+
+
+<script src="../../js/vue.js"></script>
+<script src="../../js/axios.js"></script>
+<script src="../../js/elementui.js"></script>
+<script src="../../js/util.js"></script>
+<script>
+	new Vue({
+		el: '#app',
+		data() {
+			return {
+				tableData: [],
+				currentPage: 1,
+				total: 10,
+				size: 10,
+				count: {},
+				remarks: {},
+				searchMap: {},
+
+				pojo: {},
+				formVisible: false,
+				imageUrl: ''
+			}
+		},
+		created() {
+			this.fetchData();
+		},
+		methods: {
+			fetchData() {
+				axios.get(`/teammate/findCount.do`).then(response => {
+					this.count = response.data;
+					// console.log("all");
+					// console.log(response.data)
+				});
+				axios.get(`/remarks/findAll.do`).then(response => {
+					this.remarks = response.data[0];
+					// console.log("all");
+					console.log(response.data)
+				});
+			},
+			edit_status() {
+				this.pojo.id = this.id;
+				if (this.match.statuss == "yes") {
+					this.pojo.statuss = "no";
+				} else {
+					this.pojo.statuss = "yes";
+				}
+				axios.post(`http://localhost:9105/match/update.do`, this.pojo).then(response => {
+					// var index = parent.layer.getFrameIndex(window.name);
+					// window.parent.location.reload();
+					console.log(this.pojo)
+					this.fetchData(); //刷新列表
+					// this.formVisible = false;//关闭窗口
+				});
+			},
+			edit_IsBest() {
+				this.pojo.id = this.id;
+				if (this.match.isBest == "yes") {
+					this.pojo.isBest = "no";
+				} else {
+					this.pojo.isBest = "yes";
+				}
+				axios.post(`http://localhost:9105/match/update.do`, this.pojo).then(response => {
+					// var index = parent.layer.getFrameIndex(window.name);
+					// window.parent.location.reload();
+					console.log(this.pojo)
+					this.fetchData(); //刷新列表
+					// this.formVisible = false;//关闭窗口
+				});
+			},
+			show(id) {
+				// show('查看详情','__MODULE__/Team/team/tid/{$t.tid}','1024px','90%');
+				// console.log(id)
+				// show('查看详情', `http://localhost:9105/page/Team/team.html?tid=${id}`, '1024px', '90%')
+
+				window.location.href = `http://localhost:9105/page/Team/team.html?tid=${id}`
+			},
+			del_match() {
+				this.$confirm('确定要删除此记录吗?', '提示', {
+					confirmButtonText: '确定',
+					cancelButtonText: '取消',
+					type: 'warning'
+				}).then( () => {
+					axios.get(`http://localhost:9105/match/delete.do?id=`+this.id).then(response => {
+						axios.get(`http://localhost:9105/matchActor/delete.do?mid=`+this.id).then(response => {
+
+						})
+						axios.get(`http://localhost:9105/matchPicture/delete.do?mid=`+this.id).then(response => {
+							this.fetchData (); //刷新列表
+							var index = parent.layer.getFrameIndex(window.name);
+							window.parent.location.reload();
+						})
+					})
+				})
+			},
+			edit(id) {
+				// console.log(id)
+				show('查看详情', `http://localhost:9105/page/Match/show.html?id=${id}`, '1024px', '90%')
+			},
+
+		}
+	})
+</script>
+<footer style="margin-top: 100px;">
+
+</footer>
+</body>
+</html>
+
+<script>
+	$(document).ready(function () {
+		function back() {
+			window.history.back(-1);
+		}
+
+		function restore_str_js(str) {
+			var str = str.replace('&quot;', '"');
+			str = str.replace('&lt;', '<');
+			str = str.replace('&gt;', '>');
+			str = str.replace('&amp;', '&');
+			str = str.replace('char(10)', '\r\n');//将换行符 还原展示于页面
+//        alert(str);
+			return str;
+		}
+
+		var text0 = $('#content1').html();
+
+		// for (var i = 0; i < text0.length; i++) {
+		//     text0 = restore_str_js(text0);
+		// }
+		// console.log($('#content1').html())
+		$('#content1').html($.trim(text0));
+
+		function show(title, url, w, h) {
+			w = w;
+			layer.open({
+				type: 2,
+				title: title,
+				shadeClose: true,
+				shade: 0.4,
+				area: [w, h],
+				content: url //iframe的url
+			});
+		}
+
+		function del_match(obj, id, name) {
+			layer.confirm('是否删除', {icon: 3, title: "删除：" + name}, function (index) {
+				$.get("__CONTROLLER__/del_match", {id: id}, function (msg) {
+					layer.msg('删除通过!', {icon: 1, time: 1000, title: "确认"}, function (res) {
+						var index = parent.layer.getFrameIndex(window.name);
+						window.parent.location.reload();
+					});
+				}, "text");
+				layer.close(index);
+			});
+		}
+	});
+
+
+</script>
+
+<script>
+    function add_input(obj, key) {
+        var data = '<div id="revise' + key+ '">';
+        data += '<input type="text"  style="width: 100%;margin:0 5px " name="time" class="form-control" id="val' + key + '"/>';
+        data += '<input type="button" class="btn btn-info" value="取消" id="" onclick="remove_input(this,' + '\''+key+'\'' + ')">';
+        data += '<input type="button" class="btn btn-info" value="确定" id="" onclick="submit_input(this,' + '\'' + key  + '\'' + ')"></div>';
+        var objJquery = $(obj);
+        $("#revise2" + key).after(data);
+        $("#revise2" + key).remove();
+    }
+
+    function remove_input(obj, key) {
+        var data = '<input type="button" value="修改" onclick="add_input(this,' + '\''+key+ '\''+ ')" id="revise2'  + key  + '" style="color: #1E9FFF;">';
+        var objJquery = $(obj);
+        $("#revise"+key).after(data);
+        $("#revise" + key).remove();
+    }
+
+    function submit_input(obj, key) {
+        var val = $('#val'+key).val();
+//        alert(val);
+//        alert(field);
+        if (val != "") {
+            layer.confirm('是否修改', {icon: 3, title: "修改：" + name, offset: '300px'}, function (index) {
+                $.post("/remarks/updatefiles.do", {
+                    key: key,
+                    val:val,
+                }, function (msg) {
+                    layer.msg('修改成功!', {icon: 1, time: 1000, title: "确认"}, function (res) {
+                        var index = parent.layer.getFrameIndex(window.name);
+                        window.parent.location.reload();
+                    });
+                }, "text");
+                layer.close(index);
+            });
+        } else {
+            alert("修改值或者取消");
+            $('#val'+id).focus();
+        }
+    }
+</script>

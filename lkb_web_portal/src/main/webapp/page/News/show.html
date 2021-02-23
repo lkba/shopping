@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<link rel="stylesheet" href="../../t_css/bootstrap.min.css" />
+		<link rel="stylesheet" href="../../t_css/style.css" />
+		<link rel="stylesheet" type="text/css" href="../../t_css/layout.css"/>
+		<script type="text/javascript" src="../../t_js/jquery.min.js"></script>
+		<title></title>
+		<style>
+			body{
+				padding: 20px;
+			}
+		</style>
+	</head>
+	<body >
+	<div id="app">
+		<h3>个人通知</h3>
+		<h6>时间：{{news.date}}</h6>
+		<div>
+			内容：{{news.content}}
+		</div>
+	</div>
+
+	</body>
+</html>
+<script src="../../t_js/axios.js"></script>
+<script src="../../t_js/vue.js"></script><!-- vue -->
+<script src="../../t_js/elementui.js"></script><!-- element-ui -->
+<script src="../../js/util.js"></script>
+<script>
+	new Vue({
+		el: '#app',
+		data() {
+			return {
+				tableData: [],
+				news:{},
+				len: "",
+				len2: "",
+				times: "",
+				tid: null,
+				currentPage: 1,
+				total: 10,
+				size: 10,
+				searchMap: {},
+				pojo: {},
+				formVisible: false,
+				imageUrl: '',
+				username: '',
+			}
+		},
+		created() {
+			// this.tid = getQueryString("id")
+
+			// this.searchMap = {tid: getQueryString("tid")}
+			this.fetchData();
+		},
+		methods: {
+			fetchData() {
+				//查使用者账户
+
+				axios.get(`/news/findById.do?id=`+getQueryString("id"),).then(response => {
+					this.news = response.data;
+					// console.log("getPhone")
+					// console.log(this.phone)
+					this.searchMap = {'username': this.phone}
+
+				})
+
+			},
+
+		}
+	})
+</script>

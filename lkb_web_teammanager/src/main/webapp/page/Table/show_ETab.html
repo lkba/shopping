@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8"/>
+    <link rel="stylesheet" href="../../css/bootstrap.css"/>
+    <link rel="stylesheet" href="../../css/layout.css"/>
+    <link rel="stylesheet" type="text/css" href="../../css/teacher.css"/>
+    <script type="text/javascript" src="../../js/jquery.min.js"></script>
+    <script type="text/javascript" src="../../js/bootstrap.min.js"></script>
+    <script src="../../js/jquery.js"></script>
+    <script src="../../js/layer.js"></script>
+    <script src="../../js/teacher.js"></script>
+    <title></title>
+    <script>
+
+    </script>
+    <style>
+        body {
+            padding: 20px 0;
+        }
+
+        label {
+            margin: 0 72px 0 10px;
+            display: inline-block;
+            vertical-align: middle;
+        }
+
+        input[type="radio"] {
+            vertical-align: middle;
+            margin: 0;
+        }
+
+        td {
+            vertical-align: middle !important;
+            text-align: left;
+        }
+
+        table th {
+            vertical-align: middle !important;
+            text-align: center;
+            min-width: 113px;
+        }
+
+        textarea {
+            resize: none;
+            word-wrap: break-word;
+            background: none;
+            height: 100%;
+            width: 100%;
+            overflow: hidden;
+        }
+
+        /*样式1*/
+        .a-upload {
+            padding: 4px 10px;
+            height: 100%;
+            line-height: 20px;
+            position: relative;
+            cursor: pointer;
+            color: #888;
+            background: #fafafa;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            overflow: hidden;
+            display: inline-block;
+            *display: inline;
+            *zoom: 1
+        }
+
+        .a-upload input {
+            position: absolute;
+            font-size: 100px;
+            right: 0;
+            top: 0;
+            opacity: 0;
+            filter: alpha(opacity=0);
+            cursor: pointer
+        }
+
+        .a-upload:hover {
+            color: #444;
+            background: #eee;
+            border-color: #ccc;
+            text-decoration: none
+        }
+    </style>
+</head>
+<body>
+<div class="bodyer">
+    <center><h1>创新创业学院创业孵化基地团队入驻表</h1></center>
+    <form onsubmit="return dosubmit()">
+        <table class="table table-bordered">
+            <tr>
+                <th colspan="1">团队名称</th>
+                <td colspan="7">{$basic.team}</td>
+            </tr>
+            <tr>
+                <th colspan="1">项目名称</th>
+                <td colspan="7">{$basic.project}</td>
+            </tr>
+            <tr>
+                <th colspan="1">公司是否注册</th>
+                <td colspan="1" id="registered">{$basic.registered}</td>
+                <th colspan="1">注册时间</th>
+                <td colspan="2" id="reg_time">{$basic.reg_time}</td>
+                <th colspan="1">注册资金<br>（万元）</th>
+                <td colspan="2" id="money">{$basic.money}</td>
+            </tr>
+            <tr>
+                <th colspan="1">经营范围<br>（产品/服务）</th>
+                <td colspan="7">{$basic.business_scope}</td>
+            </tr>
+            <tr>
+                <th>行业类别</th>
+                <td colspan="7">
+                    {$basic.class}
+                </td>
+            </tr>
+            <tr>
+                <th rowspan="{$len}" colspan="1">项目指导教师</th>
+                <foreach name="teacher" item="v">
+                    <th colspan="1">姓名</th>
+                    <td colspan="2">{$v.tname}</td>
+                    <th colspan="2">系别</th>
+                    <td colspan="2">{$v.tdepartment}</td>
+            </tr>
+            <tr>
+                <th colspan="1">职务</th>
+                <td colspan="2">{$v.position}</td>
+                <th colspan="2">负责领域</th>
+                <td colspan="2">{$v.field}</td>
+            <tr>
+                </foreach>
+
+            <tr>
+                <th rowspan="3" colspan="1">项目主创<br>团队人员<br>基本情况</th>
+                <th colspan="1">负责人</th>
+                <td colspan="2">{$basic.name}</td>
+                <th colspan="1">年龄</th>
+                <td colspan="1" style="width: 180px;">{$basic.age}</td>
+                <th colspan="1">性别</th>
+                <td colspan="1">{$basic[0].sex}</td>
+            </tr>
+            <tr>
+                <th colspan="1">系别</th>
+                <td colspan="2">{$basic.department}</td>
+                <th colspan="2">专业班级</th>
+                <td colspan="2">{$basic.professional}</td>
+            </tr>
+            <tr>
+                <th colspan="1">手机号码</th>
+                <td colspan="2">{$basic.phone}</td>
+                <th colspan="2">E-mail/QQ</th>
+                <td colspan="2">{$basic.email}</td>
+            </tr>
+
+            <tr>
+                <th rowspan="{$len2}" colspan="1">核心团队成员信息（不超9个）</th>
+                <th colspan="1">姓名</th>
+                <th colspan="1">性别</th>
+                <th colspan="1">系别</th>
+                <th colspan="2">专业班级</th>
+                <th colspan="1">手机号码</th>
+                <th colspan="1">E-mail/QQ</th>
+            </tr>
+            <foreach name="team" item="vv">
+                <tr>
+                    <td colspan="1">{$vv.dname}</td>
+                    <td colspan="1">{$vv.dsex}</td>
+                    <td colspan="1">{$vv.ddepartment}</td>
+                    <td colspan="2">{$vv.dprofessional}</td>
+                    <td colspan="1">{$vv.dphone}</td>
+                    <td colspan="1">{$vv.demail}</td>
+                </tr>
+            </foreach>
+            <tr>
+                <th colspan="1" rowspan="4">项目规模</th>
+            </tr>
+            <tr>
+                <td colspan="1">启动资金</td>
+                <td colspan="6">{$basic.money}</td>
+            </tr>
+            <tr>
+                <td colspan="1">办公场地</td>
+                <td colspan="6">{$basic.areawork}</td>
+            </tr>
+            <tr>
+                <td colspan="1">员工人数
+                </th>
+                <td colspan="6">{$basic.persons}</td>
+            </tr>
+
+
+            <tr>
+                <th colspan="1">企业形式</th>
+                <td colspan="7">
+                    {$basic.form}
+                </td>
+            </tr>
+            <tr>
+                <th colspan="1">
+                    项目基本思路（可附思维导图）
+                </th>
+                <td colspan="7">{$basic.thinking}</td>
+            </tr>
+
+            <tr>
+                <th colspan="1">
+                    项目预期效果（包括社会效益和经济效益）
+                </th>
+                <td colspan="7">{$basic.effect}</td>
+            </tr>
+            <tr>
+                <th colspan="1">
+                    项目简介（300字以内）
+                </th>
+                <td colspan="7">{$basic.abstract}</td>
+            </tr>
+
+            <tr>
+                <th colspan="1">
+                    项目特色（200字以内）
+                </th>
+                <td colspan="7">{$basic.character}</td>
+            </tr>
+
+            <tr>
+                <th colspan="1">
+                    项目可行性简述（技术保障、市场容量、团队能力支持、资金来源、发展方向，600字以内）
+                </th>
+                <td colspan="7">{$basic.feasibility}</td>
+            </tr>
+
+            <tr>
+                <th colspan="1">
+                    其他说明（300字以内）
+                </th>
+                <td colspan="7">{$basic.explain}</td>
+            </tr>
+
+            <tr>
+                <th colspan="1">创业计划书</th>
+                <td colspan="7">
+                    <a href="__CONTROLLER__/file_down/tpid/{$basic.tpid}" class="a-upload">下载文件</a>
+                </td>
+            </tr>
+
+            <tr height="150px">
+                <th colspan="1">
+                    创业团队负责人所在系意见（系党总支盖章）
+                </th>
+                <td colspan="7" style="position: relative;">
+                    <div style="position: absolute;bottom: 30px;right: 100px;">（盖章）</div>
+                    <div style="position: absolute;bottom: 5px;right: 50px;">&nbsp;&nbsp;&nbsp;&nbsp;年&nbsp;&nbsp;&nbsp;&nbsp;月&nbsp;&nbsp;&nbsp;&nbsp;日</div>
+                </td>
+            </tr>
+
+            <tr id="sel_time">
+                <th colspan="1">
+                    选择期数
+                </th>
+                <td colspan="7">
+                    <select class="form-control fl" style="width: 120px" id="" name="time"
+                            onchange="change(this.value)">
+                        <!--//当有更改的时候调用-->
+                        <foreach name="time.list" item="t">
+                            <option value="{$t.time}">{$t.time}</option>
+                        </foreach>
+                    </select>
+                </td>
+            </tr>
+
+
+        </table>
+        <div>
+            备注： 申请表和商业计划书需上交打印稿和电子稿，申请表和创业计划书分开装订，A4纸双面打印，于左侧双颗钉装订成册，各一份。
+        </div>
+        <button type="button" class="btn btn-info" style="float: right;margin-left: 20px;margin-bottom: 50px;"
+                onclick="back()">返回
+        </button>
+        <button type="button" class="btn btn-info" style="float: right;margin-left: 20px;margin-bottom: 50px;"
+                onclick="show('查看详情','__MODULE__/Team/add_time/tid/{$t.tid}','80%','70%');">
+            审核通过
+        </button>
+        <button type="button" class="btn btn-info" style="float: right;margin-left: 20px;margin-bottom: 50px;"
+                onclick="aud(this,{$basic.tpid},'入驻表','未通过')">
+            不通过
+        </button>
+        <button type="button" class="btn btn-info" style="float: right;margin-left: 20px;margin-bottom: 50px;"
+                onclick="add_input()">
+            输入期数
+        </button>
+    </form>
+</div>
+</body>
+</html>
+<script>
+    function back() {
+        var index = parent.layer.getFrameIndex(window.name); //先得到当前iframe层的索引
+        parent.layer.close(index); //再执行关闭
+    }
+
+    $(function () {
+        if ($('#registered').text() == '否') {
+            $('#reg_time').text('无');
+            $('#money').text('无');
+        }
+    });
+
+    function aud(obj, id, name, res) {
+        layer.confirm('是否审核', {icon: 3, title: "审核：" + name,offset: '300px'}, function (index) {
+            $.get("__CONTROLLER__/Aud_ent", {
+                id: id,
+                table: "temp_info",
+                field: "is_aud",
+                tid: "tpid",
+                res: res
+            }, function (msg) {
+                layer.msg('审核成功!', {icon: 1, time: 1000, title: "确认"}, function (res) {
+                    var index = parent.layer.getFrameIndex(window.name);
+                    window.parent.location.reload();
+                });
+
+            }, "text");
+            layer.close(index);
+        });
+    }
+    function getUrlParam() {
+        var reg = new RegExp("success"); //构造一个含有目标参数的正则表达式对象
+        var r = window.location.href.match(reg); //匹配目标参数
+        if (r == 'success') {
+            var index = parent.layer.getFrameIndex(window.name);
+            window.parent.location.reload();
+        }
+    }
+
+    window.getUrlParam();
+
+    var isCommitted = false;//表单是否已经提交标识，默认为false
+    function dosubmit() {
+        if (isCommitted == false) {
+            isCommitted = true;//提交表单后，将表单是否已经提交标识设置为true
+            return true;//返回true让表单正常提交
+        } else {
+            return false;//返回false那么表单将不提交
+        }
+    }
+    function add_input() {
+        var data='<tr id="add_time"><td align="right" colspan="1">新增期数</td>';
+        data+='<td colspan="7">';
+        data+='<input type="text"  style="width: 50%;float: left;margin:0 5px " name="time" class="form-control" id=""/>';
+        data+='<input type="button" class="btn btn-info" value="取消" id="remove" onclick="remove_input()">';
+        data+='</td></tr>';
+        $("#sel_time").before(data);
+        $("#sel_time").remove();
+    }
+    function remove_input() {
+        var data='<tr id="sel_time">';
+        data+='<td align="right" colspan="1">选择期数</td>';
+        data+='<td colspan="7"><select class="form-control fl" style="width: 120px" id="" name="time" onchange="change(this.value)">';
+        data+='<foreach name="time.list" item="t">';
+        data+='<option value="{$t.time}">{$t.time}</option>';
+        data+='</foreach>';
+        data+='</select>';
+        data+='</td>';
+        data+='</tr>';
+        $("#add_time").after(data);
+        $("#add_time").remove();
+    }
+</script>

@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8"/>
+    <link rel="stylesheet" href="../../css/bootstrap.css"/>
+    <link rel="stylesheet" href="../../css/layout.css"/>
+    <link rel="stylesheet" type="text/css" href="../../css/teacher.css"/>
+    <script type="text/javascript" src="../../js/jquery.min.js"></script>
+    <script type="text/javascript" src="../../js/bootstrap.min.js"></script>
+    <script src="../../js/jquery.js"></script>
+    <script src="../../js/layer.js"></script>
+    <script src="../../js/teacher.js"></script>
+    <title></title>
+    <script>
+
+    </script>
+    <style>
+        body {
+            padding: 20px 0;
+        }
+
+    </style>
+</head>
+<body>
+<div class="bodyer" id="app">
+    <div>
+        <center><h3 style="margin:20px ;float: left;">输入金额</h3></center>
+    </div>
+
+    <div style="clear: both">
+    <input type="text"  style="width: 100px;float: left;margin:20px " name="money" class="form-control" id="money"/>
+    <button type="button" class="btn btn-info" style="float: left;margin: 20px;" onclick="aud(this,{})">
+        确定
+    </button>
+    </div>
+</div>
+</body>
+</html>
+<script>
+    function aud(obj, id) {
+        id=getQueryString("tid");
+        var money=$('#money').val();
+        if(money!=""){
+            layer.confirm('是否审核', {icon: 3, title: "审核：" + name,offset: '50px'}, function (index) {
+                $.get("http://localhost:9105/basicInfor/updateMoney.do", {
+                    tid: id,
+                    money:money
+                }, function (msg) {
+                    layer.msg('审核成功!', {icon: 1, time: 1000, title: "确认"}, function (res) {
+                        var index = parent.layer.getFrameIndex(window.name);
+                        window.parent.location.reload();
+                    });
+                }, "text");
+                layer.close(index);
+            });
+        }else{
+            alert("输入金额");
+            $("#time").focus();
+        }
+
+    }
+    function getUrlParam() {
+        var reg = new RegExp("success"); //构造一个含有目标参数的正则表达式对象
+        var r = window.location.href.match(reg); //匹配目标参数
+        if (r == 'success') {
+            var index = parent.layer.getFrameIndex(window.name);
+            window.parent.location.reload();
+        }
+    }
+
+    window.getUrlParam();
+
+    var isCommitted = false;//表单是否已经提交标识，默认为false
+    function dosubmit() {
+        if (isCommitted == false) {
+            isCommitted = true;//提交表单后，将表单是否已经提交标识设置为true
+            return true;//返回true让表单正常提交
+        } else {
+            return false;//返回false那么表单将不提交
+        }
+    }
+
+</script>
+<script src="../../js/vue.js"></script>
+<script src="../../js/axios.js"></script>
+<script src="../../js/util.js"></script>
+

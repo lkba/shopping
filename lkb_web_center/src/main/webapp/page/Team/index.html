@@ -1,0 +1,126 @@
+<div class="team">
+	<button type="button" class="btn btn-info" style="float: right;" onclick="show('查看详情','__CONTROLLER__/team','80%','90%')">查看详情</button><button type="button" class="btn btn-info" style="float: right;margin-right: 20px;" onclick="edit('团队 - 编辑信息','__CONTROLLER__/edit','80%','90%')">编辑信息</button>
+	
+	<div  style="overflow-y: scroll;height: 640px;width: 740px;margin-top: 40px;">
+	<div class="logo" style="float: right;margin-right: 100px;">
+		<form id="art_form"  method="post" enctype="multipart/form-data">
+		<empty name="basic[0].logo"><img src="__PUBLIC__/img/preview.jpg" id="logo"><else/><img src="__PUBLIC__/uploads/logo/{$basic[0].logo}" id="logo"></empty>
+		<center>
+			<a href="#">上传Logo
+				<input id="fileUpload" type="file" name="thumb" class="fileUpload" title=" "/>
+			</a>
+		</center>
+		</form>
+	</div>
+	<b style="font-size: 20px;">团队信息</b><hr style="border: hidden;">
+	<p><b>团队名称：</b>{$basic[0].team}</p><hr style="border: hidden;height: 40px;margin: 0;">					
+	<p><b>项目名称：</b>{$basic[0].project}</p><hr style="border: hidden;height: 40px;margin: 0;">
+	<p><b>公司是否注册：</b>{$basic[0].registered}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</p>
+	<p><b>注册资金（万元）：</b>{$basic[0].money}</p><hr style="border: hidden;height: 40px;margin: 0;">
+	<p><b>经营范围（产品/服务）：</b>{$basic[0].business_scope}</p><hr style="border: hidden;height: 40px;margin: 0;">
+	<p><b>行业类别：</b>{$basic[0].class}</p><hr style="border: hidden;height: 40px;margin: 0;">
+					
+	<hr style="border-top: 2px solid #eee;">
+	
+	<b style="font-size: 20px;">项目指导教师</b><hr style="border: hidden;height: 40px;margin: 0;">
+	<div class="n1">
+	<foreach name="teacher" item="v">
+	<article>
+	<p><b>姓名：</b>{$v.name}</p><hr style="border: hidden;height: 40px;margin: 0;">
+	<p><b>系别：</b>{$v.department}</p>
+	<p><b>职务：</b>{$v.position}</p>
+	<p><b>负责领域：</b>{$v.field}</p><hr style="border: hidden;height: 40px;margin: 0;">
+	</article>
+	</foreach>
+	</div>
+	
+	<hr style="border-top: 2px solid #eee;">
+	<b style="font-size: 20px;">项目主创团队人员基本情况</b><hr style="border: hidden;height: 40px;margin: 0;">
+	<div class="n1">
+	<article>
+	<p><b>负责人：</b>{$user[0].name}</p>
+	<p><b>年龄：</b>{$user[0].age}</p>
+	<p><b>性别：</b>{$user[0].sex}</p><hr style="border: hidden;height: 40px;margin: 0;">
+	<p><b>系别：</b>{$user[0].department}</p>
+	<p><b>专业班级：</b>{$user[0].professional}</p><hr style="border: hidden;height: 40px;margin: 0;">
+	<p><b>手机号码：</b>{$user[0].phone}</p>
+	<p><b>E-mail/QQ：</b>{$user[0].email}</p><hr style="border: hidden;height: 40px;margin: 0;">
+	<article>
+	</div>
+	<hr style="border-top: 2px solid #eee;">
+	
+	<b style="font-size: 18px;">核心团队成员信息</b><hr style="border: hidden;height: 40px;margin: 0;">
+	<div class="n1">
+	<foreach name="team" item="vv">
+	<article>
+	<p><b>姓名：</b>{$vv.name}</p><hr style="border: hidden;height: 40px;margin: 0;">
+	<p><b>性别：</b>{$vv.sex}</p>
+	<p><b>系别：</b>{$vv.department}</p>
+	<p><b>专业班级：</b>{$vv.professional}</p><hr style="border: hidden;height: 40px;margin: 0;">
+	<p><b>手机号码：</b>{$vv.phone}</p>
+	<p><b>E-mail/QQ：</b>{$vv.email}</p><hr style="border: hidden;height: 40px;margin: 0;">
+	</article>
+	</foreach>
+	</div>
+	</div>
+</div>
+
+<script>
+	function show(title,url,w,h){
+		layer.open({
+		  type: 2,
+		  title: title,
+		  shadeClose: true,
+		  shade: 0.4,
+		  area: [w, h],
+		  content: url //iframe的url
+		}); 
+	}
+	function edit(title,url,w,h){
+		layer.open({
+		  type: 2,
+		  title: title,
+		  shadeClose: true,
+		  shade: 0.4,
+		  area: [w, h],
+		  content: url //iframe的url
+		}); 
+	}
+</script>
+<script type="text/javascript">  
+    $(function () {  
+        $("#fileUpload").change(function () {  
+            uploadImage();  
+            //$(this).get(0).files
+        })  
+    })  
+    function uploadImage() {  
+//  判断是否有选择上传文件  
+        var imgPath = $("#fileUpload").val();  
+        if (imgPath == "") {  
+            alert("请选择上传图片！");  
+            return;  
+        }  
+        //判断上传文件的后缀名  
+        var strExtension = imgPath.substr(imgPath.lastIndexOf('.') + 1);  
+        if (strExtension != 'jpg' && strExtension != 'gif'  
+            && strExtension != 'png' && strExtension != 'bmp') {  
+            alert("请选择图片文件");  
+            return;  
+        }  
+        var formData = new FormData($('#art_form')[0]);  
+        $.ajax({  
+            type: "POST",  
+            url: "__CONTROLLER__/upload",  
+            data: formData,  
+            contentType: false,  
+            processData: false,  
+            success: function(data) {  
+                $('#logo').attr('src',"__PUBLIC__/uploads/logo/"+data); 
+            },  
+            error: function(XMLHttpRequest, textStatus, errorThrown) {  
+                alert("上传失败，请检查网络后重试");  
+            }  
+        });  
+    }  
+</script>

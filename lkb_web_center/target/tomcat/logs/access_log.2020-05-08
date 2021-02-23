@@ -1,0 +1,6 @@
+0:0:0:0:0:0:0:1 - - [08/May/2020:11:05:33 +0800] "GET /register.html HTTP/1.1" 304 - http-bio-9103-exec-1 125
+0:0:0:0:0:0:0:1 - - [08/May/2020:11:05:33 +0800] "GET /favicon.ico HTTP/1.1" 404 973 http-bio-9103-exec-3 15
+0:0:0:0:0:0:0:1 - - [08/May/2020:11:20:16 +0800] "GET /favicon.ico HTTP/1.1" 404 973 http-bio-9103-exec-1 121
+0:0:0:0:0:0:0:1 - - [08/May/2020:13:16:22 +0800] "GET /favicon.ico HTTP/1.1" 404 973 http-bio-9103-exec-4 31
+0:0:0:0:0:0:0:1 - - [08/May/2020:14:21:52 +0800] "GET /register.html HTTP/1.1" 304 - http-bio-9103-exec-7 84
+0:0:0:0:0:0:0:1 - - [08/May/2020:14:21:52 +0800] "GET /favicon.ico HTTP/1.1" 404 973 http-bio-9103-exec-9 15

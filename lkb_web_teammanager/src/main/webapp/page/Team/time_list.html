@@ -1,0 +1,77 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title></title>
+    <link rel="stylesheet" type="text/css" href="../../../css/backstage.css">
+    <link rel="stylesheet" type="text/css" href="../../../css/bootstrap.min.css"/>
+    <link rel="stylesheet" type="text/css" href="../../../css/teacher.css"/>
+    <link rel="stylesheet" type="text/css" href="../../css/common.css">
+
+    <!--<script type="text/javascript" src="./js/bootstrap.min.js"></script>-->
+    <script src="../../js/jquery.min.js"></script>
+    <script type="text/javascript" src="../../js/bootstrap.win.js"></script>
+    <script type="text/javascript" src="../../js/common.js"></script>
+    <script src="../../js/layer.js"></script>
+    <script src="../../js/jquery.js"></script>
+
+
+</head>
+
+<body>
+<div class="content clearfix">
+    <div class="main">
+        <!--右侧内容-->
+
+        <div style="padding: 10px 50px 20px 50px;">
+            <table class="table table-striped">
+                <caption>
+                    <h2 style="color: #0063a1;">所有期数</h2>
+                    <button type="button" class="btn btn-info fr"
+                            onclick="show('查看详情','__MODULE__/Team/add_time','724px','70%');">添加期数
+                    </button>
+                </caption>
+
+                <thead>
+                <tr>
+                    <th>序列</th>
+                    <th>名称</th>
+                    <th>操作</th>
+                </tr>
+                </thead>
+                <tbody>
+                <foreach name="time.list" item="t">
+                    <tr>
+                        <td>{$t.id}</td>
+                        <td>{$t.time}</td>
+                        <td>
+                            <a href="#" onclick="show('查看详情','__MODULE__/Team/revise_time/id/{$t.id}','724px','70%');">修改</a>
+                        </td>
+                    </tr>
+                </foreach>
+                </tbody>
+
+            </table>
+            <ul class="pagination pagelist " style="margin: 0px 0">{$time.page}</ul>
+        </div>
+
+        <script type="text/javascript">
+            function add() {
+//		window.location.href="__MODULE__/Team/add_time";
+            }
+
+            function getUrlParam() {
+                var reg = new RegExp("success"); //构造一个含有目标参数的正则表达式对象
+                var r = window.location.href.match(reg); //匹配目标参数
+                if (r == 'success') {
+                    var index = parent.layer.getFrameIndex(window.name);
+                    window.parent.location.reload();
+                }
+            }
+
+            window.getUrlParam();
+        </script>
+    </div>
+</div>
+</body>
+</html>

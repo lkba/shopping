@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8"/>
+    <link rel="stylesheet" href="../../css/elementui.css">
+
+    <link rel="stylesheet" href="../../css/bootstrap.css"/>
+    <link rel="stylesheet" href="../../css/layout.css"/>
+    <link rel="stylesheet" type="text/css" href="../../css/student.css"/>
+    <link type="text/css" rel="stylesheet" href="../../css/style2.css">
+    <!--<link type="text/css" rel="stylesheet" href="../../css/swiper.min.css">-->
+    <script src="../../js/jquery.js"></script>
+    <script src="../../js/layer.js"></script>
+    <script type="text/javascript" src="../../js/jquery.min.js"></script>
+    <script type="text/javascript" src="../../js/fy.js"></script>
+    <title></title>
+    <style>
+        body {
+            min-height: 1300px;
+        }
+
+        table {
+            table-layout: fixed;
+        }
+
+        table tr td:first-child, table tr td:first-child {
+            width: 200px;
+        }
+
+        table tr th:first-child, table tr th:first-child {
+            width: 140px;
+        }
+
+        .select {
+            background-color: #1688d0 !important;
+        }
+
+        .right input[type='button'] {
+            margin: 10px 10px;
+            background: #32afff;
+            border-radius: 5px;
+            color: white;
+            width: 75px;
+            height: 30px;
+            float: right;
+        }
+
+        .right input[type='search'] {
+            margin: 15px 0px;
+            width: 200px;
+            height: 25px;
+            border: 1px solid #0063a1;
+            border-radius: 5px;
+            float: right;
+        }
+
+        button {
+            outline: none;
+
+        }
+
+        .nav_1 button {
+            color: #FFFFFF;
+            font-size: 20px;
+            text-indent: 30px;
+        }
+
+        .nav_1 button:hover {
+            color: #000000;
+        }
+
+        h3 {
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+<body>
+<div class="header"><span><a href="page/Index/index.html">创新创业学院团队管理系统</a></span>
+    <button type="button" class="btn btn-info" style="float: right;margin-right: 50px;margin-top: 20px;"
+            onclick="login()">登录/注册
+    </button>
+</div>
+<div id="app" class="bodyer" style="width: 80%;padding-bottom: 70px;">
+    <section class="pc-banner">
+        <div class="m1 swiper-container" style="margin: 0 !important;">
+            <div class="swiper-wrapper">
+                <div class="swiper-slide" v-for="picture in pictureAll">
+                    <a :href="picture.url">
+                        <img :src="picture.appendix" style="height: 300px;">
+                    </a>
+                    <div class="layer-mask"></div>
+                </div>
+            </div>
+            <div class="swiper-pagination" style="bottom: 100px !important;"></div>
+            <div class="button">
+                <div class="swiper-button-prev"></div>
+                <div class="swiper-button-next"></div>
+            </div>
+        </div>
+    </section>
+
+    <nav class="nav_1">
+        <center>
+            <button style="background: url(../../img/zhuanli.png);width: 275px;height: 49px;display: block;">专利申请
+            </button>
+        </center>
+        <center>
+            <button style="background: url(../../img/shangbiao.png);width: 277px;height: 49px;display: block;">商标注册
+            </button>
+        </center>
+        <center>
+            <button style="background: url(../../img/duiyou.png);width: 277px;height: 49px;display: block;">队友招聘
+            </button>
+        </center>
+    </nav>
+    <div class="content_index">
+        <div class="left_1" style="width: 35%;margin: 0 2% 0 0 !important;">
+            <span style="width: 20px;height: 20px;background: #32afff;display: block;float: left;margin-top: 23px;margin-right: 20px;"></span>
+            <h3><b>赛事活动</b></h3>
+            <div style="width: 100%;border-right:3px dotted skyblue;padding-top: 10px;" id="demoContent" v-for="match in matchAll">
+                <div style="width: 100%;margin-bottom: 20px;">
+                    <div style="float: left;width: 23%;"><img :src="match.thumb" style="width: 100%;height: 60%;max-height: 90px;"/></div>
+                    <div style="margin-left: 10px;width: 70%;background-color: #f2faff;height: 100%;padding: 5px 10px;">
+                        <ol>
+                            <li><a :href="match.id" style="font-size: 17px"><b class="limit2">{{match.title}}</b></a>
+                            </li>
+                            <li><p class="limit" style="margin: 0;font-size: 14px;word-wrap: break-word;">{{match.describes}}</p></li>
+                            <li><p style="margin: 0 0 0 20px;font-size: 10px;float: right;">开始时间：<span style="color: red;">{{match.host_time}}</span></p></li>
+                        </ol>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        <style>
+            .mid span {
+                width: 15px;
+                height: 15px;
+                border: 1px solid #00a0e9;
+                background-color: #00a0e9;
+                border-radius: 100%;
+                display: inline-block;
+                margin-left: 10px;
+            }
+
+            .hover {
+                background-color: #FFFFFF !important;
+            }
+        </style>
+
+        <div class="left_1" style="width: 35%;margin: 0 2% 0 0 !important;">
+            <span style="width: 20px;height: 20px;background: #32afff;display: block;float: left;margin-top: 23px;margin-right: 20px;"></span>
+            <h3><b>新闻动态</b></h3>
+            <div style="width: 100%;border-right:3px dotted skyblue;padding-top: 10px;" id="demoContent1">
+                <div style="width: 100%;margin-bottom: 20px;" v-for="notice in noticeAll">
+                    <div style="float: left;width: 23%;"><img :src="notice.appendix"
+                                                              style="width: 100%;height: 60%;max-height: 90px;"/></div>
+
+                    <div style="margin-left: 10px;width: 70%;background-color: #f2faff;height: 100%;padding: 5px 10px;">
+                        <ol>
+                            <li><a :href="notice.nid" style="font-size: 17px"><b
+                                    class="limit2">{{notice.ntitle}}</b></a></li>
+                            <li><p class="limit" style="margin: 0;font-size: 14px;word-wrap: break-word;">
+                                {{notice.ncontent}}</p></li>
+                            <li><p style="margin: 0 0 0 20px;font-size: 10px;float: right;"><span style="color: red;">{{notice.ntime}}</span>
+                            </p></li>
+                        </ol>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="left_1" style="width: 25%;">
+            <span style="width: 20px;height: 20px;background: #32afff;display: block;float: left;margin-top: 23px;margin-right: 20px;"></span>
+            <h3><b>问答互动</b></h3>
+            <div style="width: 100%;padding-top: 10px;">
+                <!--   xxxx            -->
+
+
+                <div style="margin-left: 10px;width: 90%;background-color: #f2faff;height: 100%;margin-bottom: 20px;padding: 5px 10px;">
+                    <ol>
+                        <li><a href="#" style="font-size: 17px"><b class="limit2">问：</b></a></li>
+                        <li><p class="limit" style="margin: 0;font-size: 14px;word-wrap: break-word;">答：</p></li>
+                        <li><p style="font-size: 10px;float: right;"><span style="color: red;">2019-3-18</span></p></li>
+                    </ol>
+                </div>
+
+                <!--      xxxxx    -->
+
+            </div>
+            <div>
+                <center>
+                    <ol class="pagination">
+
+                    </ol>
+                </center>
+            </div>
+        </div>
+    </div>
+    <div class="clearfix"></div>
+</div>
+<div class="footer text-center" style="z-index: 10001;">
+    <span>技术支持：阔鱼飞鸟云孵平台</span>
+    <span> &nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp; 联系方式：xxxxxxxxxx</span>
+</div>
+</body>
+</html>
+<script src="../../js/vue.js"></script>
+<script src="../../js/axios.js"></script>
+<script src="../../js/util.js"></script>
+<script src="../../js/elementui.js"></script>
+<script>
+    new Vue({
+        el: '#app',
+        data() {
+            return {
+                tableData: [],
+                pictureAll: [],
+                noticeAll: [],
+                matchAll: [],
+                currentPage: 1,
+                total: 10,
+                size: 10,
+                searchMap: {},
+                pojo: {},
+                formVisible: false,
+                imageUrl: 'sss',
+                imageUrls: '',
+            }
+        },
+        created() {
+            this.fetchData();
+        },
+        methods: {
+            fetchData() {
+                axios.get(`/picture/findAll.do`).then(response => {
+                    this.pictureAll = response.data;
+                    console.log(response.data)
+                });
+                axios.get(`/notice/findNoticeOnReleaseTimeDesc.do`).then(response => {
+                    this.noticeAll = response.data;
+                    // var datas2 = this.noticeAll;
+                    // console.log(datas2)
+                });
+                axios.get(`/match/findMatchOnReleaseTimeDesc.do`).then(response => {
+                    this.matchAll = response.data;
+                    // console.log(response.data)
+                });
+            },
+            save() {
+                this.pojo.image = this.imageUrl; //如页面有图片上传功能放开注释
+                this.pojo.images = this.imageUrls; //如页面有图片上传功能放开注释
+                axios.post(`/sku/${this.pojo.id == null ? 'add' : 'update'}.do`, this.pojo).then(response => {
+                    this.fetchData(); //刷新列表
+                    this.formVisible = false;//关闭窗口
+                });
+            },
+            edit(id) {
+                this.formVisible = true // 打开窗口
+                // 调用查询
+                axios.get(`/sku/findById.do?id=${id}`).then(response => {
+                    this.pojo = response.data;
+                    // this.imageUrl=this.pojo.image //显示图片  如页面有图片上传功能放开注释
+                })
+            },
+            dele(id) {
+                this.$confirm('确定要删除此记录吗?', '提示', {
+                    confirmButtonText: '确定',
+                    cancelButtonText: '取消',
+                    type: 'warning'
+                }).then(() => {
+                    axios.get(`/sku/delete.do?id=${id}`).then(response => {
+                        this.fetchData(); //刷新列表
+                    })
+                })
+            },
+            /* ****图片上传相关代码  如页面有图片上传功能放开注释 *****/
+            handleAvatarSuccess(res, file) {
+                this.imageUrl = file.response;
+            },
+            handleAvatarSuccess2(res, file) {
+                this.imageUrls = file.response;
+            },
+            beforeAvatarUpload(file) {
+                const isJPG = file.type === 'image/jpeg';
+                const isLt2M = file.size / 1024 / 1024 < 2;
+
+                if (!isJPG) {
+                    this.$message.error('上传头像图片只能是 JPG 格式!');
+                }
+                if (!isLt2M) {
+                    this.$message.error('上传头像图片大小不能超过 2MB!');
+                }
+                return isJPG && isLt2M;
+            }
+        }
+    })
+</script>
+<script>
+    //字限制
+    $(".limit").each(function () {
+        var maxwidth = 74;//显示多少字符
+        if ($(this).text().length > maxwidth) {
+            $(this).text($(this).text().substring(0, maxwidth));
+            $(this).html($(this).html() + '...');
+        }
+    });
+    //字限制
+    $(".limit2").each(function () {
+        var maxwidth = 20;//显示多少字符
+        if ($(this).text().length > maxwidth) {
+            $(this).text($(this).text().substring(0, maxwidth));
+            $(this).html($(this).html() + '...');
+        }
+    });
+
+    function login() {
+        window.location.href = "__MODULE__/Login/index";
+    }
+</script>
+<script type="text/javascript" src="../../js/swiper.min.js"></script>
+<script type="text/javascript">
+    window.onload = function () {
+        var swiper = new Swiper('.m1', {
+            autoplay: 3000,
+            autoplayDisableOnInteraction: true,
+            speed: 1000,
+            loop: true,
+            centeredSlides: true,
+            slidesPerView: 2,
+            pagination: '.swiper-pagination',
+            paginationClickable: true,
+            prevButton: '.swiper-button-prev',
+            nextButton: '.swiper-button-next',
+            onInit: function (swiper) {
+                swiper.slides[2].className = "swiper-slide swiper-slide-active";
+            },
+            breakpoints: {
+                668: {
+                    slidesPerView: 1,
+                }
+            }
+        });
+        function limit_num() {
+            //字限制
+            $(".limit").each(function () {
+                var maxwidth = 74;//显示多少字符
+                if ($(this).text().length > maxwidth) {
+                    $(this).text($(this).text().substring(0, maxwidth));
+                    $(this).html($(this).html() + '...');
+                }
+            });
+            //字限制
+            $(".limit2").each(function () {
+                var maxwidth = 20;//显示多少字符
+                if ($(this).text().length > maxwidth) {
+                    $(this).text($(this).text().substring(0, maxwidth));
+                    $(this).html($(this).html() + '...');
+                }
+            });
+        }
+        limit_num();
+    }
+
+</script>

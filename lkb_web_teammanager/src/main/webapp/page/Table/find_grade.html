@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8"/>
+
+    <title></title>
+    <style>
+        /*table{
+            text-align: center;
+        }*/
+    </style>
+</head>
+
+<body>
+
+<div style="padding: 10px 50px 20px 50px;">
+    <table class="table table-striped">
+        <caption>
+            <h2 style="color: #0063a1;">评分表</h2>
+            <button type="button" class="btn btn-info fr"
+                    onclick="show('查看详情','__MODULE__/Table/Add_GTab','724px','90%');">增加时间段
+            </button>
+            <select class="form-control fr btn-primary" style="width: 120px;margin: 0 10px" id="time"
+                    onchange='requirement(this.value)'>
+                <!--//当有更改的时候调用-->
+                <option value="">-评分时间-</option>
+                <foreach name="time" item="v">
+                    <option value="{$v}">
+                        {$v}
+                    </option>
+                </foreach>
+            </select>
+            <div class="fr" id="so" style="width: 250px;margin: 0 10px;height: 25px;">
+                <div class="input-group">
+                    <input type="text" class="form-control" id="search" onkeydown="onKeyDown(event)"/>
+                    <span class="input-group-addon" onclick="search()">
+								<a href="#" >
+								<i class="glyphicon glyphicon-search"> <span>搜索</span></i>
+								</a>
+							</span>
+                </div>
+            </div>
+            <!--<input type="search" name="search" id="search" value="" />-->
+        </caption>
+
+        <thead>
+        <tr>
+            <th>序列</th>
+            <th>团队名称</th>
+            <th>项目名称</th>
+            <th>负责人</th>
+            <th>联系方式</th>
+            <th>操作</th>
+        </tr>
+        </thead>
+        <tbody>
+        <foreach name="table.limit" item="t">
+            <tr>
+                <td>{$t.gid}</td>
+                <td>{$t.team}</td>
+                <td>{$t.project}</td>
+                <td>{$t.name}</td>
+                <td>{$t.phone}</td>
+                <td>
+                    <a href="#" onclick="show('查看详情','__MODULE__/Table/show_GTab/gid/{$t.gid}','1024px','90%');">查看</a>&nbsp;&nbsp;
+                    <a href="#" onclick="show('查看详情','__MODULE__/Table/edit_GTab/gid/{$t.gid}','1024px','90%');">审核</a>
+                    <a href="#" onclick="del(this,'{$t.gid}','{$t.team}')">删除</a>
+                    <span class="state">{$t.is_grade}</span>
+                </td>
+            </tr>
+        </foreach>
+
+        </tbody>
+    </table>
+    <ul class="pagination pagelist " style="margin: 0px 0">{$table.page}</ul>
+
+
+</div>
+
+</body>
+
+</html>
+<script type="text/javascript">
+    /* 搜索框  */
+    function onKeyDown(event) {
+        var e = event || window.event || arguments.callee.caller.arguments[0];
+        if (e && e.keyCode == 27) { // 按 Esc
+            //要做的事情
+//            alert("你按下了Esc");
+        }
+        if (e && e.keyCode == 113) { // 按 F2
+            //要做的事情
+//            alert("你按下了F2");
+        }
+        if (e && e.keyCode == 13) { // enter 键
+            search()
+        }
+    }
+
+    function requirement(new_time) {
+        if (new_time == "") {
+            new_time = null;
+        }
+        window.location.href = " __MODULE__/Table/list_grade/time/" + new_time;
+    }
+
+    $("#time").val("{$new_time}");
+
+    $(".state").each(function (i, n) {
+        if (n.innerText == 0) {
+            console.log(1);
+            $(".state").eq(i).text("已审核");
+            $(".state").eq(i).css("color", "");
+        } else if (n.innerText == 1) {
+            $(".state").eq(i).text("未审核");
+            $(".state").eq(i).css("color", "red");
+        }
+    });
+
+    function del(obj,id,name) {
+        layer.confirm('是否删除'+name,{icon:3,title : "删除："+name},function(index){
+            $.get("__CONTROLLER__/GTab_del_O", {id: id,table:"table_grade",tid:"gid"}, function (msg) {
+                    layer.msg('成功删除！',{icon:1,time:1000,title : "确认"},function (res) {
+//                        var index = parent.layer.getFrameIndex(window.name);
+                        window.location.reload();
+                    });
+            }, "text");
+            layer.close(index);
+        });
+    }
+
+
+    function getUrlParam() {
+        var reg = new RegExp("success"); //构造一个含有目标参数的正则表达式对象
+        var r = window.location.href.match(reg); //匹配目标参数
+        if (r == 'success') {
+            var index = parent.layer.getFrameIndex(window.name);
+            window.parent.location.reload();
+        }
+    }
+    window.getUrlParam();
+
+    function search() {
+        var key = $("#search").val();
+        if (key==""){
+            window.location.href = "__MODULE__/Table/list_grade/"
+        }else {
+            window.location.href = "__MODULE__/Table/list_grade/key/"+key;
+        }
+    }
+</script>

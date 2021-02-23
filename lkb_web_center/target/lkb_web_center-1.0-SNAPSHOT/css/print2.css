@@ -1,0 +1,17 @@
+td{
+	vertical-align: middle !important;	
+	text-indent: 10px;
+}
+table tr th:nth-child(-n+2){	
+	width: 120px;
+}
+table th{	
+	vertical-align: middle !important;		
+	text-align: center;
+	min-width: 50px;
+}
+@page 
+    {
+        size:  auto;   /* auto is the initial value */
+        margin: 0mm 10mm;  /* this affects the margin in the printer settings */
+    }  

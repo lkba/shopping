@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
+    <link rel="stylesheet" href="../css/elementui.css">
+    <link rel="stylesheet" href="../plugins/font-awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" href="../css/style.css">
+
+</head>
+<body class="hold-transition">
+<div id="app">
+    <div class="content-header">
+        <h1>详情
+            <small>订单详情</small>
+        </h1>
+        <!--        <el-breadcrumb separator-class="el-icon-arrow-right" class="breadcrumb">-->
+        <!--            <el-breadcrumb-item :to="{ path: '/' }">首页</el-breadcrumb-item>-->
+        <!--            <el-breadcrumb-item>详情</el-breadcrumb-item>-->
+        <!--            <el-breadcrumb-item>订单详情</el-breadcrumb-item>-->
+        <!--        </el-breadcrumb>-->
+    </div>
+    <div class="app-container">
+        <div class="box">
+            <div style="margin: 20px 30px">
+                <el-steps :active="active" finish-status="success">
+                    <el-step title="提交订单"></el-step>
+                    <el-step title="支付订单"></el-step>
+                    <el-step title="平台发货"></el-step>
+                    <el-step title="确认收货"></el-step>
+                    <el-step title="完成评价"></el-step>
+                </el-steps>
+            </div>
+            <!--&lt;!&ndash;           <el-container>&ndash;&gt;-->
+            <!--               <el-header>Header</el-header>-->
+            <!--               <el-main>Header</el-main>-->
+            <!--&lt;!&ndash;           </el-container>&ndash;&gt;-->
+            <div style="margin: 20px 30px">
+                <div style="margin: 20px 0px"><i class="el-icon-tickets"></i>基础信息</div>
+                <el-table :data="tableData1" border style="width: 100%">
+                    <el-table-column prop="id" label="订单编号"></el-table-column>
+
+                    <el-table-column prop="transactionId" label="发货单流水号">
+                        <template slot-scope="scope">
+                            <span v-if="scope.row.transactionId==null">
+                                 未发货
+                              </span>
+                            <span v-else>
+                                {{scope.row.transactionId}}
+                            </span>
+                        </template>
+                        <!--           </div>-->
+                    </el-table-column>
+                    <el-table-column prop="username" label="用户账号"></el-table-column>
+                    <el-table-column prop="payStatus" label="支付方式">
+                        <template slot-scope="scope">
+                            <span v-if="scope.row.payStatus==0">未支付</span>
+                            <span v-if="scope.row.payStatus==1">已支付</span>
+                            <span v-if="scope.row.payStatus==2">已退款</span>
+                        </template>
+                    </el-table-column>
+                    <el-table-column prop="sourceType" label="订单来源">
+                        <template slot-scope="scope">
+                            <span v-if="scope.row.sourceType==1">web订单</span>
+                            <span v-if="scope.row.sourceType==2">APP订单</span>
+                            <span v-if="scope.row.sourceType==3">微信公众号订单</span>
+                            <span v-if="scope.row.sourceType==4">微信小程序订单</span>
+                            <span v-if="scope.row.sourceType==5">H5手机版订单</span>
+                            <span v-if="scope.row.sourceType==null">未知来源</span>
+                        </template>
+                    </el-table-column>
+                    <el-table-column prop="username" label="订单类型">
+                        <template slot-scope="scope">
+                            <span> </span>
+                        </template>
+                    </el-table-column>
+                </el-table>
+                <!--                基础信息下-->
+                <el-table :data="tableData1" border style="width: 100%">
+                    <el-table-column prop="shippingName" label="配送方式">
+                        <template slot-scope="scope">
+                            <span v-if="scope.row.shippingName==null">未发货</span>
+                            <span v-else>{{scope.row.shippingName}}</span>
+                        </template>
+                    </el-table-column>
+
+                    <el-table-column prop="shippingCode" label="物流单号">
+                        <template slot-scope="scope">
+                            <span v-if="scope.row.shippingCode==null">未发货</span>
+                            <span v-else>{{scope.row.shippingCode}}</span>
+                        </template>
+                        <!--           </div>-->
+                    </el-table-column>
+                    <el-table-column prop="username" label="自动确认收货时间">
+                        <template slot-scope="scope">
+                            <span>15天</span>
+                        </template>
+                    </el-table-column>
+                    <el-table-column prop="preMoney" label="活动信息">
+                        <template slot-scope="scope">
+                            <span>{{(scope.row.preMoney/100).toFixed(2)}}</span>
+                        </template>
+                    </el-table-column>
+                    <el-table-column prop="" label="">
+
+                    </el-table-column>
+                    <el-table-column prop="" label=""></el-table-column>
+                </el-table>
+            </div>
+
+            <div style="margin: 20px 30px;margin-top: 60px">
+                <div style="margin: 20px 0px"><i class="el-icon-tickets"></i>收货人信息</div>
+                <el-table :data="tableData1" border style="width: 100%">
+                    <el-table-column prop="receiverContact" label="收货人"></el-table-column>
+
+                    <el-table-column prop="receiverMobile" label="手机号码"></el-table-column>
+                    <el-table-column prop="username" label="邮政编码">
+                        888666
+                    </el-table-column>
+                    <el-table-column prop="receiverAddress" label="收货地址"></el-table-column>
+
+                </el-table>
+            </div>
+
+            <div style="margin: 20px 30px;margin-top: 60px">
+                <div style="margin: 20px 0px"><i class="el-icon-tickets"></i>商品信息</div>
+                <el-table :data="pojo.orderItemList" border style="width: 100%">
+                    <el-table-column prop="name" label="商品名称"></el-table-column>
+                    <el-table-column prop="receiverContact" label="商品图片">
+                        <template slot-scope="scope">
+                            <img style="width: 150px;height: 100px" :src="scope.row.image">
+                        </template>
+
+
+                    </el-table-column>
+                    <el-table-column prop="receiverAddress" label="价格/货号">
+
+
+                        <template slot-scope="scope">
+                            <p><span>价格：¥{{(scope.row.price/100).toFixed(2)}}</span></p>
+                            <p><span>货号：{{scope.row.skuId}}</span></p>
+                        </template>
+                    </el-table-column>
+                    <el-table-column prop="num" label="数量"></el-table-column>
+                    <el-table-column prop="receiverAddress" label="库存">
+                        100
+                    </el-table-column>
+                    <el-table-column prop="receiverAddress" label="小计">
+                        <template slot-scope="scope">
+                            {{(scope.row.money/100).toFixed(2)}}
+                        </template>
+                    </el-table-column>
+
+                </el-table>
+                <div style="float: right;margin: 10px 50px 10px 0px;">
+                    <h3> 合计：<span style="color: red">{{(pojo.order.totalMoney/100).toFixed(2)}}</span></h3>
+                </div>
+            </div>
+
+            <div style="margin: 20px 30px;margin-top: 60px">
+                <div style="margin: 20px 0px"><i class="el-icon-tickets"></i>费用信息</div>
+                <el-table :data="tableData1" border style="width: 100%">
+                    <el-table-column prop="totalMoney" label="商品合计">
+                        <template slot-scope="scope">
+                            {{(scope.row.totalMoney/100).toFixed(2)}}
+                        </template>
+                    </el-table-column>
+                    <el-table-column prop="postFee" label="运费">
+                        <template slot-scope="scope">
+                            {{(scope.row.postFee/100).toFixed(2)}}
+                        </template>
+                    </el-table-column>
+                    <el-table-column prop="preMoney" label="优惠金额">
+                        <template slot-scope="scope">
+                            {{(scope.row.preMoney/100).toFixed(2)}}
+                        </template>
+                    </el-table-column>
+                    <el-table-column prop="payMoney" label="实付金额">
+                        <template slot-scope="scope">
+                            <span style="color: red"> {{(scope.row.payMoney/100).toFixed(2)}}</span>
+                        </template>
+                    </el-table-column>
+                </el-table>
+            </div>
+
+            <div style="float: right;margin: 10px 30px 30px 10px">
+<!--                <el-button type="primary">修改收货人信息</el-button>-->
+                <el-button type="primary">取消订单</el-button>
+                <span v-if="pojo.order.payStatus==1">
+                    <el-button type="primary">商品发货</el-button>
+                </span>
+                <span v-else>
+                    <el-button type="primary" disabled>商品发货</el-button>
+                </span>
+                <el-button type="primary" @click="back()">返回</el-button>
+
+            </div>
+
+<!--            <div style="margin: 20px 30px;margin-top: 60px">-->
+<!--                <div style="margin: 20px 0px"><i class="el-icon-tickets"></i>操作信息</div>-->
+<!--                <el-table :data="tableData1" border style="width: 100%">-->
+<!--                    <el-table-column prop="" label="商品合计">-->
+
+<!--                    </el-table-column>-->
+
+<!--                </el-table>-->
+<!--            </div>-->
+
+        </div>
+
+    </div>
+
+
+    <!--    <el-button style="margin-top: 12px;" @click="next">下一步</el-button>-->
+</div>
+
+</body>
+</html>
+
+<script src="/js/vue.js"></script>
+<script src="/js/axios.js"></script>
+<script src="/js/elementui.js"></script>
+<script src="/js/util.js"></script>
+
+<script>
+    new Vue({
+        el: '#app',
+        data() {
+            return {
+                tableData1: [],
+                order: [],
+                active: 0,
+                currentPage: 1,
+                total: 10,
+                size: 10,
+                searchMap: {},
+                pojo: {},
+                formVisible: false,
+                imageUrl: ''
+            }
+        },
+        created() {
+            this.fetchData();
+            // this.active = 1;
+        },
+        methods: {
+            fetchData() {
+                axios.get(`/order/findById.do?id=` + getQueryString("id")).then(response => {
+                    this.pojo = response.data;
+                    this.active = parseInt(this.pojo.order.orderStatus);
+                    this.order[0] = this.pojo.order;
+                    this.tableData1 = this.order;
+                    console.log(this.pojo)
+                    // console.log(this.pojo.order.orderStatus)
+                    // if ()
+                    console.log(this.order)
+                    // this.imageUrl=this.pojo.image //显示图片  如页面有图片上传功能放开注释
+                })
+                // axios.post(`/order/findPage.do?page=${this.currentPage}&size=${this.size}`, this.searchMap).then(response => {
+                //   this.tableData = response.data.rows;
+                //   this.total = response.data.total;
+                // });
+            },
+
+            next() {
+
+            },
+            save() {
+                // this.pojo.image= this.imageUrl; //如页面有图片上传功能放开注释
+                axios.post(`/order/${this.pojo.id == null ? 'add' : 'update'}.do`, this.pojo).then(response => {
+                    this.fetchData(); //刷新列表
+                    this.formVisible = false;//关闭窗口
+                });
+            },
+            edit(id) {
+                this.formVisible = true // 打开窗口
+                // 调用查询
+                axios.get(`/order/findById.do?id=${id}`).then(response => {
+                    this.pojo = response.data.order;
+                    // console.log(this.pojo)
+                    // this.imageUrl=this.pojo.image //显示图片  如页面有图片上传功能放开注释
+                })
+            },
+            editReceiver(){
+
+            },
+            detail(id) {
+                window.location.href = "./"
+            },
+            back(){
+                window.location.href="./order.html"
+            },
+            dele(id) {
+                this.$confirm('确定要删除此记录吗?', '提示', {
+                    confirmButtonText: '确定',
+                    cancelButtonText: '取消',
+                    type: 'warning'
+                }).then(() => {
+                    axios.get(`/order/delete.do?id=${id}`).then(response => {
+                        this.fetchData(); //刷新列表
+                    })
+                })
+            },
+            /* ****图片上传相关代码  如页面有图片上传功能放开注释 ****
+            handleAvatarSuccess(res, file) {
+                this.imageUrl = file.response;
+            },
+            beforeAvatarUpload(file) {
+                const isJPG = file.type === 'image/jpeg';
+                const isLt2M = file.size / 1024 / 1024 < 2;
+
+                if (!isJPG) {
+                    this.$message.error('上传头像图片只能是 JPG 格式!');
+                }
+                if (!isLt2M) {
+                    this.$message.error('上传头像图片大小不能超过 2MB!');
+                }
+                return isJPG && isLt2M;
+            }*/
+        }
+    })
+</script>

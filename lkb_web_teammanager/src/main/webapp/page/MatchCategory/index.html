@@ -1,0 +1,224 @@
+<!doctype html>
+<html xmlns:v-on="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8">
+    <title></title>
+    <link rel="stylesheet" href="../../css/el-index.css">
+    <!--    <link rel="stylesheet" href="../../plugins/font-awesome/css/font-awesome.min.css">-->
+    <!--    <link rel="stylesheet" href="../../css/style-el.css">-->
+
+    <link rel="stylesheet" type="text/css" href="../../css/backstage.css">
+    <link rel="stylesheet" type="text/css" href="../../css/bootstrap.min.css"/>
+    <link rel="stylesheet" type="text/css" href="../../css/teacher.css"/>
+    <link rel="stylesheet" type="text/css" href="../../css/common.css">
+
+
+    <!--<script type="text/javascript" src="./js/bootstrap.min.js"></script>-->
+    <script src="../../js/jquery.min.js"></script>
+    <script type="text/javascript" src="../../js/bootstrap.win.js"></script>
+    <script type="text/javascript" src="../../js/common.js"></script>
+    <script src="../../js/layer.js"></script>
+    <script src="../../js/jquery.js"></script>
+</head>
+
+<body class="hold-transition">
+<div class="content clearfix">
+    <div class="main">
+        <!--右侧内容-->
+        <div style="padding: 10px 50px 20px 50px;" id="app">
+			<form action="" method="post"  style="width: 600px;">
+				<div style="padding: 10px 50px 20px 50px;">
+					<h2 style="color: #0063a1;">添加分类</h2>
+					<table class="table table-striped">
+						<tr>
+							<td align="right">输入分类名称</td>
+							<td><input type="text" name="cname" class="form-control" v-model="pojo.cname"/></td>
+						</tr>
+						<tr>
+							<td colspan="2"><input class="btn btn-primary" type="button" value="添加" v-on:click="save()" /></td>
+						</tr>
+
+					</table>
+				</div>
+			</form>
+
+        </div>
+    </div>
+
+    <script type="text/javascript">
+        /* 搜索框  */
+        function onKeyDown(event) {
+            var e = event || window.event || arguments.callee.caller.arguments[0];
+            if (e && e.keyCode == 27) { // 按 Esc
+                //要做的事情
+//            alert("你按下了Esc");
+            }
+            if (e && e.keyCode == 113) { // 按 F2
+                //要做的事情
+//            alert("你按下了F2");
+            }
+            if (e && e.keyCode == 13) { // enter 键
+                search()
+            }
+        }
+
+        function search() {
+            var key = $("#search").val();
+            if (key == "") {
+                alert("请输入搜索内容");
+            } else {
+                window.location.href = "__MODULE__/Team/find/key/" + key;
+            }
+        }
+
+        function getUrlParam() {
+            var reg = new RegExp("success"); //构造一个含有目标参数的正则表达式对象
+            var r = window.location.href.match(reg); //匹配目标参数
+            if (r == 'success') {
+                var index = parent.layer.getFrameIndex(window.name);
+                window.parent.location.reload();
+            }
+        }
+
+        window.getUrlParam();
+
+        // out_input
+
+        function requirement_time(new_time, new_areawork) {
+            new_areawork = decodeURI(escape(getQueryString("areawork")));
+            // console.log("requirement_time：new_areawork="+ console.log("requirement_areawork：new_time="+decodeURI(escape(getQueryString("areawork")))))
+            if (new_time == "") {
+                new_time = null;
+            }
+            if (new_areawork == "") {
+                new_areawork = null;
+            }
+            window.location = "http://localhost:9105/page/Team/team_list.html?time=" + new_time + "&areawork=" + new_areawork;
+        }
+
+        function requirement_areawork(new_time, new_areawork) {
+            new_time = decodeURI(escape(getQueryString("time")));
+            // console.log("requirement_areawork：new_time="+decodeURI(escape(getQueryString("time"))))
+            if (new_time == "") {
+                new_time = null;
+            }
+            if (new_areawork == "") {
+                new_areawork = null;
+            }
+            window.location = "http://localhost:9105/page/Team/team_list.html?time=" + new_time + "&areawork=" + new_areawork;
+        }
+
+        // function out_input(id, val, field) {
+        //     layer.confirm('是否修改', {icon: 3, title: "修改：" + name, offset: '300px'}, function (index) {
+        //         $.get("__CONTROLLER__/revise_team", {
+        //             tid: id,
+        //             val: val,
+        //             field: field
+        //         }, function (msg) {
+        //             layer.msg('修改成功!', {icon: 1, time: 1000, title: "确认"}, function (res) {
+        //                 var index = layer.getFrameIndex(window.name);
+        //                 window.parent.location.reload();
+        //             });
+        //         }, "text");
+        //         layer.close(index);
+        //     });
+        // }
+
+
+        function add_input(obj, id) {
+            var data = '<div id="revise' + id + '">';
+            data += '<input type="text"  style="width: 100%;margin:0 5px " name="time" class="form-control" id="val' + id + '"/>';
+            data += '<input type="button" class="btn btn-info" value="取消" id="" onclick="remove_input(this,' + id + ')">';
+            data += '<input type="button" class="btn btn-info" value="确定" id="" onclick="submit_input(this,' + id + ',\'re_money\'' + ')"></div>';
+            var objJquery = $(obj);
+            $("#revise2" + id).after(data);
+            $("#revise2" + id).remove();
+        }
+
+        function remove_input(obj, id) {
+            var data = '<input type="button" value="修改" onclick="add_input(this,' + id + ')" id="revise2' + id + '" style="color: #1E9FFF;">';
+            var objJquery = $(obj);
+            $("#revise" + id).after(data);
+            $("#revise" + id).remove();
+        }
+
+        function submit_input(obj, id, field) {
+            var val = $('#val' + id).val();
+//        alert(val);
+//        alert(field);
+            if (val != "") {
+                layer.confirm('是否修改', {icon: 3, title: "修改：" + name, offset: '300px'}, function (index) {
+                    $.get("__CONTROLLER__/revise_team", {
+                        tid: id,
+                        val: val,
+                        field: field
+                    }, function (msg) {
+                        layer.msg('审核成功!', {icon: 1, time: 1000, title: "确认"}, function (res) {
+                            var index = parent.layer.getFrameIndex(window.name);
+                            window.location.reload();
+                        });
+                    }, "text");
+                    layer.close(index);
+                });
+            } else {
+                alert("修改值或者取消");
+                $('#val' + id).focus();
+            }
+        }
+    </script>
+</div>
+</div>
+
+
+<script src="../../js/vue.js"></script>
+<script src="../../js/axios.js"></script>
+<script src="../../js/elementui.js"></script>
+<script src="../../js/util.js"></script>
+<script>
+    new Vue({
+        el: '#app',
+        data() {
+            return {
+                tableData: [],
+                currentPage: 1,
+                total: 10,
+                size: 2,
+                searchMap: {},
+				seaAreawork: "",
+                seaTime: "",
+                times: "",
+                pojo: {},
+                formVisible: false,
+                imageUrl: ''
+            }
+        },
+        created() {
+            this.fetchData();
+        },
+        methods: {
+            fetchData() {
+                // axios.get(`http://localhost:9105/match/findMacthLast.do`).then(response => {
+                //     // this.picture = response.data;
+                //     // console.log("all");
+                //     console.log(response.data)
+                // });
+                // axios.get(`http://localhost:9105/match/findMacthLast.do`).then(response => {
+                //     console.log("response")
+                //     console.log(response.date)
+                // });
+            }
+            ,
+            save() {
+                // this.pojo.image= this.imageUrl; //如页面有图片上传功能放开注释
+                axios.post(`http://localhost:9105/matchCategory/${this.pojo.id == null ? 'add' : 'update'}.do`, this.pojo).then(response => {
+					layer.msg('添加成功');
+                	window.location.href="http://localhost:9105/page/Match/index.html";
+                    // this.fetchData(); //刷新列表
+                });
+
+            }
+        }
+    })
+</script>
+</body>
+</html>

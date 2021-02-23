@@ -1,0 +1,141 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+
+<head>
+    <meta charset="utf-8"/>
+
+    <link rel="stylesheet" type="text/css" href="../../css/backstage.css">
+    <link rel="stylesheet" type="text/css" href="../../css/bootstrap.min.css"/>
+    <link rel="stylesheet" type="text/css" href="../../css/teacher.css"/>
+    <!--<script type="text/javascript" src="./js/bootstrap.min.js"></script>-->
+    <script src="../../js/jquery.min.js"></script>
+    <script type="text/javascript" src="../../js/bootstrap.win.js"></script>
+
+    <script src="../../js/layer.js"></script>
+    <script src="../../js/jquery.js"></script>
+
+
+    <script>
+
+    </script>
+    <title></title>
+    <style>
+        .bodyer {
+            width: 1024px;
+            margin-top: 50px;
+        }
+
+        .text span {
+            float: left;
+            margin-left: 30px;
+            display: inline;
+        }
+
+        .select {
+            background-color: #E8E8E8;
+            height: 30px;
+            float: left;
+        }
+
+        .select {
+            font-family: "微软雅黑";
+            font-size: 14px;
+            height: 22px;
+            margin: 4px 8px;
+        }
+    </style>
+</head>
+
+<body>
+<div class="header">
+
+</div>
+<div class="bodyer center-block">
+    <div>
+        <form action="http://localhost:9105/news/addNews.do" method="post" onsubmit="return dosubmit()">
+            <h2 style="color: #0063a1;">编辑通知</h2>
+            <div>
+                <textarea name="content" class="form-control" id="editor_id" style="width:50%;height:200px;margin-top: 70px" placeholder="输入消息内容"></textarea>
+            </div>
+
+            <div class="form-group ">
+                <div class="checkBox"></div>
+                <!--选择教师-->
+                <input type="text" placeholder="请选择联系人" id="choose" class="choose form-control" style="width:50%;margin-top: 30px">
+
+            </div>
+            <div id="" style="clear: both;margin: 10px 0">
+                <input type="submit" class="btn btn-info " onclick="" value="发送">
+            </div>
+        </form>
+    </div>
+    <div class="footer">
+
+    </div>
+</div>
+</body>
+
+</html>
+<script>
+    //	function change(val){
+    //		window.location="listPro.php?order="+val;
+    //	}
+    $(document).keydown(function(event){
+        switch(event.keyCode){
+            case 13:return false;
+        }
+    });
+
+
+    var isCommitted = false;//表单是否已经提交标识，默认为false
+    function dosubmit() {
+        if (isCommitted == false) {
+            isCommitted = true;//提交表单后，将表单是否已经提交标识设置为true
+            return true;//返回true让表单正常提交
+        } else {
+            return false;//返回false那么表单将不提交
+        }
+    }
+
+    // 选择教师
+    $('#choose').on('click', function () {
+        layer.open({
+            type: 2,
+            title: "选择联系人",
+            shadeClose: true, //开启遮罩关闭
+            shape: 0.4,
+            area: ['65%', '90%'],
+            content: './selectTeam.html',
+            btn: ['确定', '关闭'],
+            yes: function(index, layero){ //或者使用btn1
+                var checkList = new Array();
+                var TnameList = new Array();
+                var str = "";
+                var temp = "";
+                var element = "";
+                layero.find("iframe")[0].contentWindow.$('.check:checked').each(function () {
+                    checkList.push($(this).val());
+                })
+                layero.find("iframe")[0].contentWindow.$('.check:checked').parent().next().each(function () {
+                    TnameList.push($(this).text());
+                })
+//                console.log(checkList)
+//                console.log(TnameList)
+                $(".checkBox").empty()
+                for(var i = 0;i < TnameList.length;++i)
+                {
+                    str = str + "   " + TnameList[i]
+                    temp = "\"" + checkList[i] + "\">"
+                    element = "<input type=\"checkbox\" checked name=\"checkList[]\" value=" + temp
+                    // $(".checkBox").append(element).hide()
+                    $(".checkBox").append(element)
+                }
+                $(".choose").attr("value","")
+                $(".choose").attr("value",str)
+                layer.close(index);
+            },cancel: function(index){ //或者使用btn2
+
+            }
+        });
+    });
+</script>

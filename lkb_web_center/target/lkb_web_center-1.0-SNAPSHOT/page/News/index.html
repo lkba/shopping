@@ -1,0 +1,38 @@
+				<div style="margin-bottom: 65px;">
+					<ul>
+						<li><span style="width: 20px;height: 20px;background: #32afff;display: block;float: left;margin-top: 7px;margin-right: 10px;"></span>消息列</li>
+						<foreach name="list" item="v">
+							<li><a href="javascript:;" onclick="show('查看详情','__CONTROLLER__/show/id/{$v.id}','400px','300px','read{$v.id}')"><eq name="v.type" value="1">系统消息<else/>个人通知</eq>
+								<span style="font-size: 10px;" id="read{$v.id}">(<eq name="v.is_read" value="1"><span style="color: red;">未读</span><else/>已读</eq>)</span>
+								&nbsp;&nbsp;|&nbsp;&nbsp;内容：<span class="limit" style="font-size: 16px;">{$v.content}</span><span style="float: right;font-size: 14px;">{$v.date}&nbsp;&nbsp;</span></a></li>
+						</foreach>
+					</ul>
+					<center>
+						<ol class="pagination">
+							{$page}
+						</ol>
+					</center>
+				</div>
+<script>
+	//字限制
+	$(".limit").each(function() {
+		var maxwidth =10;//显示多少字符
+		if ($(this).text().length > maxwidth) {
+		$(this).text($(this).text().substring(0, maxwidth));
+		$(this).html($(this).html() + '...');
+		}
+	});
+	function show(title,url,w,h,read){
+		$("#"+read).text('(已读)');
+		layer.open({
+		  type: 2,
+		  title: title,
+		  shadeClose: true,
+		  shade: 0.4,
+		  area: [w, h],
+		  content: url //iframe的url
+		}); 
+	}
+	
+</script>
+

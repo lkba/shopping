@@ -1,0 +1,164 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title></title>
+    <link rel="stylesheet" type="text/css" href="../../css/backstage.css">
+    <link rel="stylesheet" type="text/css" href="../../css/bootstrap.min.css"/>
+    <link rel="stylesheet" type="text/css" href="../../css/teacher.css"/>
+    <link rel="stylesheet" type="text/css" href="../../css/common.css">
+
+    <!--<script type="text/javascript" src="./js/bootstrap.min.js"></script>-->
+    <script src="../../js/jquery.min.js"></script>
+    <script type="text/javascript" src="../../js/bootstrap.win.js"></script>
+    <script type="text/javascript" src="../../js/common.js"></script>
+    <script src="../../js/layer.js"></script>
+    <script src="../../js/jquery.js"></script>
+</head>
+
+<body>
+<div class="content clearfix">
+    <div class="main">
+
+        <!--右侧内容-->
+        <div style="padding: 10px 50px 20px 50px;">
+            <table class="table table-striped">
+                <caption>
+                    <h2 style="color: #0063a1;">进驻的团队</h2>
+                    <button type="button" class="btn btn-info fr" onclick="add()">添加团队</button>
+
+
+                    <select class="form-control fr btn-primary" style="width: 120px" id="time"
+                            onchange='requirement(this.value,"{$new_areawork}")'>
+                        <!--//当有更改的时候调用-->
+                        <option value="">-入驻时间-</option>
+                        <foreach name="time.list" item="t">
+                            <option value="{$t.time}">{$t.time}</option>
+                        </foreach>
+                    </select>
+                    <select class="form-control fr btn-primary" style="width: 135px;margin: 0px 10px" id="areawork"
+                            onchange='requirement("{$new_time}",this.value)'>
+                        <!--//当有更改的时候调用-->
+                        <option value="">-入驻场地-</option>
+                        <option value="创新创业学院">创新创业学院</option>
+                        <option value="实践园">实践园</option>
+                    </select>
+                    <div class="fr" id="so" style="width: 250px;margin: 0 10px;height: 25px;">
+                        <div class="input-group">
+                            <input type="text" class="form-control" id="search" onkeydown="onKeyDown(event)"/>
+                            <span class="input-group-addon" onclick="search()">
+								<a href="#">
+								<i class="glyphicon glyphicon-search"> <span>搜索</span></i>
+								</a>
+							</span>
+                        </div>
+                    </div>
+                    <!--<input type="search" name="search" id="search" value="" />-->
+                </caption>
+
+                <thead>
+                <tr>
+                    <th>序列</th>
+                    <th>账号名</th>
+                    <th>企业或名称</th>
+                    <th>项目名称</th>
+                    <th>入驻时间</th>
+                    <th>项目类型</th>
+                    <th>注册资本（万元）</th>
+                    <th>吸纳员工人数</th>
+                    <th>法定代表或负责人姓名</th>
+                    <th>办公电话/移动电话</th>
+                    <th>孵化情况</th>
+                    <th>操作</th>
+                </tr>
+                </thead>
+                <tbody>
+                <foreach name="list" item="t">
+                    <tr>
+                        <td>{$t.tid}</td>
+                        <td>{$t.username}</td>
+                        <td>{$t.team}</td>
+                        <td>{$t.project}</td>
+                        <td>{$t.time}</td>
+
+                        <td>{$t.business_scope}</td>
+                        <td>{$t.money}</td>
+                        <td>{$t.persons}</td>
+                        <td>{$t.name}</td>
+                        <td>{$t.phone}</td>
+                        <td>{$t.areawork}</td>
+                        <td>
+                            <a href="#" onclick="show('查看详情','__MODULE__/Table/team','1024px','90%');">查看</a>&nbsp;&nbsp;
+                            <a href="#" onclick="show('查看详情','__MODULE__/Table/team','1024px','90%');">文件</a>&nbsp;&nbsp;
+                            <a href="#" onclick="show('查看详情','__MODULE__/News/edit_news','1124px','90%');">发送信息</a>
+                        </td>
+                    </tr>
+                </foreach>
+                </tbody>
+
+            </table>
+            <ul class="pagination pagelist " style="margin: 0px 0">{$page}</ul>
+
+        </div>
+
+        <script type="text/javascript">
+            /* 搜索框  */
+            function onKeyDown(event) {
+                var e = event || window.event || arguments.callee.caller.arguments[0];
+                if (e && e.keyCode == 27) { // 按 Esc
+                    //要做的事情
+//            alert("你按下了Esc");
+                }
+                if (e && e.keyCode == 113) { // 按 F2
+                    //要做的事情
+//            alert("你按下了F2");
+                }
+                if (e && e.keyCode == 13) { // enter 键
+                    search();
+                }
+            }
+
+            function search() {
+                var key = $("#search").val();
+                if (key == "") {
+                    alert("请输入搜索内容");
+                } else {
+                    window.location.href = "__MODULE__/Team/find/key/" + key;
+                }
+            }
+
+            function getUrlParam() {
+                var reg = new RegExp("success"); //构造一个含有目标参数的正则表达式对象
+                var r = window.location.href.match(reg); //匹配目标参数
+                if (r == 'success') {
+                    var index = parent.layer.getFrameIndex(window.name);
+                    window.parent.location.reload();
+                }
+            }
+
+            window.getUrlParam();
+
+            function add() {
+                window.location.href = "__MODULE__/Team/add_team";
+            }
+
+            function requirement(new_time, new_areawork) {
+//        var time=$("#time").val();
+//        var areawork=$("#areawork").val();
+                if (new_time === "") {
+                    new_time = null;
+                }
+                if (new_areawork === "") {
+                    new_areawork = null;
+                }
+                window.location.href = " __MODULE__/Team/team_list/time/" + new_time + "/areawork/" + new_areawork;
+            }
+
+            $("#areawork").val("{$new_areawork}");
+            $("#time").val("{$new_time}");
+
+        </script>
+    </div>
+</div>
+</body>
+</html>

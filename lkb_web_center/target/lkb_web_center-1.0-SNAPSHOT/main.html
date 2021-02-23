@@ -1,0 +1,274 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title></title>
+    <link rel="stylesheet" type="text/css" href="./css/backstage.css">
+    <link rel="stylesheet" type="text/css" href="./css/bootstrap.min.css"/>
+    <link rel="stylesheet" type="text/css" href="./css/teacher.css"/>
+    <!--<script type="text/javascript" src="./js/bootstrap.min.js"></script>-->
+    <script src="./js/jquery.min.js"></script>
+    <script type="text/javascript" src="./js/bootstrap.win.js"></script>
+
+    <script src="./js/layer.js"></script>
+    <script src="./js/jquery.js"></script>
+    <style>/*浏览器出现滚动条*/
+    html {
+        overflow: scroll;
+    }
+
+    table {
+        table-layout: fixed;
+    }
+
+    table tr td:first-child, table tr td:first-child {
+        width: 200px;
+    }
+
+    table tr th:first-child, table tr th:first-child {
+        width: 140px;
+    }
+
+    .select {
+        background-color: #1688d0 !important;
+    }
+    #icon{
+        background-color: red;
+        width: 40px;
+        margin: 0px 5px;
+        height: 20px;
+        border-radius: 50%;
+    }
+    </style>
+
+</head>
+
+<body>
+<div class="head">
+    <div class="logo fl"><a href="#"></a></div>
+    <h3 class="head_text fl"><a href="./page/Index/index">创新创业管理系统</a></h3>
+</div>
+<div class="operation_user clearfix">
+    <div class="link fr">
+        <b>欢迎您 ：{$Think.session.admin_name}
+        </b>&nbsp;&nbsp;&nbsp;&nbsp;
+        <a href="./page/Index/index" class="icon icon_i">首页</a><span></span>
+        <a href="#" class="icon icon_j" onclick="window.history.go(1)">前进</a><span></span>
+        <a href="#" class="icon icon_t" onclick="window.history.go(-1)">后退</a><span></span>
+        <a href="#" class="icon icon_n" onclick="window.location.reload()">刷新</a><span></span>
+        <a href="./page/Login/logout" class="icon icon_e">退出</a>
+    </div>
+</div>
+<div class="content clearfix">
+    <div class="main" id="app">
+        <!--右侧内容-->
+        <div class="cont" >
+            <!-- 嵌套网页开始 -->
+            <iframe name="right" id="iframepage" :src="linkUrl" style="width:100%;magrin:0 auto;min-height:700px;min-width: 500px" marginwidth="0" marginheight="0" height="100%" frameborder="0" ranat="server"></iframe>
+            <!-- 嵌套网页结束 -->
+        </div>
+        <!--<div class="cont">-->
+        <!--<iframe>-->
+
+        <!--</iframe>-->
+        <!--</div>-->
+    </div>
+    <!--左侧列表-->
+    <div class="menu">
+        <nav class="cont">
+            <ul class="mList">
+                <li>
+                    <h3 onclick="show_l('menu1','change1',0)" id="change1"><span>+</span>团队管理</h3>
+                    <dl id="menu1" style="display:none;">
+                        <dd><a href="./page/Team/audited.html" target="right">未审核<icon id="icon"></icon></a></dd>
+                        <!--<dd><a href="./page/Team/time_list" >期数列表</a></dd>-->
+                        <!--<dd><a href="./page/Team/add_team" >添加团队</a></dd>-->
+
+                        <dd><a href="./page/Team/team_list.html" target="right">在孵团队</a></dd>
+                        <dd><a href="./page/Team/team_list_out.html" target="right">已退出团队</a></dd>
+                    </dl>
+                </li>
+                <li>
+                    <h3 onclick="show('查看详情','http://localhost:9105/page/Team/input_team.html','1024px','90%');"><span>#</span>录入信息</h3>
+                </li>
+                <li>
+                    <h3 onclick="show_l('menu2','change2',1)" id="change2"><span>+</span>资讯管理</h3>
+                    <dl id="menu2" style="display:none;">
+                        <dd><a href="./page/News/edit_news.html" target="right">编写资讯</a></dd>
+                        <dd><a href="./page/News/list_news.html" target="right">查看资讯</a></dd>
+                    </dl>
+                </li>
+                <li>
+                    <h3 onclick="show_l('menu3','change3',3)" id="change3"><span>+</span>表格管理</h3>
+                    <dl id="menu3" style="display:none;">
+                        <!--<dd><a href="./page/Table/list_enter" >入驻表格</a></dd>-->
+                        <dd><a href="./page/Table/list_grade.html" target="right">评分表格</a></dd>
+                        <dd><a href="./page/Table/list_self.html" target="right">自查表</a></dd>
+                        <dd><a href="./page/Table/list_out.html" target="right">退出表</a></dd>
+                    </dl>
+                </li>
+                <li>
+                    <h3 onclick="show_l('menu4','change4',3)" id="change4"><span>+</span>赛事管理</h3>
+                    <dl id="menu4" style="display:none;">
+                        <dd><a href="./page/Match/index.html" target="right">赛事列表</a></dd>
+                        <dd><a href="./page/Match/add.html" target="right">添加赛事</a></dd>
+                        <dd><a href="./page/MatchCategory/index.html" target="right">赛事分类</a></dd>
+                    </dl>
+                </li>
+                <li>
+                    <h3 onclick="show_l('menu5','change5',4)" id="change5"><span>+</span>导师管理</h3>
+                    <dl id="menu5" style="display:none;">
+                        <dd><a href="./page/Tutor/index.html" >导师列表</a></dd>
+                    </dl>
+                </li>
+                <li>
+                    <h3 onclick="show_l('menu6','change6',5)" id="change6"><span>+</span>封面管理</h3>
+                    <dl id="menu6" style="display:none;">
+                        <dd><a href="./page/Cover/picture.html" >轮播图片</a></dd>
+                        <dd><a href="./page/Cover/notice.html" >公告</a></dd>
+                    </dl>
+                </li>
+                <li>
+                    <h3 onclick="show_l('menu7','change7',5)" id="change7"><span>+</span>助理</h3>
+                    <dl id="menu7" style="display:none;">
+                        <dd><a href="./page/Admin/add_admin.html" >增加账户</a></dd>
+                        <dd><a href="./page/Admin/list_admin.html" >查看账户</a></dd>
+                    </dl>
+                </li>
+            </ul>
+        </nav>
+    </div>
+<!--    <div id="app">-->
+<!--        <iframe name="right" id="iframepage" :src="linkUrl" style="width:100%;magrin:0 auto" marginwidth="0" marginheight="0" height="100%" frameborder="0" ranat="server"></iframe>-->
+<!--    </div>-->
+</div>
+<script type="text/javascript">
+    function show_l(num, change, ide) {
+        var menu = document.getElementById(num);
+        var menu_span = menu.getElementsByTagName("span")[0];
+        var change = document.getElementById(change);
+        var cha = change.getElementsByTagName("span")[0];
+        if (cha.innerHTML == "+") {
+            cha.innerHTML = "-";
+        } else {
+            cha.innerHTML = "+";
+        }
+        if (menu.style.display == 'none') {
+            menu.style.display = '';
+        } else {
+            menu.style.display = 'none';
+        }
+    }
+
+    function show(title, url, w, h) {
+        w = w;
+        layer.open({
+            type: 2,
+            title: title,
+            shadeClose: true,
+            shade: 0.4,
+            area: [w, h],
+            content: url //iframe的url
+        });
+    }
+
+    function edit(title, url, w, h) {
+        layer.open({
+            type: 2,
+            title: title,
+            shadeClose: true,
+            shade: 0.4,
+            area: [w, h],
+            content: url //iframe的url
+        });
+    }
+//     $(function () {
+//         var availableTags;
+//         $.ajax({
+//             type: "get",
+//             url: " __ROOT__/Teacher/Team/layout",
+//             dataType: "json",
+//             success: function (data) {
+//                 console.log(data);
+//                 $("#icon").html("&nbsp"+data+"&nbsp");
+// //                $("#tags").autocomplete({
+// //                    source: data
+// //                });
+// //                $("#team_name").autocomplete({
+// //                    source: data
+// //                });
+//             },
+//             error: function (e) {
+//                 console.log(e);
+//             }
+//         });
+//     })
+</script>
+</body>
+<!-- 引入组件库 -->
+<script src="/js/axios.js"></script>
+<script src="js/vue.js"></script><!-- vue -->
+<script src="js/elementui.js"></script><!-- element-ui -->
+
+<script>
+    new Vue({
+        el: '#app',
+        // router,
+        data() {
+            return {
+                visible: false,
+                isCollapse: false,
+                tabWidth: 180,
+                test1: 1,
+                intelval: null,
+                winfo:'winfo',
+                data:[],
+                menuList:[],
+                defaultActiveIndex: "2",
+                defaultActive:'2-1-2',
+                openeds: [],
+                loginName: '',
+                linkUrl:'all-item-list.html'
+            }
+        },
+        created() {
+
+        },
+        methods: {
+            handleOpen(key, keyPath) {
+                console.log(key, keyPath);
+            },
+            handleClose(key, keyPath) {
+                console.log(key, keyPath);
+            },
+            // 选择顶部导航菜单，联动左侧菜单
+            handleSelect(key) {
+                localStorage.setItem('linkUrl',key.linkUrl)
+                localStorage.setItem('activeIndex',key.path)
+                var data=[]
+                for(var i=0;i<key.children.length;i++){
+                    data.push(key.children[i].path)
+                    this.defaultActive=key.children[0].children[0].path
+                    this.linkUrl=key.children[0].linkUrl
+                }
+                this.openeds=data
+                this.data=key
+            },
+            exit(){
+                axios.post('/logout').then( response=>{
+                    location.href='login.html';
+                })
+            }
+        }
+    })
+
+    window.onload = windowHeight; //页面载入完毕执行函数
+    function windowHeight() {
+        var wd = 200;
+        var iframepage=document.getElementById("iframepage")
+        // var asieHeight=document.getElementById("asieHeight")
+        iframepage.style.width=document.documentElement.clientWidth-wd + 'px'
+        // asieHeight.style.height=document.documentElement.clientHeight + 'px'
+    }
+</script>
+</html>

@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>remarks管理</title>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <!-- 引入样式 -->
+    <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
+    <link rel="stylesheet" href="../plugins/font-awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" href="../css/style.css">
+
+    <!-- 上传图片框样式，不使用上传组件可以删除此样式 -->
+    <style>
+        .avatar-uploader .el-upload {
+            border: 1px dashed #d9d9d9;
+            border-radius: 6px;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+        }
+        .avatar-uploader .el-upload:hover {
+            border-color: #409EFF;
+        }
+        .avatar-uploader-icon {
+            font-size: 28px;
+            color: #8c939d;
+            width: 150px;
+            height: 70px;
+            line-height: 150px;
+            text-align: center;
+        }
+        .avatar {
+            width: 150px;
+            height: 70px;
+            display: block;
+        }
+
+    </style>
+</head>
+<body class="hold-transition">
+<div id="app">
+
+    <div class="content-header">
+        <h1>管理<small>remarks管理</small></h1>
+        <el-breadcrumb separator-class="el-icon-arrow-right" class="breadcrumb">
+            <el-breadcrumb-item :to="{ path: '/' }">首页</el-breadcrumb-item>
+            <el-breadcrumb-item>管理</el-breadcrumb-item>
+            <el-breadcrumb-item>remarks管理</el-breadcrumb-item>
+        </el-breadcrumb>
+    </div>
+
+    <div class="app-container">
+        <div class="box">
+            <div class="filter-container">
+                <!--查询表单-->
+                <el-form :inline="true" >
+                          <el-form-item label="入驻团队">
+<el-input v-model="searchMap.rteam" placeholder="入驻团队" class="filter-item" ></el-input></el-form-item>
+          <el-form-item label="团队总人数">
+<el-input v-model="searchMap.totleTeam" placeholder="团队总人数" class="filter-item" ></el-input></el-form-item>
+          <el-form-item label="已注册公司">
+<el-input v-model="searchMap.rcompany" placeholder="已注册公司" class="filter-item" ></el-input></el-form-item>
+          <el-form-item label="两创团队在位情况未注册公司">
+<el-input v-model="searchMap.noCompany" placeholder="两创团队在位情况未注册公司" class="filter-item" ></el-input></el-form-item>
+          <el-form-item label="两创团队在位情况已注册公司">
+<el-input v-model="searchMap.yesCompany" placeholder="两创团队在位情况已注册公司" class="filter-item" ></el-input></el-form-item>
+          <el-form-item label="两创团队在位情况">
+<el-input v-model="searchMap.allCompany" placeholder="两创团队在位情况" class="filter-item" ></el-input></el-form-item>
+          <el-form-item label="因项目停止、团队解散等原因而退出">
+<el-input v-model="searchMap.outTeam1" placeholder="因项目停止、团队解散等原因而退出" class="filter-item" ></el-input></el-form-item>
+          <el-form-item label="已注册公司外出发展的">
+<el-input v-model="searchMap.outTeam2" placeholder="已注册公司外出发展的" class="filter-item" ></el-input></el-form-item>
+          <el-form-item label="其他 ">
+<el-input v-model="searchMap.outTeam3" placeholder="其他 " class="filter-item" ></el-input></el-form-item>
+          <el-form-item label="退出情况">
+<el-input v-model="searchMap.outTeamAll" placeholder="退出情况" class="filter-item" ></el-input></el-form-item>
+          <el-form-item label="注册公司仍在位">
+<el-input v-model="searchMap.regCompany1" placeholder="注册公司仍在位" class="filter-item" ></el-input></el-form-item>
+          <el-form-item label="注册公司不在位">
+<el-input v-model="searchMap.regCompany2" placeholder="注册公司不在位" class="filter-item" ></el-input></el-form-item>
+          <el-form-item label="注册公司，但项目停止">
+<el-input v-model="searchMap.regCompany3" placeholder="注册公司，但项目停止" class="filter-item" ></el-input></el-form-item>
+          <el-form-item label="公司注销">
+<el-input v-model="searchMap.regCompany4" placeholder="公司注销" class="filter-item" ></el-input></el-form-item>
+          <el-form-item label="注册公司情况">
+<el-input v-model="searchMap.regCompanyAll" placeholder="注册公司情况" class="filter-item" ></el-input></el-form-item>
+          <el-form-item label="相关专业创业">
+<el-input v-model="searchMap.proEnt" placeholder="相关专业创业" class="filter-item" ></el-input></el-form-item>
+          <el-form-item label="相关专业创业">
+<el-input v-model="searchMap.soft" placeholder="相关专业创业" class="filter-item" ></el-input></el-form-item>
+          <el-form-item label="相关专业创业-相关专业创业">
+<el-input v-model="searchMap.softPro" placeholder="相关专业创业-相关专业创业" class="filter-item" ></el-input></el-form-item>
+
+                <el-button class="dalfBut" @click="fetchData()">查询</el-button>
+                <el-button type="primary"  class="butT" @click="formVisible=true;pojo={}">新增</el-button>
+                </el-form>
+            </div>
+
+            <el-table :data="tableData" border style="width: 100%">
+                <列表内容.txt>
+                    <el-table-column
+                            label="操作"  >
+                        <template slot-scope="scope">
+                            <el-button @click="edit(scope.row.rid)" size="mini" type="primary" size="small">修改</el-button>
+                            <el-button @click="dele(scope.row.rid)" size="mini" type="danger" size="small">删除</el-button>
+                        </template>
+                    </el-table-column>
+            </el-table>
+            <div class="pagination-container">
+                <el-pagination
+                        class="pagiantion"
+                        @size-change="fetchData"
+                        @current-change="fetchData"
+                        :current-page.sync="currentPage"
+                        :page-sizes="[10, 20, 30, 40]"
+                        :page-size="size"
+                        layout="total, sizes, prev, pager, next, jumper"
+                        :total="total">
+                </el-pagination>
+            </div>
+            <div class="add-form">
+                <!--弹出窗口-->
+                <el-dialog  title="编辑" :visible.sync="formVisible" >
+                    <el-form label-width="80px">
+                                <el-form-item label="入驻团队"><el-input v-model="pojo.rteam"></el-input></el-form-item>
+        <el-form-item label="团队总人数"><el-input v-model="pojo.totleTeam"></el-input></el-form-item>
+        <el-form-item label="已注册公司"><el-input v-model="pojo.rcompany"></el-input></el-form-item>
+        <el-form-item label="两创团队在位情况未注册公司"><el-input v-model="pojo.noCompany"></el-input></el-form-item>
+        <el-form-item label="两创团队在位情况已注册公司"><el-input v-model="pojo.yesCompany"></el-input></el-form-item>
+        <el-form-item label="两创团队在位情况"><el-input v-model="pojo.allCompany"></el-input></el-form-item>
+        <el-form-item label="因项目停止、团队解散等原因而退出"><el-input v-model="pojo.outTeam1"></el-input></el-form-item>
+        <el-form-item label="已注册公司外出发展的"><el-input v-model="pojo.outTeam2"></el-input></el-form-item>
+        <el-form-item label="其他 "><el-input v-model="pojo.outTeam3"></el-input></el-form-item>
+        <el-form-item label="退出情况"><el-input v-model="pojo.outTeamAll"></el-input></el-form-item>
+        <el-form-item label="注册公司仍在位"><el-input v-model="pojo.regCompany1"></el-input></el-form-item>
+        <el-form-item label="注册公司不在位"><el-input v-model="pojo.regCompany2"></el-input></el-form-item>
+        <el-form-item label="注册公司，但项目停止"><el-input v-model="pojo.regCompany3"></el-input></el-form-item>
+        <el-form-item label="公司注销"><el-input v-model="pojo.regCompany4"></el-input></el-form-item>
+        <el-form-item label="注册公司情况"><el-input v-model="pojo.regCompanyAll"></el-input></el-form-item>
+        <el-form-item label="相关专业创业"><el-input v-model="pojo.proEnt"></el-input></el-form-item>
+        <el-form-item label="相关专业创业"><el-input v-model="pojo.soft"></el-input></el-form-item>
+        <el-form-item label="相关专业创业-相关专业创业"><el-input v-model="pojo.softPro"></el-input></el-form-item>
+
+                            <!-- 图片上传代码 如页面有图片上传功能放开注释 ****
+                            <el-form-item label="图片">
+                                <el-upload
+                                        class="avatar-uploader"
+                                        action="/upload/native.do"
+                                        :show-file-list="false"
+                                        :on-success="handleAvatarSuccess"
+                                        :before-upload="beforeAvatarUpload">
+                                    <img v-if="imageUrl" :src="imageUrl" class="avatar">
+                                    <i v-else class="el-icon-plus avatar-uploader-icon"></i>
+                                </el-upload>
+                            </el-form-item>
+                            -->
+
+                            <el-form-item>
+                                <el-button type="primary" @click="save()">保存</el-button>
+                                <el-button @click="formVisible = false" >关闭</el-button>
+                            </el-form-item>
+                    </el-form>
+                </el-dialog>
+            </div>
+
+        </div>
+    </div>
+
+
+</div>
+</body>
+<script src="/js/vue.js"></script>
+<script src="/js/axios.js"></script>
+<script src="/js/elementui.js"></script>
+<script>
+     new Vue({
+        el: '#app',
+        data(){
+            return {
+                tableData: [],
+                currentPage: 1,
+                total: 10,
+                size: 10,
+                searchMap: {},
+                pojo: {},
+                formVisible: false,
+                imageUrl: ''
+            }
+        },
+        created(){
+            this.fetchData();
+        },
+        methods:{
+            fetchData (){
+                axios.post(`/remarks/findPage.do?page=${this.currentPage}&size=${this.size}`,this.searchMap).then(response => {
+                    this.tableData = response.data.rows;
+                    this.total = response.data.total;
+                });
+            },
+            save (){
+                // this.pojo.image= this.imageUrl; //如页面有图片上传功能放开注释
+                axios.post(`/remarks/${this.pojo.rid==null?'add':'update'}.do`,this.pojo).then(response => {
+                    this.fetchData (); //刷新列表
+                    this.formVisible = false ;//关闭窗口
+                });
+            },
+            edit (rid){
+                this.formVisible = true // 打开窗口
+                // 调用查询
+                axios.get(`/remarks/findById.do?rid=${rid}`).then(response => {
+                    this.pojo = response.data;
+                    // this.imageUrl=this.pojo.image //显示图片  如页面有图片上传功能放开注释
+                })
+            },
+            dele (rid){
+                this.$confirm('确定要删除此记录吗?', '提示', {
+                    confirmButtonText: '确定',
+                    cancelButtonText: '取消',
+                    type: 'warning'
+                }).then( () => {
+                    axios.get(`/remarks/delete.do?rid=${rid}`).then(response => {
+                        this.fetchData (); //刷新列表
+                    })
+                })
+            },
+			/* ****图片上传相关代码  如页面有图片上传功能放开注释 **** 
+            handleAvatarSuccess(res, file) {
+                this.imageUrl = file.response;
+            },
+            beforeAvatarUpload(file) {
+                const isJPG = file.type === 'image/jpeg';
+                const isLt2M = file.size / 1024 / 1024 < 2;
+
+                if (!isJPG) {
+                    this.$message.error('上传头像图片只能是 JPG 格式!');
+                }
+                if (!isLt2M) {
+                    this.$message.error('上传头像图片大小不能超过 2MB!');
+                }
+                return isJPG && isLt2M;
+            }*/
+        }
+    })
+</script>
+</html>

@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html xmlns:v-on="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8"/>
+
+
+<!--    <link rel="stylesheet" href="../../t_css/bootstrap.css"/>-->
+    <link rel="stylesheet" href="../../t_css/layout.css"/>
+<!--    <link rel="stylesheet" type="text/css" href="../../t_css/student.css"/>-->
+    <script src="../../t_js/jquery.js"></script>
+    <script src="../../t_js/layer.js"></script>
+    <script type="text/javascript" src="../../t_js/jquery.min.js"></script>
+    <script type="text/javascript" src="../../t_js/bootstrap.min.js"></script>
+<!--    <script type="text/javascript" charset="utf-8" src="../../t_js/plugins/kindeditor/kindeditor.js"></script>-->
+<!--    <script type="text/javascript" charset="utf-8" src="../../t_js/plugins/kindeditor/lang/zh_CN.js"></script>-->
+    <link rel="stylesheet" href="../../t_css/elementui.css">
+    <title></title>
+    <script>
+        KindEditor.ready(function (K) {
+            window.editor = K.create('#editor_id');
+        });
+    </script>
+
+</head>
+<body>
+<div id="app">
+    <div style="margin: 100px auto;margin-top: 200px;text-align: center" class="input1">
+
+        <el-upload
+                class="avatar-uploader"
+                action="/upload/native.do"
+                :show-file-list="false"
+                :on-success="handleAvatarSuccess"
+                :before-upload="beforeAvatarUpload">
+            <img v-if="imageUrl" :src="imageUrl" class="avatar">
+            <i v-else class="el-icon-plus avatar-uploader-icon"></i>
+        </el-upload>
+        <el-button type="primary" @click="save()">提交</el-button>
+
+        <style>
+            .avatar-uploader .el-upload {
+                border: 1px dashed #d9d9d9;
+                border-radius: 6px;
+                cursor: pointer;
+                position: relative;
+                overflow: hidden;
+            }
+            .avatar-uploader .el-upload:hover {
+                border-color: #409EFF;
+            }
+            .avatar-uploader-icon {
+                font-size: 28px;
+                color: #8c939d;
+                width: 178px;
+                height: 178px;
+                line-height: 178px;
+                text-align: center;
+            }
+            .avatar {
+                width: 178px;
+                height: 178px;
+                display: block;
+            }
+        </style>
+
+    </div>
+
+
+</div>
+</body>
+</html>
+<script src="../../t_js/vue.js"></script>
+<script src="../../t_js/axios.js"></script>
+<!--<script src="../../js/util.js"></script>-->
+<script src="../../t_js/elementui.js"></script>
+<script src="../../t_js/util.js"></script>
+<script>
+    new Vue({
+        el: '#app',
+        data() {
+            return {
+                tableData: [],
+                tid: null,
+                currentPage: 1,
+                total: 10,
+                size: 10,
+                searchMap: {},
+                pojo: {},
+                formVisible: false,
+                imageUrl: '',
+
+                options: [{
+                    value: '男',
+                    label: '男'
+                }, {
+                    value: '女',
+                    label: '女'
+                }],
+            }
+        },
+        created() {
+            this.id = getQueryString("tid")
+            this.pojo = {id: getQueryString("id")}
+            this.fetchData();
+        },
+        methods: {
+            fetchData() {
+
+            },
+            save() {
+                this.pojo.logo=this.imageUrl;
+                axios.post(`/basicInfor/update.do`, this.pojo).then(response => {
+                    layer.msg('添加成功');
+                    var index = parent.layer.getFrameIndex(window.name);
+                    window.parent.location.reload();
+                });
+
+            },
+            // edit(id) {
+            //     this.formVisible = true // 打开窗口
+            //     // 调用查询
+            //     axios.get(`/order/findById.do?id=${id}`).then(response => {
+            //         this.pojo = response.data;
+            //         // this.fileUrl=this.pojo.image //显示图片  如页面有图片上传功能放开注释
+            //     })
+            // },
+            // dele(id) {
+            //     this.$confirm('确定要删除此记录吗?', '提示', {
+            //         confirmButtonText: '确定',
+            //         cancelButtonText: '取消',
+            //         type: 'warning'
+            //     }).then(() => {
+            //         axios.get(`/order/delete.do?id=${id}`).then(response => {
+            //             this.fetchData(); //刷新列表
+            //         })
+            //     })
+            // },
+            /* ****图片上传相关代码  如页面有图片上传功能放开注释 *****/
+            handleAvatarSuccess(res, file) {
+                this.imageUrl = file.response;
+                console.log(this.imageUrl)
+            },
+            beforeAvatarUpload(file) {
+                // const isJPG = file.type === 'docx/doc';
+                const isLt2M = file.size / 1024 / 1024 < 2;
+
+                // if (!isJPG) {
+                //     this.$message.error('上传头像图片只能是 docx/doc 格式!');
+                // }
+                if (!isLt2M) {
+                    this.$message.error('上传头像图片大小不能超过 2MB!');
+                }
+                // return isJPG && isLt2M;
+                return isLt2M;
+            }
+        }
+    })
+</script>

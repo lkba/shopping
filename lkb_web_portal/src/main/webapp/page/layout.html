@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<link rel="stylesheet" href="__PUBLIC__/css/bootstrap.css" />
+		<link rel="stylesheet" href="__PUBLIC__/css/layout.css" />
+		<link rel="stylesheet" type="text/css" href="__PUBLIC__/css/student.css"/>
+		<script src="__PUBLIC__/js/jquery.js"></script>
+		<script src="__PUBLIC__/js/layer.js"></script>
+		<script type="text/javascript" src="__PUBLIC__/js/jquery.min.js" ></script>
+		<title></title>
+		<style>
+			table{table-layout:fixed;}
+			table tr td:first-child,table tr td:first-child{width:200px;}
+			table tr th:first-child,table tr th:first-child{width:140px;}
+			.select{background-color: #1688d0 !important;}
+		</style>
+	</head>
+	<body>
+		<div class="header"><span><a <eq name='is_pass' value="1">href="__MODULE__/Match/index"<else/>href="__MODULE__/Temp/index"</eq>  >团队云孵综合平台</a></span></div>
+		<div class="bodyer">
+			<div class="content_top">
+				<div>
+					<empty name="logo"><img src="__PUBLIC__/img/preview.jpg" style="height: 70px;margin-right: 10px;"><else/><img src="__PUBLIC__/uploads/logo/{$logo}" style="height: 70px;margin-right: 10px;"></empty> 
+				</div>
+				<div>
+					<span>YONGHU</span><br />
+					<span>欢迎你，{$Think.session.username}</span>
+				</div>
+				
+				<div>
+					<input type="button" value="退出" onclick="out()"/>
+					
+					<input type="button"  value="搜索" id="sbtn"/>
+					<input type="search" value="" placeholder="   搜索" id="search_layout"/>
+				</div>
+		
+			</div>
+			<div class="content_bottom">
+				<div style="margin-bottom: 65px;">
+					<ul>
+						<eq name='is_pass' value="1">
+						<li><input  type="button" name="" id="Team_index" value="团&nbsp;&nbsp;队" onclick="to_team()"/></li>
+						<li><input  type="button" name="" id="Tab_index" value="表&nbsp;&nbsp;单" onclick="to_tab()"/></li>
+						<li><input  type="button" name="" id="Files_index" value="资&nbsp;&nbsp;料" onclick="to_files()"/></li>
+						<li><input  type="button" name="" id="Match_index" value="赛&nbsp;&nbsp;事" onclick="to_match()"/></li>
+						<li><input  type="button" name="" id="News_index" value="消&nbsp;&nbsp;息" onclick="to_news()"/></li>
+						<li><input  type="button" name="" id="Set_index" value="设&nbsp;&nbsp;置" onclick="to_set()"/></li>
+						<else/>
+						<li><input  type="button" name="" id="Temp_index" value="入&nbsp;&nbsp;驻" onclick="to_Temp()"/></li>
+						<li><input  type="button" name="" id="Set_index" value="设&nbsp;&nbsp;置" onclick="to_set()"/></li>
+						</eq>
+					</ul>
+				</div>
+				{__CONTENT__}
+			</div>
+		</div>
+		<div class="footer text-center" >
+			<span>技术支持：阔鱼飞鸟云孵平台</span>
+			<span> &nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp; 联系方式：xxxxxxxxxx</span> 
+		</div> 
+	</body>
+</html>
+<script>
+	function out(){
+		window.location.href="__MODULE__/Login/logout";
+	}
+	function to_team(){
+		window.location.href="__MODULE__/Team/index";
+	}
+	function to_tab(){
+		window.location.href="__MODULE__/Tab/index";
+	}
+	function to_files(){
+		window.location.href="__MODULE__/Files/index";
+	}
+	function to_match(){
+		window.location.href="__MODULE__/Match/index";
+	}
+	function to_news(){
+		window.location.href="__MODULE__/News/index";
+	}
+	function to_set(){
+		window.location.href="__MODULE__/Set/index";
+	}
+	function to_Temp(){
+		window.location.href="__MODULE__/Temp/index";
+	}
+	$("#{$Think.CONTROLLER_NAME}_{$Think.ACTION_NAME}").addClass("select");
+</script>

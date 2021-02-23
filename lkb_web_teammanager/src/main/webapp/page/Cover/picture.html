@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8"/>
+    <title></title>
+    <link rel="stylesheet" href="../../css/elementui.css">
+    <link rel="stylesheet" href="../../plugins/font-awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" href="../..css/style.css">
+<!--    <link rel="stylesheet" href="../../css/elementui.css">-->
+
+<!--    <link rel="stylesheet" href="../../css/bootstrap.css"/>-->
+<!--    <link rel="stylesheet" href="../../css/layout.css"/>-->
+<!--    <link rel="stylesheet" type="text/css" href="../../css/student.css"/>-->
+<!--    <script src="../../js/jquery.js"></script>-->
+<!--    <script src="../../js/layer.js"></script>-->
+<!--    <script type="text/javascript" src="../../js/jquery.min.js"></script>-->
+<!--    <script type="text/javascript" src="../../js/bootstrap.min.js"></script>-->
+<!--    <script type="text/javascript" charset="utf-8" src="../../js/plugins/kindeditor/kindeditor.js"></script>-->
+<!--    <script type="text/javascript" charset="utf-8" src="../../js/plugins/kindeditor/lang/zh_CN.js"></script>-->
+    <style>
+        #so {
+            margin: 0 10px;
+            height: 25px;
+        }
+    </style>
+</head>
+
+<body>
+
+<div style="padding: 10px 50px 20px 50px;" id="app">
+    <!--    <div style="margin: 0px 0 20px 0 ;clear: both">-->
+    <h2 style="color: #0063a1;">封面轮播图</h2>
+    <!--        <button type="button" class="btn btn-info fr right"-->
+    <!--                onclick="show('查看详情','http://localhost:9105/page/Cover/add_picture.html','760px','600px');">编辑公告-->
+    <!--        </button>-->
+    <!--    </div>-->
+    <el-form :inline="true">
+        <el-form-item label="标题">
+            <el-input v-model="searchMap.title" placeholder="title" class="filter-item"></el-input>
+        </el-form-item>
+
+        <el-button class="dalfBut" @click="fetchData()">查询</el-button>
+        <el-button type="primary" class="butT" @click="formVisible=true;pojo={}">新增</el-button>
+    </el-form>
+    <el-table :data="tableData" border style="width: 100%">
+        <!--        <列表内容.txt>-->
+        <el-table-column prop="nid" label="序列" width="180"></el-table-column>
+
+        <el-table-column prop="title" label="标题" width="80"></el-table-column>
+        <el-table-column prop="url" label="链接" width="80"></el-table-column>
+        <el-table-column prop="appendix" label="图片" width="280">
+            <template slot-scope="scope">
+                <img width="280px" height="50%" :src="scope.row.appendix">
+            </template>
+        </el-table-column>
+        <el-table-column label="操作">
+            <template slot-scope="scope">
+                <el-button @click="edit(scope.row.nid)" size="mini" type="primary" size="small">修改</el-button>
+                <el-button @click="dele(scope.row.nid)" size="mini" type="danger" size="small">删除</el-button>
+            </template>
+        </el-table-column>
+    </el-table>
+    <div class="pagination-container">
+        <el-pagination
+                class="pagiantion"
+                @size-change="fetchData"
+                @current-change="fetchData"
+                :current-page.sync="currentPage"
+                :page-sizes="[10, 20, 30, 40]"
+                :page-size="size"
+                layout="total, sizes, prev, pager, next, jumper"
+                :total="total">
+        </el-pagination>
+    </div>
+    <div class="add-form">
+        <!--弹出窗口-->
+        <el-dialog title="编辑" :visible.sync="formVisible">
+            <el-form label-width="80px">
+                <el-form-item label="标题">
+                    <el-input v-model="pojo.title"></el-input>
+                </el-form-item>
+                <el-form-item label="链接">
+                    <el-input v-model="pojo.url"></el-input>
+                </el-form-item>
+                <el-form-item label="时间">
+                    <!--                    <el-input v-model="pojo.time"></el-input>-->
+                    <template>
+                        <div class="block">
+                            <el-date-picker
+                                    v-model="pojo.time"
+                                    align="right"
+                                    type="date"
+                                    placeholder="选择日期"
+                                    :picker-options="pickerOptions1">
+                            </el-date-picker>
+                        </div>
+                    </template>
+                </el-form-item>
+<!--                <el-form-item label="图片的位置">-->
+<!--                    <el-input v-model="pojo.appendix"></el-input>-->
+<!--                </el-form-item>-->
+
+                <!-- 图片上传代码 如页面有图片上传功能放开注释 ****-->
+                <el-form-item label="图片">
+                    <el-upload
+                            class="avatar-uploader"
+                            action="/upload/oss.do"
+                            :show-file-list="false"
+                            :on-success="handleAvatarSuccess"
+                            :before-upload="beforeAvatarUpload">
+                        <img width="100%" height="50%" v-if="imageUrl" :src="imageUrl" class="avatar">
+                        <i v-else class="el-icon-plus avatar-uploader-icon"></i>
+                    </el-upload>
+                </el-form-item>
+
+
+                <el-form-item>
+                    <el-button type="primary" @click="save()">保存</el-button>
+                    <el-button @click="formVisible = false">关闭</el-button>
+                </el-form-item>
+            </el-form>
+
+        </el-dialog>
+
+    </div>
+
+</div>
+
+</body>
+<script src="../../js/vue.js"></script>
+<script src="../../js/axios.js"></script>
+<script src="../../js/util.js"></script>
+<script src="../../js/elementui.js"></script>
+<script>
+    new Vue({
+        el: '#app',
+        data() {
+            return {
+                tableData: [],
+                currentPage: 1,
+                total: 10,
+                size: 10,
+                searchMap: {},
+                pojo: {},
+                formVisible: false,
+                imageUrl: '',
+                pickerOptions1: {
+                    disabledDate(time) {
+                        return time.getTime() > Date.now();
+                    },
+                    shortcuts: [{
+                        text: '今天',
+                        onClick(picker) {
+                            picker.$emit('pick', new Date());
+                        }
+                    }, {
+                        text: '昨天',
+                        onClick(picker) {
+                            const date = new Date();
+                            date.setTime(date.getTime() - 3600 * 1000 * 24);
+                            picker.$emit('pick', date);
+                        }
+                    }, {
+                        text: '一周前',
+                        onClick(picker) {
+                            const date = new Date();
+                            date.setTime(date.getTime() - 3600 * 1000 * 24 * 7);
+                            picker.$emit('pick', date);
+                        }
+                    }]
+                },
+
+            }
+        },
+        created() {
+            this.fetchData();
+            console.log(1)
+        },
+        methods: {
+            fetchData() {
+                axios.post(`/picture/findPage.do?page=${this.currentPage}&size=${this.size}`, this.searchMap).then(response => {
+                    this.tableData = response.data.rows;
+                    this.total = response.data.total;
+                    console.log(response.data)
+                });
+            },
+            save() {
+                this.pojo.appendix = this.imageUrl; //如页面有图片上传功能放开注释
+                axios.post(`/picture/${this.pojo.nid == null ? 'add' : 'update'}.do`, this.pojo).then(response => {
+                    this.fetchData(); //刷新列表
+                    this.formVisible = false;//关闭窗口
+                });
+            },
+            edit(nid) {
+                this.formVisible = true // 打开窗口
+                // 调用查询
+                axios.get(`/picture/findById.do?nid=${nid}`).then(response => {
+                    this.pojo = response.data;
+                    this.imageUrl = this.pojo.appendix //显示图片  如页面有图片上传功能放开注释
+                })
+            },
+            dele(nid) {
+                this.$confirm('确定要删除此记录吗?', '提示', {
+                    confirmButtonText: '确定',
+                    cancelButtonText: '取消',
+                    type: 'warning'
+                }).then(() => {
+                    axios.get(`/picture/delete.do?nid=${nid}`).then(response => {
+                        this.fetchData(); //刷新列表
+                    })
+                })
+            },
+            /* ****图片上传相关代码  如页面有图片上传功能放开注释 **** */
+            handleAvatarSuccess(res, file) {
+                this.imageUrl = file.response;
+            },
+            beforeAvatarUpload(file) {
+                // const isJPG = file.type === 'image/jpeg';
+                const isLt2M = file.size / 1024 / 1024 < 2;
+
+                // if (!isJPG) {
+                //     this.$message.error('上传头像图片只能是 JPG 格式!');
+                // }
+                if (!isLt2M) {
+                    this.$message.error('上传头像图片大小不能超过 2MB!');
+                }
+                return  isLt2M;
+            }
+        }
+    })
+</script>
+</html>
+<script type="text/javascript">
+    function del(obj, id, name) {
+        layer.confirm('是否删除' + name, {icon: 3, title: "删除：" + name}, function (index) {
+            $.get("__CONTROLLER__/del_picture", {nid: id}, function (msg) {
+                layer.msg('成功删除！', {icon: 1, time: 1000, title: "确认"}, function (res) {
+//                        var index = parent.layer.getFrameIndex(window.name);
+                    window.location.reload();
+                });
+            }, "text");
+            layer.close(index);
+        });
+    }
+
+    function show(title, url, w, h) {
+        w = w;
+        layer.open({
+            type: 2,
+            title: title,
+            shadeClose: true,
+            shade: 0.4,
+            area: [w, h],
+            content: url //iframe的url
+        });
+    }
+
+    function edit(title, url, w, h) {
+        layer.open({
+            type: 2,
+            title: title,
+            shadeClose: true,
+            shade: 0.4,
+            area: [w, h],
+            content: url //iframe的url
+        });
+    }
+</script>

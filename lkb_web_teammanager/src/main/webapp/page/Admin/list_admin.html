@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8" />
+		<link rel="stylesheet" href="../css/bootstrap.min.css" />
+		<link rel="stylesheet" type="text/css" href="../css/teacher.css" />
+		<script type="text/javascript" src="..js/bootstrap.min.js"></script>
+		<script src="../js/jquery.min.js"></script>
+		<!--<script src="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>-->
+		<title></title>
+		<style>
+			#so {
+
+margin: 0 10px;
+				height: 25px;
+			}
+		</style>
+	</head>
+
+	<body>
+
+		<div style="padding: 10px 50px 20px 50px;">
+			<table class="table table-striped">
+				<caption>
+					<h2 style="color: #0063a1;">助理列表</h2>
+					<button type="button" class="btn btn-info fr" onclick=""><a href="add_admin.html" style="color: white;">添加助理</a></button>
+
+					<div class="fr" id="so" style="width: 250px;">
+						<div class="input-group" >
+							<input type="text" class="form-control" onkeydown="onKeyDown(event)" />
+							<span class="input-group-addon" >
+								<a href="#" >
+								<i class="glyphicon glyphicon-search"> <span >搜索</span></i>
+								</a>
+							</span>
+						</div>
+					</div>
+					<!--<input type="search" name="search" id="search" value="" />-->
+				</caption>
+
+				<thead>
+					<tr>
+						<th>序列</th>
+						<th>管理员名称</th>
+						<th>管理员账号</th>
+						<th>联系方式</th>
+						<th>操作</th>
+					</tr>
+				</thead>
+				<tbody>
+				<foreach name="list" item="t">
+					<tr>
+						<td>{$t.id}</td>
+						<td>{$t.name}</td>
+						<td>{$t.username}</td>
+						<td>{$t.phone}</td>
+						<td>
+							<a href="#" onclick="del(this,'{$t.id}','账户')">删除</a>
+						</td>
+					</tr>
+				</foreach>
+
+				</tbody>
+			</table>
+			<ul class="pagination pagelist " style="margin: 0px 0">{$page}</ul>
+		</div>
+
+	</body>
+
+</html>
+<script type="text/javascript">
+	/* 搜索框  */
+	function onKeyDown(event) {
+		var e = event || window.event || arguments.callee.caller.arguments[0];
+		if(e && e.keyCode == 27) { // 按 Esc 
+			//要做的事情
+			alert("你按下了Esc");
+		}
+		if(e && e.keyCode == 113) { // 按 F2 
+			//要做的事情
+			alert("你按下了F2");
+		}
+		if(e && e.keyCode == 13) { // enter 键
+			alert("此处回车触发搜索事件");
+		}
+
+	}
+    function del(obj, id, name) {
+        layer.confirm('是否删除' + name, {icon: 3, title: "删除：" + name}, function (index) {
+            $.get("__CONTROLLER__/del", {id: id}, function (msg) {
+                layer.msg('成功删除！', {icon: 1, time: 1000, title: "确认"}, function (res) {
+//                        var index = parent.layer.getFrameIndex(window.name);
+                    window.location.reload();
+                });
+            }, "text");
+            layer.close(index);
+        });
+    }
+</script>

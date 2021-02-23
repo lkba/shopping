@@ -1,0 +1,37 @@
+			<div class="content_div" style="margin-bottom: 65px;">
+					<span style="width: 20px;height: 20px;background: #32afff;display: block;float: left;margin-top: 23px;margin-right: 10px;"></span>
+					<h3><b>赛事活动</b></h3>
+					<foreach name="match" item="v">
+					<div class="list">
+						<div style="float: left;"><img src="__PUBLIC__/uploads/thumb/{$v.thumb}" style="width: 170px;height: 90px;"/></div>
+						<ol>
+							<li><a href="__CONTROLLER__/show/id/{$v.id}"><b class="limit2">{$v.title}</b></a></li>
+							<li><p class="limit" style="margin: 0;font-size: 14px;">{$v.describe}</p></li>
+							<li><p style="margin: 0 20px;font-size: 10px;float: right;">开始时间：<span style="color: red;">{$v.host_time}</span></p></li>
+						</ol>
+					</div>
+					</foreach>
+					<center>
+						<ol class="pagination">
+							{$page}
+						</ol>
+					</center>
+				</div>
+<script>
+	//字限制
+	$(".limit").each(function() {
+		var maxwidth =74;//显示多少字符
+		if ($(this).text().length > maxwidth) {
+		$(this).text($(this).text().substring(0, maxwidth));
+		$(this).html($(this).html() + '...');
+		}
+	});
+	//字限制
+	$(".limit2").each(function() {
+		var maxwidth =20;//显示多少字符
+		if ($(this).text().length > maxwidth) {
+		$(this).text($(this).text().substring(0, maxwidth));
+		$(this).html($(this).html() + '...');
+		}
+	});
+</script>

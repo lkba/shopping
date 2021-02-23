@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8"/>
+    <link rel="stylesheet" type="text/css" href="../../css/backstage.css">
+    <link rel="stylesheet" href="../../css/bootstrap.css"/>
+    <!--<link rel="stylesheet" href="../css/layout.css" />-->
+    <link rel="stylesheet" type="text/css" href="../../css/teacher.css"/>
+    <script type="text/javascript" src="../../js/jquery.min.js"></script>
+    <script type="text/javascript" src="../../js/bootstrap.min.js"></script>
+    <title></title>
+    <style>
+
+    </style>
+</head>
+
+<body>
+<div class="bodyer">
+    <div style="padding: 50px 50px 10px;">请输入增加账户数量：
+        <form class="bs-example bs-example-form" enctype="multipart/form-data" method="post" style="width:500px;">
+            <div class="row fl" style="width: 250px">
+                <div class="col-lg-6">
+                    <div class="input-group">
+                        <input type="text" class="form-control" id="num" name="num">
+                        <span class="input-group-btn">
+							<button class="btn btn-default" type="button" onclick="add_team()">
+								Go!
+							</button>
+						</span>
+                    </div>
+                    <!-- /input-group -->
+                </div>
+
+                <!-- /.col-lg-6 -->
+            </div>
+            <!-- /.row -->
+            <select class="form-control fl" style="width: 120px" id="time" name="time"
+                    onchange="change(this.value)">
+                <!--//当有更改的时候调用-->
+                <foreach name="time.list" item="t">
+                    <option value="{$t.time}">{$t.time}</option>
+                </foreach>
+            </select>
+        </form>
+    </div>
+
+    <div style="padding: 10px 50px 20px 50px;clear: both">
+        <table class="table table-striped" style="width: 70%;">
+            <thead>
+            <tr>
+                <th>序列</th>
+                <th>账户</th>
+                <th>负责人</th>
+
+            </tr>
+            </thead>
+            <tbody>
+            <foreach name="team.list" item="t">
+                <tr>
+                    <td>{$t.tid}</td>
+                    <td>{$t.username}</td>
+                    <td>{$t.name}</td>
+                </tr>
+            </foreach>
+
+            </tbody>
+        </table>
+        <ul class="pagination pagelist " style="margin: 0px 0">{$team.page}</ul>
+    </div>
+
+</div>
+</body>
+<footer style="margin-top: 100px;">
+
+</footer>
+</body>
+
+</html>
+<script>
+    function back() {
+        window.history.back(-1);
+    }
+
+    function add_team() {
+        var num = $("#num").val();
+        var time = $("#time").val();
+        alert("增加" + num + "个团队，负责人名称默认为“两创团队”");
+        window.location.href = "__ACTION__/num/" + num + "/time/" + time;
+    }
+    function getUrlParam() {
+        var reg = new RegExp("success"); //构造一个含有目标参数的正则表达式对象
+        var r = window.location.href.match(reg); //匹配目标参数
+        if (r == 'success'){
+            var index = parent.layer.getFrameIndex(window.name);
+            window.parent.location.reload();
+        }
+    }
+    window.getUrlParam();
+
+
+</script>

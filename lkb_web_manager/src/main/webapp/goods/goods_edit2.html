@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>演示动态增加select框(elementUI 框架)</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue"></script>
+    <script src="https://unpkg.com/element-ui/lib/index.js"></script>
+    <style type="text/css">
+        @import url("https://unpkg.com/element-ui/lib/theme-chalk/index.css");
+    </style>
+</head>
+<body>
+
+<div id="app">
+    <!-- 带多选的 select -->
+    <el-select v-model="value5" multiple placeholder="请选择">
+        <el-option v-for="item in options" :key="item.value" :label="item.label" :value="item.value">
+        </el-option>
+    </el-select>
+
+    <!-- 带清除的 select -->
+    <el-select v-model="value5" clearable placeholder="请选择">
+        <el-option v-for="item in options" :key="item.value" :label="item.label" :value="item.value">
+        </el-option>
+    </el-select>
+
+    <!-- 带计数的 select -->
+    <el-select v-model="value11" multiple collapse-tags style="margin-left: 20px;" placeholder="请选择">
+        <el-option v-for="item in options" :key="item.value" :label="item.label" :value="item.value">
+        </el-option>
+    </el-select>
+
+    <br/>
+    <hr style="height: 20px; color: aqua; background-color: aqua;" />
+
+    <el-form>
+        <el-form-item v-for="(it, index) in list" :key="index">
+            <el-select v-model="oneId[index]" placeholder="请选择" @change="saveList($event, index)">
+                <el-option v-for="item in array" :key="item.id" :label="item.name" :value="item.id" >
+                </el-option>
+            </el-select>
+
+            <el-button  @click="addItem" type="primary">增加</el-button>
+            <el-button  @click="removeItem(it, index)" type="danger">删除</el-button>
+        </el-form-item>
+
+        <el-button type="success" @click="submit">提交</el-button>
+    </el-form>
+
+</div>
+</body>
+
+<script>
+    var vue = new Vue({
+        el: '#app',
+        data() {
+            return {
+                options: [
+                    {value: '选项1',label: '黄金糕'}, {value: '选项2',label: '双皮奶'},
+                    {value: '选项3',label: '蚵仔煎'}, {value: '选项4',label: '龙须面'},
+                    {value: '选项5',label: '北京烤鸭'},
+                ],
+                value5: [],
+                value11: [],
+                oneId: [],
+                array:[
+                    {id: '1',name: '黄金糕'},
+                    {id: '2',name: '双皮奶'},
+                    {id: '3',name: '蚵仔煎'},
+                    {id: '4',name: '龙须面'},
+                    {id: '5',name: '北京烤鸭'}
+                ],
+                list:[{"oneId":''}],
+                selectedList:[], // 存储每次 option 选中的 集合
+            }
+        },
+        methods:{
+            addItem(){
+                // 1。这里为什么改变list的大小就能实现动态增加呢？因为 el-form-item 遍历的是 list,list 中的每一项都是一个 el-form-item
+                // 也就是说因为刚开始 list:[{"oneId":''}] 中,只有一个对象,所以才会只出现一个 el-form-item
+                // 不信可以自己在初始化时 list 中多加入几个对象进行尝试(一定要理解，这里 list 集合的大小与 el-form-item 之间的关系)
+                // 2、第二个问题:el-form-item 是动态增加了,但是如果 el-select 那里写的是 v-model="oneId" 呢？会发生什么？结果你会发现,只要增加一项 el-form-item ,每一项绑定的值都是你所选中的那一个值.为什么呢？因为每一项的 el-option的 :value 值都绑定在 el-select 的 v-model 上,但这是一个全局唯一值,当下一个 el-form-item 产生后,它里面的 el-select 中绑定的 v-model 还是那个 oneId 的值,因此才会出现这样的问题.好了,我们既然找到了原因,那就要来解决一下了,怎么解决呢？很简单:因为我前面说了,每一个 list 的遍历对象,都是一项 el-form-item,即 el-form-item 项数是和 list 的下标(里面存的对象的索引下标)相关联的,而这个下标,在每一个 el-form-item 中肯定是不一样的,因此我们只需要将 oneId 与这个 下标(即此处的 index) 发生关系即可,因此我们这里将 oneId 声明为了一个数组,当你每选中一个 option 时,都将这个 option 的value放入 oneId[当前el-form-item项数下标] 数组中
+
+                this.list.push({"oneId": ''});
+            },
+
+            removeItem(it, index){ // 删除时,我们带两个参数,这个 it 可用可不用,因为我当时只是想看到删除的这个对象的信息,故而带上了; index 是 list 中该对象对应的下标,也是 el-form-item 的项数
+                // 根据这个 index 下标删除 list 中 的该对象
+                if(index != 0){
+                    this.list.splice(index, 1);
+                }
+            },
+
+            saveList(event, index){ // 当每选一个 option 时,我们需要将这个 选中的 oneId 放入 对应的 list 中即可,最后都选中完后,我们只要获取这个 list,即可拿到所有的数据
+                this.list[index].oneId = event;
+            },
+
+            submit(){ // 这里我们打印一下 最后的 list,确保我们都拿到数据了
+                alert(`最终的数据: ${JSON.stringify(this.list)}`);
+            },
+        },
+    });
+</script>
+
+</html>

@@ -1,0 +1,23 @@
+				<div style="padding: 10px 50px 20px 50px;">
+					<ol class="ol">
+						<li>
+							<a title="修改密码" href="javascript:;" onclick="set_m('修改密码','__CONTROLLER__/set_m','500px','400px')">
+								<img src="__PUBLIC__/img/set.png" width="72px"/>
+								<center>修改密码</center>
+							</a>
+						</li>
+					</ol>
+				</div>
+<script>
+	function set_m(title,url,w,h){
+		layer.open({
+		  type: 2,
+		  title: title,
+		  shadeClose: true,
+		  shade: 0.4,
+		  area: [w, h],
+		  scrollbar: false,
+		  content: url //iframe的url
+		}); 
+	}
+</script>

@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8"/>
+    <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
+    <link rel="stylesheet" href="../../plugins/font-awesome/css/font-awesome.min.css">
+    <!--    <link rel="stylesheet" href="../../css/style-el.css">-->
+    <link rel="stylesheet" type="text/css" href="../../css/backstage.css">
+    <link rel="stylesheet" type="text/css" href="../../css/bootstrap.min.css"/>
+    <link rel="stylesheet" type="text/css" href="../../css/teacher.css"/>
+    <link rel="stylesheet" type="text/css" href="../../css/common.css">
+    <!--<script type="text/javascript" src="./js/bootstrap.min.js"></script>-->
+    <script src="../../js/jquery.min.js"></script>
+    <script type="text/javascript" src="../../js/bootstrap.win.js"></script>
+    <script type="text/javascript" src="../../js/common.js"></script>
+    <script src="../../js/layer.js"></script>
+    <script src="../../js/jquery.js"></script>
+    <script src="../../js/util.js"></script>
+
+    <title></title>
+    <style>
+
+    </style>
+</head>
+
+<body>
+<div class="bodyer" id="app">
+    <div style="padding: 50px 50px 10px;">请输入评分年份：
+        <form class="bs-example bs-example-form" method="post" style="width: 300px;" onsubmit="return dosubmit()" action="http://localhost:9105/tableGradeDate/add.do">
+            <div class="row">
+                <div class="col-lg-6">
+                    <div class="input-group">
+                        <input type="text" class="form-control" placeholder="输入格式：2018-01-26" name="date">
+                        <span class="input-group-btn">
+							<button class="btn btn-default" type="submit">
+								Go!
+							</button>
+						</span>
+                    </div>
+                    <!-- /input-group -->
+                </div>
+                <!-- /.col-lg-6 -->
+            </div>
+            <!-- /.row -->
+        </form>
+    </div>
+    <div style="padding: 10px 50px 20px 50px;">
+                <el-table :data="tableData" border style="width: 100%;margin-top:10px ">
+                    <el-table-column prop="id" label="序列" width="80"></el-table-column>
+                    <el-table-column prop="grade_date" label="年份" width="80"></el-table-column>
+                    <el-table-column prop="grade_date_all" label="团队数量" width="80"></el-table-column>
+                    <el-table-column prop="grade_date_1" label="未评分团队" width="80"></el-table-column>
+                    <el-table-column prop="grade_date_0" label="已评分团队" width="80"></el-table-column>
+                    <el-table-column
+                            label="操作">
+                        <template slot-scope="scope">
+                            <el-button @click="dele(scope.row.id)" size="mini" type="primary" size="small">
+                                删除
+                            </el-button>
+                        </template>
+                    </el-table-column>
+                </el-table>
+
+    </div>
+
+</div>
+</body>
+<footer style="margin-top: 100px;">
+
+</footer>
+</body>
+<script src="../../js/vue.js"></script>
+<script src="../../js/axios.js"></script>
+<script src="../../js/elementui.js"></script>
+<script>
+    new Vue({
+        el: '#app',
+        data() {
+            return {
+                tableData: [],
+                currentPage: 1,
+                total: 10,
+                size: 2,
+                searchMap: {
+                    "time": "",
+                    "areawork": "",
+                },
+                seaAreawork: "",
+                seaTime: "",
+                times: "",
+                pojo: {},
+                formVisible: false,
+                imageUrl: ''
+            }
+        },
+        created() {
+
+            this.fetchData();
+        },
+        methods: {
+            fetchData() {
+                axios.get(`http://localhost:9105/tableGradeDate/addGTab.do`).then(response => {
+                    this.tableData = response.data.grade_date_result;
+                    console.log(response.data.grade_date_result)
+
+                });
+            },
+            add_input(tid) {
+                show('查看详情', `http://localhost:9105/page/Team/edit_money.html?tid=${tid}`, '450px', '50%')
+            },
+            out_input(id, val, field) {
+                layer.confirm('是否修改', {icon: 3, title: "修改：" + name, offset: '300px'}, function (index) {
+                    $.get("http://localhost:9105/user/reviseTeam.do", {
+                        tid: id,
+                        val: 0,
+                        fields: field
+                    }, function (msg) {
+                        this.value = msg.val;
+                        console.log("val" + msg.val);
+                        layer.msg('修改成功!', {icon: 1, time: 1000, title: "确认"}, function (res) {
+                            // var index = parent.layer.getFrameIndex(window.name);
+                            window.location.reload();
+                        });
+                    }, "text");
+                    layer.close(index);
+                });
+            },
+            reqSearch: function (new_time, new_areawork) {
+                if (new_time == "") {
+                    new_time = "";
+                }
+                if (new_areawork == "" || new_areawork == "undefined") {
+                    new_areawork = "";
+                }
+                window.location = "http://localhost:9105/page/Team/team_list.html?time=" + new_time + "&areawork=" + new_areawork;
+                // $("#areawork").val(getQueryString("areawork"));
+                // $("#time").val(getQueryString("time"));
+            }
+            ,
+            save() {
+                // this.pojo.image= this.imageUrl; //如页面有图片上传功能放开注释
+                axios.post(`/order/${this.pojo.id == null ? 'add' : 'update'}.do`, this.pojo).then(response => {
+                    this.fetchData(); //刷新列表
+                    this.formVisible = false;//关闭窗口
+                });
+
+            }
+            ,
+            edit(id) {
+                // console.log(id)
+                show('查看详情', `http://localhost:9105/page/Team/team.html?tid=${id}`, '1024px', '90%')
+            },
+            dele(id) {
+                this.$confirm('确定要删除此记录吗?', '提示', {
+                    confirmButtonText: '确定',
+                    cancelButtonText: '取消',
+                    type: 'warning'
+                }).then(() => {
+                    axios.get(`/tableGradeDate/delete.do?id=${id}`).then(response => {
+                        this.fetchData(); //刷新列表
+
+                    })
+                })
+            }
+
+        }
+    })
+</script>
+</html>
+<script>
+    function back() {
+        window.history.back(-1);
+    }
+
+
+    function GTal_del(obj, id, name) {
+        layer.confirm('确认要删除"' + name + '"吗？该时间段的表格将全部被删除', {icon: 3, title: "是否删除：" + name}, function (index) {
+            $.get("__CONTROLLER__/GTab_del_A", {id: id}, function (msg) {
+                $(obj).parents("tr").remove();
+//                    var n= $("#teammate").attr("rowspan");
+//                    $("#teammate").attr('rowspan',n-1);
+                layer.msg('已删除!', {icon: 1, time: 1000, title: "确认"});
+            }, "text");
+            layer.close(index);
+        });
+    }
+    var isCommitted = false;//表单是否已经提交标识，默认为false
+    function dosubmit() {
+        if (isCommitted == false) {
+            isCommitted = true;//提交表单后，将表单是否已经提交标识设置为true
+            return true;//返回true让表单正常提交
+        } else {
+            return false;//返回false那么表单将不提交
+        }
+    }
+
+
+</script>

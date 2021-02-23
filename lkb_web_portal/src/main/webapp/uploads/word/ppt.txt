@@ -1,0 +1,21 @@
+答辩PPT
+第一页
+标题：基于JAVA技术的团队云孵综合平台的设计与实现
+
+第二页：
+系统架构： Dubbo+Zookeeper
+其他技术： Vue.js+ ElementUI+ Thymeleaf+ RabbitMQ + CAS+SSM(通用Mapper)
+开发环境：JDK1.8+IDEA+Maven+Tomcat+MySQL
+
+第三页：
+涉及角色：学校，学生，商家
+
+第四页：
+展示  学生-学校
+
+第五页：
+展示  学生-商家
+
+第六页：
+结束语（帮忙想下）
+

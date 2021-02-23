@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta charset="utf-8" />
+	<link rel="stylesheet" type="text/css" href="../../css/backstage.css">
+	<link rel="stylesheet" href="../../css/bootstrap.css" />
+	<!--<link rel="stylesheet" href="../css/layout.css" />-->
+	<link rel="stylesheet" type="text/css" href="../../css/teacher.css" />
+	<script type="text/javascript" src="../../js/jquery.min.js"></script>
+	<script type="text/javascript" src="../../js/bootstrap.min.js"></script>
+	<title></title>
+	<style>
+
+	</style>
+	<script>
+	</script>
+</head>
+
+<body>
+<form action="" method="post" enctype="multipart/form-data" style="width: 600px;">
+	<div style="padding: 10px 50px 20px 50px;">
+		<h2 style="color: #0063a1;">修改期数</h2>
+		<table class="table table-striped">
+			<tr>
+				<td align="right">原期数</td>
+				<td>{$time}</td>
+			</tr>
+			<tr>
+				<td align="right">输入期数</td>
+				<td><input type="text" name="new_time" class="form-control" /></td>
+			</tr>
+			<tr>
+				<td colspan="2"><input class="btn btn-primary" type="submit" value="修改" /></td>
+			</tr>
+
+		</table>
+	</div>
+</form>
+</body>
+<footer style="margin-top: 100px;">
+
+</footer>
+</body>
+
+</html>
+<script>
+    function getUrlParam() {
+        var reg = new RegExp("success"); //构造一个含有目标参数的正则表达式对象
+        var r = window.location.href.match(reg); //匹配目标参数
+        if (r == 'success'){
+            var index = parent.layer.getFrameIndex(window.name);
+            window.parent.location.reload();
+        }
+    }
+    window.getUrlParam();
+</script>
+

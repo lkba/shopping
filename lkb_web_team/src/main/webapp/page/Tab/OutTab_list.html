@@ -1,0 +1,61 @@
+
+				<div style="padding: 10px 50px 20px 50px;margin-bottom: 65px;">
+					<table class="table table-striped">
+					  <caption>项目退出申请表<button type="button" class="btn btn-info" style="float: right;" onclick="outtab('添加退出申请','__CONTROLLER__/addOutTab','80%','90%')">添加申请</button><button type="button" class="btn btn-info" style="float: right;margin-right: 20px;" onclick="back()">返回</button></caption>
+					  <thead>
+					    <tr>
+					      <th>序号</th>
+					      <th>日期</th>
+					      <th>状态</th>
+					      <th>操作</th></tr>
+					  </thead>
+					  <tbody>
+					  	<foreach name="data" item="v" key='key'>
+					    <tr>			      	
+					      	<td>{$key+1}</td>
+					      	<td>{$v.edate}</td>
+					      	<td>
+					      		<eq name="v.is_sub" value="0"><span style="color: red;">未提交</span><else/>已提交</eq>&nbsp;/
+					      		<eq name="v.is_out" value="1"><span style="color: red;">未审核</span><else/>已审核</eq>
+					      	</td>
+					      	<td><a title="修改" <eq name="v.is_sub" value="0">href="javascript:;" onclick="edit('修改','__CONTROLLER__/reOutTab/oid/{$v.oid}','80%','90%')"<else/>href ="#" style="opacity: 0.4"</eq>>修改</a>&nbsp;&nbsp;<a title="查看 / 打印 / 提交" href="javascript:;" onclick="show('查看 / 打印 / 提交','__CONTROLLER__/OutTab/oid/{$v.oid}','80%','90%')">查看 / 打印 / 提交</a></td></tr>
+					  		</foreach>
+					  </tbody>
+					</table>
+					
+				</div>
+<script>
+	function outtab(title,url,w,h){
+		layer.open({
+		  type: 2,
+		  title: title,
+		  shadeClose: true,
+		  shade: 0.4,
+		  area: [w, h],
+		  content: url //iframe的url
+		});
+	}
+	function show(title,url,w,h){
+		layer.open({
+		  type: 2,
+		  title: title,
+		  shadeClose: true,
+		  shade: 0.4,
+		  area: [w, h],
+		  content: url //iframe的url
+		}); 
+	}
+	function edit(title,url,w,h){
+		layer.open({
+		  type: 2,
+		  title: title,
+		  shadeClose: true,
+		  shade: 0.4,
+		  area: [w, h],
+		  content: url //iframe的url
+		}); 
+	}
+	function back(){
+		window.location.href = "__MODULE__/Tab/index";
+	}
+</script>

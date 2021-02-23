@@ -1,0 +1,275 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="/css/bootstrap.css">
+    <link href="/css/themify-icons.css" rel="stylesheet">
+    <script src="/js/autocomplete/jquery-3.1.1.min.js"></script>
+    <title>联系人面板</title>
+    <style>
+        body {
+            background-color: #ffffff;
+        }
+
+        .directory-wrap {
+            margin-top: 15px;
+        }
+
+        .directory-left {
+            box-sizing: border-box;
+            background-color: #f2f2f2;
+            padding: 10px 0 10px 10px;
+        }
+
+        .directory-right {
+            box-sizing: border-box;
+            height: 500px;
+            margin-left: -28px;
+        }
+
+        .directory-left-top {
+            height: 500px;
+            width: 100%;
+            overflow: scroll;
+        }
+
+        .directory-left table tbody tr {
+            background-color: #ffffff;
+        }
+
+        .directory-left table tbody tr:hover {
+            background-color: #FBF4E4;
+        }
+
+        .directory-right {
+            background-color: #f2f2f2;
+            height: 520px;
+        }
+
+        .directory-right-body {
+            border-bottom: 1px solid #c7c7c7;
+        }
+
+        .directory-right-top {
+            padding: 10px;
+            text-align: right;
+            border-bottom: 1px solid #c7c7c7;
+        }
+
+        .receive-operate {
+            /*margin: 10px;*/
+            padding: 10px 10px 0 10px;
+            display: flex;
+            flex-direction: row;
+        }
+
+        /*.receive-operate button{*/
+        /*!*padding:10px;*!*/
+        /*!*border-radius: 9999em;*!*/
+        /*outline: none;*/
+        /*margin-right: auto;*/
+        /*}*/
+        .receive-operate div {
+            padding-left: 7px;
+        }
+
+        .receive-operate div:first-child {
+            margin-right: auto;
+        }
+
+        .dialog-content {
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            height: 85%;
+        }
+
+        .dialog-content .right-arrow {
+            width: 60px;
+            text-align: center;
+        }
+
+        .dialog-content .right-arrow button {
+            outline: none;
+            background-color: #F4F4F6;
+            outline: none;
+            padding: 15px 10px;
+
+        }
+
+        .dialog-content .right-arrow button:hover {
+            box-shadow: 0 0 5px rgba(204, 197, 185, 0.7);
+        }
+
+        .dialog-content .choose-detail {
+            background-color: #ffffff;
+            /*box-shadow: inset 0 2px 2px rgba(204, 197, 185, 0.5);*/
+            box-shadow: inset 0 0 5px rgba(204, 197, 185, 1);
+
+            border-radius: 5px;
+            width: 78%;
+            height: 90%;
+            text-overflow: ellipsis;
+            overflow: scroll;
+        }
+        .dialog-content .choose-detail  table{
+
+        }
+        .dialog-content .choose-detail:hover {
+
+            /*box-shadow: 1px 2px 2px rgba(204, 197, 185, 0.5);*/
+            box-shadow: 0 0 10px rgba(204, 197, 185, 1);
+            border: 1px solid #f2f2f2;
+
+        }
+
+        .directory-right-footer {
+            height: 60px;
+            background-color: #FAFAFA;
+            text-align: right
+        }
+
+        .directory-right-footer .cancel-sure {
+            padding: 15px;
+        }
+
+        .directory-right-footer .cancel-sure button {
+            padding: 5px;
+            width: 80px;
+            margin-left: 10px;
+            border: 1px solid #a9a9a9;
+            background-color: darkseagreen;
+            color: #ffffff;
+        }
+
+        .directory-right-footer .cancel-sure button:hover {
+            box-shadow: 0 0 5px rgba(204, 197, 185, 1);
+        }
+    </style>
+</head>
+<body>
+<div class="container-fluid" id="app">
+    <div class="directory-wrap">
+        <div class="col-sm-7 col-xs-7 col-md-7 col-lg-7">
+            <div class="directory-left">
+                <div class="directory-left-top">
+                    <table class="table table-hover" id="tName">
+                        <thead>
+                        <tr>
+                            <th><input type="checkbox"  id="all"></th>
+                            <th>姓名</th>
+                            <th>工号</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                            <tr v-for="team in teams">
+                                <td><input type="checkbox" class="check" :value="team.tid"></td>
+                                <td class="Tname">{{team.name}}</td>
+                                <td>{{team.tid}}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-5 col-xs- col-md-5 col-lg-5">
+            <div class="directory-right">
+                <div class="directory-right-body">
+                    <div class="receive-operate">
+                        <div>收件人：</div>
+                        <div class="clear"><a href="#">清空</a></div>
+                    </div>
+                    <div class="dialog-content">
+                        <div class="right-arrow">
+                            <button id="selectToRight">
+                                <i class="ti-arrow-right">
+                                    <span class="sr-only">收件人</span>
+                                </i>
+                            </button>
+                        </div>
+                        <div class="choose-detail ">
+                            <table class="table">
+                                <thead>
+                                <tr>
+                                    <th width="20%">选中名单</th>
+                                </tr>
+                                </thead>
+                                <tbody id="info">
+
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+
+    $(function () {
+        var checkList = new Array();
+        //全选/全不选
+        $("#all").click(function() {
+            $("input[type='checkbox']:checkbox").prop("checked", this.checked);
+        });
+        $(".clear").bind("click",function () {
+            $('#info').empty()
+        })
+        $('#selectToRight').click(function () {
+            $('#info').empty()
+            $('.check:checked').each(function () {
+                checkList.push($(this).val());
+            })
+            let check = $('input[type = "checkbox"]:checked');
+            check.each(function () {
+                let checkArr = [];
+                checkArr.push($(this).parent('td').parent('tr').text());
+                checkArr.forEach((val, index) => {
+                    $('#info').append("<tr><td>" + checkArr[index] + "</td></tr>");
+                })
+            })
+        })
+    })
+</script>
+<script src="../../js/vue.js"></script>
+<script src="../../js/axios.js"></script>
+<script src="../../js/util.js"></script>
+<script src="../../js/elementui.js"></script>
+<script>
+    new Vue({
+        el: '#app',
+        data() {
+            return {
+                tableData: [],
+                teams:[],
+                currentPage: 1,
+                total: 10,
+                size: 10,
+                searchMap: {},
+                pojo: {},
+                formVisible: false,
+                imageUrl: ''
+            }
+        },
+        created() {
+            this.tid = getQueryString("tid")
+            this.searchMap = {tid: getQueryString("tid")}
+            this.fetchData();
+        },
+        methods: {
+            fetchData() {
+                axios.get(`http://localhost:9105/user/findAll.do`).then(response => {
+                    this.teams = response.data;
+                    console.log(response.data)
+                });
+            },
+
+
+        }
+    })
+</script>
+</body>
+</html>

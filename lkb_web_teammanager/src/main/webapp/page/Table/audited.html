@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8"/>
+    <title></title>
+    <style>
+        /*table{
+            text-align: center;
+        }*/
+    </style>
+</head>
+
+<body>
+
+<div style="padding: 10px 50px 20px 50px;">
+    <table class="table table-striped">
+        <caption>
+            <h2 style="color: #0063a1;">入驻申请表</h2>
+        </caption>
+
+        <thead>
+        <tr>
+            <th>序列</th>
+            <th>团队名称</th>
+            <th>项目名称</th>
+            <th>负责人</th>
+            <th>联系方式</th>
+            <th>操作</th>
+        </tr>
+        </thead>
+        <foreach name="enter.limit" item="t">
+            <tr>
+                <td>{$t.tpid}</td>
+                <td>{$t.project}</td>
+                <td>{$t.team}</td>
+                <td>{$t.name}</td>
+                <td>{$t.phone}</td>
+                <td>
+                    <a href="#"
+                       onclick="show('查看详情','__MODULE__/Table/show_ETab/tpid/{$t.tpid}','1024px','90%');">查看</a>&nbsp;&nbsp;
+                    <a href="#" onclick="del_enter(this,'{$t.tpid}','入驻表')">删除</a>
+                    <span class="state">{$t.is_aud}</span>
+                </td>
+            </tr>
+        </foreach>
+        </tbody>
+
+    </table>
+    <ul class="pagination pagelist " style="margin: 0px 0">{$enter.page}</ul>
+
+</div>
+
+</body>
+
+</html>
+<script type="text/javascript">
+    /* 搜索框  */
+    function onKeyDown(event) {
+        var e = event || window.event || arguments.callee.caller.arguments[0];
+        if (e && e.keyCode == 27) { // 按 Esc
+            //要做的事情
+//            alert("你按下了Esc");
+        }
+        if (e && e.keyCode == 113) { // 按 F2
+            //要做的事情
+//            alert("你按下了F2");
+        }
+        if (e && e.keyCode == 13) { // enter 键
+
+        }
+
+    }
+    $(document).ready(function() {
+        var where="{$where}";
+        if(where=="1"){
+            $("#aud").val("未审核");
+        }else if (where=="2"){
+            $("#aud").val("未通过");
+        }
+        else if (where=="3"){
+            $("#aud").val("通过");
+        }else{
+            $("#aud").val("");
+        }
+    });
+    function del_enter(obj, id, name) {
+        layer.confirm('是否删除', {icon: 3, title: "删除：" + name}, function (index) {
+            $.get("__CONTROLLER__/del_enter", {id: id}, function (msg) {
+                layer.msg('删除通过!', {icon: 1, time: 1000, title: "确认"}, function (res) {
+                    var index = parent.layer.getFrameIndex(window.name);
+                    window.parent.location.reload();
+                });
+            }, "text");
+            layer.close(index);
+        });
+    }
+
+
+</script>

@@ -1,0 +1,17 @@
+td{
+	vertical-align: middle !important;	
+}
+table th{	
+	vertical-align: middle !important;		
+	text-align: center;
+	min-width: 130px;
+}
+@page 
+    {
+        size:  auto;   /* auto is the initial value */
+        margin: 0mm 10mm;  /* this affects the margin in the printer settings */
+    }  
+.w{
+	border: 1px solid #ddd !important;
+	position: relative;
+}

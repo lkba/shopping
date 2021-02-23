@@ -1,0 +1,413 @@
+<!DOCTYPE html>
+<html xmlns:v-on="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8"/>
+    <link rel="stylesheet" href="../../css/elementui.css">
+
+    <link rel="stylesheet" href="../../css/bootstrap.css"/>
+    <link rel="stylesheet" href="../../css/layout.css"/>
+    <link rel="stylesheet" type="text/css" href="../../css/student.css"/>
+    <script src="../../js/jquery.js"></script>
+    <script src="../../js/layer.js"></script>
+    <script type="text/javascript" src="../../js/jquery.min.js"></script>
+    <script type="text/javascript" src="../../js/bootstrap.min.js"></script>
+    <script type="text/javascript" charset="utf-8" src="../../js/plugins/kindeditor/kindeditor.js"></script>
+    <script type="text/javascript" charset="utf-8" src="../../js/plugins/kindeditor/lang/zh_CN.js"></script>
+    <title></title>
+    <script>
+        KindEditor.ready(function (K) {
+            window.editor = K.create('#editor_id');
+        });
+    </script>
+    <style>
+        body {
+            padding: 20px 50px;
+        }
+
+        label {
+            margin: 0 72px 0 10px;
+            display: inline-block;
+            vertical-align: middle;
+        }
+
+        input[type="radio"] {
+            vertical-align: middle;
+            margin: 0;
+        }
+
+        input[type="checkbox"] {
+            vertical-align: middle;
+            margin: 10px;
+        }
+
+        td {
+            vertical-align: middle !important;
+        }
+
+        table th {
+            vertical-align: middle !important;
+            text-align: center;
+            width: 200px;
+            min-width: 100px;
+        }
+
+        textarea {
+            resize: none;
+            word-wrap: break-word;
+            background: none;
+            height: 100%;
+            width: 100%;
+            overflow: hidden;
+        }
+    </style>
+</head>
+<body>
+<div id="app">
+    <template >
+    <input type="text" v-model="pojo.team[0].name" style="border: #0abdfe;background: #0abdfe">
+    <input type="text" v-model="pojo.team[1].name" style="border: #0abdfe;background: #0abdfe">
+<!--    <input type="text" v-model="pojo.team[0].id" style="border: #0abdfe;background: #0abdfe">-->
+<!--        <input type="text" v-model="pojo.team[1].name" style="border: #0abdfe;background: #0abdfe">-->
+<!--    <input type="text" v-model="pojo.team[1].id" style="border: #0abdfe;background: #0abdfe">-->
+
+
+<!--    <input type="text" v-model="pojo.teacher[0].tname" style="border: #0abdfe;background: #0abdfe">-->
+<!--    <input type="text" v-model="pojo.teacher[0].tsex" style="border: #0abdfe;background: #0abdfe">-->
+<!--        <input type="text" v-model="pojo.teacher[1].tname" style="border: #0abdfe;background: #0abdfe">-->
+<!--    <input type="text" v-model="pojo.teacher[1].tsex" style="border: #0abdfe;background: #0abdfe">-->
+
+
+    cd<input type="text" v-model="pojo.cd" style="border: #0abdfe;background: #0abdfe" value="222">
+    </template>
+    <input v-model="len" style="border: #0abdfe;background: #0abdfe">
+    <button v-on:click="sub('s')">提交</button>
+    <div>{{pojo.cd}}</div>
+    <div>{{len}}</div>
+</div>
+</body>
+</html>
+<script>
+    function back() {
+        var index = parent.layer.getFrameIndex(window.name); //先得到当前iframe层的索引
+        parent.layer.close(index); //再执行关闭
+    }
+
+    function getUrlParam() {
+        var reg = new RegExp("success"); //构造一个含有目标参数的正则表达式对象
+        var r = window.location.href.match(reg); //匹配目标参数
+        if (r == 'success') {
+            var index = parent.layer.getFrameIndex(window.name);
+            window.parent.location.reload();
+        }
+    }
+
+    window.getUrlParam();
+
+    //
+    function teacher_del1(obj) {
+        layer.confirm('确认要删除吗？', {icon: 3, title: "是否删除?"}, function (index) {
+            $(obj).parents("tr").next().remove();
+            $(obj).parents("tr").remove();
+            var n = $("#teacher").attr("rowspan");
+            $("#teacher").attr('rowspan', n - 2);
+            layer.msg('已删除!', {icon: 1, time: 1000, title: "确认"});
+        });
+    }
+
+    //
+    function teacher_del(obj, id, name) {
+        layer.confirm('确认要删除吗？', {icon: 3, title: "是否删除?"}, function (index) {
+            $.get("__CONTROLLER__/teacherdel", {id: id}, function (msg) {
+                if (msg.flag === true) {
+                } else {                    $(obj).parents("tr").next().remove();
+                    $(obj).parents("tr").remove();
+                    var n = $("#teacher").attr("rowspan");
+                    $("#teacher").attr('rowspan', n - 2);
+                    layer.msg('已删除!', {icon: 1, time: 1000, title: "确认"});
+                    //location.reload();
+
+
+                    alert(msg.msg);
+                }
+            }, "json");
+        });
+    }
+
+    //添加导师
+    function teacher_add() {
+        var data = '<tr>';
+        data += '<th colspan="1"><input type="hidden" value="add" name="id[]" v-mode="pojo.id[]"/>姓名&nbsp;<a title="删除" href="javascript:;" onclick="teacher_del1(this)" >X</a></th><td colspan="2"><textarea rows="1" maxlength="120" name="name[]" v-mode="pojo.name[]"  required="required"></textarea></td>';
+        data += '<th colspan="2">系别</th><td colspan="2"><textarea rows="1" maxlength="120" name="department[]" required="required" v-mode="pojo.department[]"></textarea></td></tr>';
+        data += '<tr>';
+        data += '<th colspan="1">职务</th><td colspan="2"><textarea rows="1" maxlength="120" name="position[]" required="required" v-mode="pojo.position[]"></textarea></td>';
+        data += '<th colspan="2">负责领域</th><td colspan="2"><textarea rows="1" maxlength="120" name="field[]" required="required" v-mode="pojo.field"></textarea></td>';
+        data += '</tr>';
+        var n = $("#teacher").attr("rowspan");
+        $("#teacher").attr('rowspan', parseInt(n) + 2);
+        $('#tadd').before(data);
+    }
+
+    //
+    function team_del1(obj) {
+        layer.confirm('确认要删除吗？', {icon: 3, title: "是否删除?"}, function (index) {
+            $(obj).parents("tr").remove();
+            var n = $("#teammate").attr("rowspan");
+            $("#teammate").attr('rowspan', n - 1);
+            layer.msg('已删除!', {icon: 1, time: 1000, title: "确认"});
+        });
+    }
+
+    //
+    function team_del(obj, id, name) {
+        layer.confirm('确认要删除吗？', {icon: 3, title: "是否删除?"}, function (index) {
+            $.get("__CONTROLLER__/teamdel", {id: id}, function (msg) {
+                if (msg.flag === true) {
+                    $(obj).parents("tr").remove();
+                    var n = $("#teammate").attr("rowspan");
+                    $("#teammate").attr('rowspan', n - 1);
+                    layer.msg('已删除!', {icon: 1, time: 1000, title: "确认"});
+                    //location.reload();
+
+                } else {
+                    alert(msg.msg);
+                }
+            }, "json");
+        });
+    }
+
+    //添加成员
+    function team_add() {
+        var data = '<tr><td colspan="1">';
+        data += '<a title="删除" href="javascript:;" onclick="team_del1(this)" >X</a>&nbsp;&nbsp;';
+        data += '<textarea rows="1" maxlength="20" name="tname[]" v-mode="pojo.tname[]" style="width: 70%;" required="required"></textarea><input type="hidden" value="add" name="mateid[]" v-mode="pojo.mateid[]"/>';
+        data += '</td>';
+        data += '<td colspan="1">';
+        data += '<select name="tsex[]" v-mode="pojo.tsex[]">';
+        data += '<option value="男" selected>男</option>';
+        data += '<option value="女" >女</option>';
+        data += '</select>';
+        data += '</td>';
+        data += '<td colspan="1"><textarea rows="1" maxlength="120" name="tdepartment[]" v-mode="pojo.tdapartment[]" required="required"></textarea></td>';
+        data += '<td colspan="2"><textarea rows="1" maxlength="120" name="tprofessional[]" v-mode="pojo.tprofessional[]" required="required"></textarea></td>';
+        data += '<td colspan="1"><textarea rows="1" maxlength="120" name="tphone[]" v-mode="pojo.tphone[]" class="phone" required="required"></textarea></td>';
+        data += '<td colspan="1"><textarea rows="1" maxlength="120" name="temail[]" v-mode="pojo.temail[]"></textarea></td>';
+        data += '</tr>';
+        var n = $("#teammate").attr("rowspan");
+        $("#teammate").attr('rowspan', parseInt(n) + 1);
+        $('#tmadd').before(data);
+    }
+
+    //上传
+    function upload(title, url, w, h) {
+        layer.open({
+            type: 2,
+            title: title,
+            shadeClose: true,
+            shade: 0.4,
+            area: [w, h],
+            content: url //iframe的url
+        });
+    }
+
+    $(function () {
+        var x = $('input:radio[name="form"]:checked').val();
+        if (x != "无限责任公司" && x != "有限责任公司" && x != "份有限公司" && x != "个人独资企业" && x != "合伙企业" && x != "公司制企业") {
+            $('#other').attr('checked', 2);
+            $('#txt').show();
+        } else {
+            $('#txt').hide();
+        }
+    });
+
+
+    $('#other').click(function () {
+        $('#txt').show();
+    });
+    // $("form").submit(function(){ //表单提交时判断
+    //
+    //     if($('#registered').val()=='是'){
+    //         if($('#reg_time').val().trim().length==0){
+    //             $("#reg_time").focus();
+    //             return false;
+    //         }
+    //     }
+    //     if($("#other").is(":checked") && $("#txt").val().trim().length==0){
+    //         $("#txt").val('无');
+    //     }
+    //     var f1 = true;
+    //     $(".phone").each(function(){
+    //         var f2 = checkPhone($(this).val().trim());
+    //         if(f2 == false){
+    //             $(this).val($(this).val().trim());
+    //             alert('手机号码格式错误！');
+    //             $(this).focus();
+    //             f1 = false;
+    //             return false;
+    //         }
+    //     });
+    //     if(f1==false){
+    //         return f1;
+    //     }else{
+    //         $("#sub").attr('disabled','disabled');
+    //     }
+    // });
+
+    // function checkPhone(phone) {
+    //     if (!(/^1(3|4|5|7|8)\d{9}$/.test(phone))) {
+    //         //alert("手机号码有误!");
+    //         return false;
+    //     }
+    // }
+
+    $("#registered").change(function () {
+        if ($('#registered').val() == '否') {
+            $('#reg_time').hide();
+            $('#reg_time').val('');
+            $('#money').val('');
+            $('#money').hide();
+        } else {
+            $('#reg_time').show();
+            $('#money').show();
+        }
+    });
+    $(function () {
+        if ($('#registered').val() == '否') {
+            $('#reg_time').hide();
+            $('#reg_time').val('');
+            $('#money').val('');
+            $('#money').hide();
+        } else {
+            $('#reg_time').show();
+            $('#money').show();
+        }
+    });
+    $(".file").on("change", "input[type='file']", function () {
+        var filePath = $(this).val();
+        if (filePath.indexOf("zip") != -1 || filePath.indexOf("rar") != -1) {
+            $(".fileerrorTip1").html("").hide();
+            var arr = filePath.split('\\');
+            var fileName = arr[arr.length - 1];
+            $(".showFileName1").html(fileName);
+        }
+//        else {
+//            $(".showFileName1").html("");
+//            $(".fileerrorTip1").html("您未上传文件，或者您上传文件类型有误！").show();
+//            return false
+//        }
+    })
+
+    function add_input() {
+        var data = '<tr id="add_time"><td align="right" colspan="1">新增期数</td>';
+        data += '<td colspan="7">';
+        data += '<input type="text"  style="width: 50%;float: left;margin:0 5px " name="time" v-mode="pojo.time" class="form-control" id="time"/>';
+        data += '<input type="button" class="btn btn-info" value="取消" id="remove" onclick="remove_input()">';
+        data += '</td></tr>';
+        $("#sel_time").before(data);
+        $("#sel_time").remove();
+
+    }
+
+    function remove_input() {
+        var data = '<tr id="sel_time">';
+        data += '<td align="right" colspan="1">选择期数</td>';
+        data += '<td colspan="7"><select class="form-control fl" style="width: 120px" id="time" name="time" v-mode="pojo.time" onchange="change(this.value)">';
+        data += '<foreach name="time.list" item="t">';
+        data += '<option value="{$t.time}">{$t.time}</option>';
+        data += '</foreach>';
+        data += '</select>';
+        data += '</td>';
+        data += '</tr>';
+        $("#add_time").after(data);
+        $("#add_time").remove();
+    }
+</script>
+
+<script src="../../js/vue.js"></script>
+<script src="../../js/axios.js"></script>
+<script src="../../js/util.js"></script>
+<script src="../../js/elementui.js"></script>
+<script>
+    new Vue({
+        el: '#app',
+        data() {
+            return {
+                tableData: [],
+                enter: [],
+                user: {},
+                basics: [],
+                team: [],
+                teachers: [],
+                len: "",
+                len2: "",
+                times: "",
+                tid: null,
+                currentPage: 1,
+                total: 10,
+                size: 10,
+                searchMap: {},
+                pojo: {
+                    team:[{}
+                    ,{}],
+                    teacher:[{}],
+                },
+                formVisible: false,
+                imageUrl: ''
+            }
+        },
+        created() {
+            this.tid = getQueryString("tid")
+            this.searchMap = {tid: getQueryString("tid")}
+            this.fetchData();
+        },
+        methods: {
+            fetchData() {
+                axios.get(`http://localhost:9105/enterTime/findAll.do`).then(response => {
+                    this.times = response.data;
+                });
+            },
+            sub(s){
+               console.log(this.pojo.name)
+               console.log(this.pojo)
+               console.log("len"+this.len)
+               console.log(s)
+            }
+
+        }
+    })
+</script>
+
+
+
+
+
+<style>
+    /*样式2*/
+    .file {
+        position: relative;
+        display: inline-block;
+        background: #D0EEFF;
+        border: 1px solid #99D3F5;
+        border-radius: 4px;
+        padding: 4px 12px;
+        overflow: hidden;
+        color: #1E88C7;
+        text-decoration: none;
+        text-indent: 0;
+        line-height: 20px;
+    }
+
+    .file input {
+        position: absolute;
+        font-size: 100px;
+        right: 0;
+        top: 0;
+        opacity: 0;
+    }
+
+    .file:hover {
+        background: #AADFFD;
+        border-color: #78C3F3;
+        color: #004974;
+        text-decoration: none;
+    }
+</style>

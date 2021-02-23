@@ -1,0 +1,117 @@
+{__NOLAYOUT__}
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8"/>
+    <link rel="stylesheet" type="text/css" href="__PUBLIC__/css/backstage.css">
+    <link rel="stylesheet" href="__PUBLIC__/css/bootstrap.css"/>
+    <!--<link rel="stylesheet" href="../css/layout.css" />-->
+    <link rel="stylesheet" type="text/css" href="__PUBLIC__/css/teacher.css"/>
+    <script type="text/javascript" src="__PUBLIC__/js/jquery.min.js"></script>
+    <script type="text/javascript" src="__PUBLIC__/js/bootstrap.min.js"></script>
+    <script src="__PUBLIC__/js/layer.js"></script>
+    <script src="__PUBLIC__/js/jquery.js"></script>
+    <title></title>
+    <style>
+
+    </style>
+</head>
+
+<body>
+<div class="bodyer">
+    <div style="padding: 50px 50px 10px;">
+        <form class="bs-example bs-example-form" enctype="multipart/form-data" method="post" style="width:500px;">
+            <h2 style="color: #0063a1;">公告编辑</h2>
+            <div class="ui-widget "  style="margin: 20px 0px;">
+                <label  class="fl">公告名称: </label>&nbsp;&nbsp;
+                <input type="text"  name="ntitle" class="form-control fl" style="margin: 0 10px">
+            </div>
+
+            <div class="ui-widget " style="margin: 20px 0px;">
+                <div style="margin-top: 30px"><label class="">公告内容: </label><textarea name="ncontent" style="height:200px;margin-left: 10px"  class="form-control"></textarea></div>
+            </div>
+            <div>
+                <a href="javascript:;" class="file" title="上传计划书">文件上传
+                    <input type="file" class="file" name="appendix" value="选择图片">
+                </a>
+                <span style="position: relative;top: -8px;">上传仅限jpg,png的图片</span>
+                <div class="showFileName1"></div>
+                <div class="fileerrorTip1"></div>
+            </div>
+            <div>
+                <input type="submit" value="提交" class="btn btn-info fr">
+            </div>
+        </form>
+    </div>
+</div>
+</body>
+<footer style="margin-top: 100px;">
+
+</footer>
+</body>
+
+</html>
+
+<script>
+    function back() {
+        window.history.back(-1);
+    }
+
+    function getUrlParam() {
+        var reg = new RegExp("success"); //构造一个含有目标参数的正则表达式对象
+        var r = window.location.href.match(reg); //匹配目标参数
+        if (r == 'success'){
+            var index = parent.layer.getFrameIndex(window.name);
+            window.parent.location.reload();
+        }
+    }
+    window.getUrlParam();
+
+    $(".file").on("change", "input[type='file']", function () {
+        var filePath = $(this).val();
+        if (filePath.indexOf("jpg") != -1 || filePath.indexOf("png") != -1) {
+            $(".fileerrorTip1").html("").hide();
+            var arr = filePath.split('\\');
+            var fileName = arr[arr.length - 1];
+            $(".showFileName1").html(fileName);
+        }
+//        else {
+//            $(".showFileName1").html("");
+//            $(".fileerrorTip1").html("您未上传文件，或者您上传文件类型有误！").show();
+//            return false
+//        }
+    })
+</script>
+
+<style>
+    /*样式2*/
+    .file {
+        position: relative;
+        display: inline-block;
+        background: #D0EEFF;
+        border: 1px solid #99D3F5;
+        border-radius: 4px;
+        padding: 4px 12px;
+        overflow: hidden;
+        color: #1E88C7;
+        text-decoration: none;
+        text-indent: 0;
+        line-height: 20px;
+    }
+
+    .file input {
+        position: absolute;
+        font-size: 100px;
+        right: 0;
+        top: 0;
+        opacity: 0;
+    }
+
+    .file:hover {
+        background: #AADFFD;
+        border-color: #78C3F3;
+        color: #004974;
+        text-decoration: none;
+    }
+</style>

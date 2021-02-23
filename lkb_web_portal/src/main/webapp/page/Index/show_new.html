@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8"/>
+	<link rel="stylesheet" href="../../t_css/bootstrap.css"/>
+	<link rel="stylesheet" href="../../t_css/layout.css"/>
+	<link rel="stylesheet" type="text/css" href="../../t_css/student.css"/>
+	<script src="../../t_js/jquery.js"></script>
+	<script src="../../t_js/layer.js"></script>
+	<script type="text/javascript" src="../../t_js/jquery.min.js"></script>
+	<script type="text/javascript" src="../../t_js/bootstrap.min.js"></script>
+	<title></title>
+	<style>
+		.header {
+			margin-bottom: 50px;
+		}
+
+		.dec {
+			margin-top: 20px;
+			margin-bottom: 50px;
+		}
+
+		.dec span {
+			margin-right: 20px;
+			font-size: 18px;
+		}
+
+		.rightNav {
+			margin-left: 100px;
+			float: left;
+			margin-top: 190px;
+			width: 400px;
+			font-size: 20px;
+		}
+
+		.rightNav ul li {
+			list-style-type: none;
+			margin: 20px auto;
+			text-decoration: underline
+
+		}
+
+		.rightNav ul li a:active {
+			text-decoration: none;
+
+		}
+
+		/**{*/
+		/*	margin: 0px 30px;*/
+		/*}*/
+	</style>
+</head>
+<body>
+<div class="header"><span>团队云孵综合平台</span>
+	<button type="button" class="btn btn-info" style="float: right;margin-right: 50px;margin-top: 20px;"
+			onclick="back()">返回
+	</button>
+</div>
+<div id="app" style="margin: 0 auto;min-width: 2000px">
+	<div class="bodyer" style="float:left;margin-left: 10%;">
+		<!--    <div style="float: left;width: 70%">-->
+		<center><h1 style="color: #0063a1;margin-top: 10px" class="center">{{pojo.ntitle}}</h1></center>
+		<center><div class="clear dec">
+			<span>时间：{{pojo.ntime}}</span>
+		</div></center>
+		<div class="contents mr ml" id="content1">
+			&nbsp;&nbsp;{{pojo.ncontent}}
+		</div>
+		<div style="margin: 10px auto;text-align: center"><img style="width: 70%;height: 70%;" :src="pojo.appendix"></div>
+		<form method="post">
+			<input type="hidden" name="id" :value="pojo.nid"/>
+			<button type="button" class="btn btn-info" style="float: right;margin-left: 20px;margin-bottom: 100px;" onclick="back()">返回</button>
+		</form>
+	</div>
+	<div class="rightNav">
+		<center><h2 style="color: #0063a1;margin-top: 10px;text-decoration: underline" class="">最新新闻</h2></center>
+		<ul>
+			<li v-for="rN in rightNav"><a :href="'show_new.html?id='+rN.nid">{{rN.ntitle}}</a></li>
+
+		</ul>
+	</div>
+</div>
+
+
+<div class="footer text-center">
+	<span>技术支持：阔鱼飞鸟云孵平台</span>
+	<span> &nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp; 联系方式：xxxxxxxxxx</span>
+</div>
+</body>
+</html>
+<script src="../../t_js/vue.js"></script>
+<script src="../../t_js/axios.js"></script>
+<script src="../../t_js/util.js"></script>
+<script src="../../t_js/elementui.js"></script>
+<script>
+	new Vue({
+		el: '#app',
+		data() {
+			return {
+				tableData: [],
+				rightNav: [],
+				currentPage: 1,
+				total: 10,
+				size: 10,
+				searchMap: {},
+				pojo: {},
+				formVisible: false,
+				imageUrl: 'sss',
+				imageUrls: '',
+				id:'',
+			}
+		},
+		created() {
+			this.fetchData();
+		},
+		methods: {
+			fetchData() {
+				this.pojo.id =getQueryString("id");
+				console.log(this.pojo.id)
+				axios.get(`/notice/findById.do?nid=${this.pojo.id}`).then(response => {
+					this.pojo = response.data;
+					console.log(this.pojo)
+					// this.imageUrl=this.pojo.image //显示图片  如页面有图片上传功能放开注释
+				})
+				axios.get(`/notice/findAll.do`).then(response => {
+					this.rightNav = response.data;
+					console.log(this.rightNav)
+				})
+			},
+			save() {
+				// this.pojo.image = this.imageUrl; //如页面有图片上传功能放开注释
+				// this.pojo.images = this.imageUrls; //如页面有图片上传功能放开注释
+				axios.post(`/sku/${this.pojo.id == null ? 'add' : 'update'}.do`, this.pojo).then(response => {
+					this.fetchData(); //刷新列表
+					this.formVisible = false;//关闭窗口
+				});
+			},
+			edit(id) {
+				this.formVisible = true // 打开窗口
+				// 调用查询
+				axios.get(`/sku/findById.do?id=${id}`).then(response => {
+					this.pojo = response.data;
+					// this.imageUrl=this.pojo.image //显示图片  如页面有图片上传功能放开注释
+				})
+			},
+			dele(id) {
+				this.$confirm('确定要删除此记录吗?', '提示', {
+					confirmButtonText: '确定',
+					cancelButtonText: '取消',
+					type: 'warning'
+				}).then(() => {
+					axios.get(`/sku/delete.do?id=${id}`).then(response => {
+						this.fetchData(); //刷新列表
+					})
+				})
+			},
+			/* ****图片上传相关代码  如页面有图片上传功能放开注释 *****/
+			handleAvatarSuccess(res, file) {
+				this.imageUrl = file.response;
+			},
+			handleAvatarSuccess2(res, file) {
+				this.imageUrls = file.response;
+			},
+			beforeAvatarUpload(file) {
+				const isJPG = file.type === 'image/jpeg';
+				const isLt2M = file.size / 1024 / 1024 < 2;
+
+				if (!isJPG) {
+					this.$message.error('上传头像图片只能是 JPG 格式!');
+				}
+				if (!isLt2M) {
+					this.$message.error('上传头像图片大小不能超过 2MB!');
+				}
+				return isJPG && isLt2M;
+			}
+		}
+	})
+</script>
+<script>
+	function back() {
+		window.location.href = "index.html";
+	}
+	$(document).ready(function () {
+		// $('#content1').html($.trim(text0));
+		function back(){
+			window.location.href = "index.html";
+		}
+	});
+</script>
+

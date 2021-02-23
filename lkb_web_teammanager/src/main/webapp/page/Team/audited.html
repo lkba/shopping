@@ -1,0 +1,240 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title></title>
+
+    <link rel="stylesheet" href="../../css/el-index.css">
+<!--    <link rel="stylesheet" href="../../plugins/font-awesome/css/font-awesome.min.css">-->
+<!--    <link rel="stylesheet" href="../../css/style-el.css">-->
+
+    <link rel="stylesheet" type="text/css" href="../../css/backstage.css">
+    <link rel="stylesheet" type="text/css" href="../../css/bootstrap.min.css"/>
+    <link rel="stylesheet" type="text/css" href="../../css/teacher.css"/>
+    <link rel="stylesheet" type="text/css" href="../../css/common.css">
+
+
+
+    <!--<script type="text/javascript" src="./js/bootstrap.min.js"></script>-->
+    <script src="../../js/jquery.min.js"></script>
+    <script type="text/javascript" src="../../js/bootstrap.win.js"></script>
+    <script type="text/javascript" src="../../js/common.js"></script>
+    <script src="../../js/layer.js"></script>
+    <script src="../../js/jquery.js"></script>
+
+</head>
+
+<body>
+<div class="content clearfix">
+
+    <div class="main">
+        <!--右侧内容-->
+        <div style="padding: 10px 50px 20px 50px;" id="app">
+<!--            <div class="app-container">-->
+<!--                <div class="box">-->
+<!--                    <div class="filter-container">-->
+                        <h2 style="color: #0063a1;">入驻申请表</h2>
+
+                        <el-table :data="tableData" border style="width: 100%">
+                            <el-table-column prop="tid" label="序列" width="180"></el-table-column>
+
+                            <el-table-column prop="team" label="企业或名称" width="80"></el-table-column>
+
+
+                            <el-table-column prop="project" label="项目名称" width="80"></el-table-column>
+                            <el-table-column prop="in_time" label="入驻时间" width="80"></el-table-column>
+                            <el-table-column prop="business_scope" label="项目类型" width="80"></el-table-column>
+                            <el-table-column prop="money" label="注册资本（万元）" width="90"></el-table-column>
+
+
+                            <el-table-column prop="persons" label="吸纳员工人数" width="80"></el-table-column>
+                            <el-table-column prop="name" label="法定代表或负责人姓名" width="120"></el-table-column>
+
+                            <el-table-column prop="phone" label="办公电话/移动电话" width="80"></el-table-column>
+
+                            <el-table-column prop="areawork" label="孵化情况" width="80"></el-table-column>
+
+                            <el-table-column
+                                    label="操作">
+                                <template slot-scope="scope">
+                                    <el-button @click="edit(scope.row.tid)"  size="mini" type="primary" size="small">
+                                        表格详情
+                                    </el-button>
+                                    <el-button @click="file(scope.row.tid);" size="mini" type="primary" size="small">
+                                        表格文件
+                                    </el-button>
+                                </template>
+                            </el-table-column>
+                        </el-table>
+                        <!--                <ul class="pagination pagelist " style="margin: 0px 0">{$page}</ul>-->
+<!--                    </div>-->
+<!--                </div>-->
+<!--            </div>-->
+
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+    /* 搜索框  */
+    function onKeyDown(event) {
+        var e = event || window.event || arguments.callee.caller.arguments[0];
+        if (e && e.keyCode == 27) { // 按 Esc
+            //要做的事情
+//            alert("你按下了Esc");
+        }
+        if (e && e.keyCode == 113) { // 按 F2
+            //要做的事情
+//            alert("你按下了F2");
+        }
+        if (e && e.keyCode == 13) { // enter 键
+
+        }
+    }
+
+    function getUrlParam() {
+        var reg = new RegExp("success"); //构造一个含有目标参数的正则表达式对象
+        var r = window.location.href.match(reg); //匹配目标参数
+        if (r == 'success') {
+            var index = parent.layer.getFrameIndex(window.name);
+            window.parent.location.reload();
+        }
+    }
+
+    window.getUrlParam();
+
+
+    $(".starts").each(function (i, n) {
+        if (n.innerText == 0) {
+            $(".starts").eq(i).text("");
+        } else if (n.innerText == 1) {
+            $(".starts").eq(i).text("");
+        } else if (n.innerText == 2) {
+            $(".starts").eq(i).text("再次提交");
+            $(".starts").eq(i).css("color", "red");
+        }
+    });
+</script>
+<script type="text/javascript">
+    function show_l(num, change, ide) {
+        var menu = document.getElementById(num);
+        var menu_span = menu.getElementsByTagName("span")[0];
+        var change = document.getElementById(change);
+        var cha = change.getElementsByTagName("span")[0];
+        if (cha.innerHTML == "+") {
+            cha.innerHTML = "-";
+        } else {
+            cha.innerHTML = "+";
+        }
+        if (menu.style.display == 'none') {
+            menu.style.display = '';
+        } else {
+            menu.style.display = 'none';
+        }
+    }
+
+    function show(title, url, w, h) {
+        w = w;
+        layer.open({
+            type: 2,
+            title: title,
+            shadeClose: true,
+            shade: 0.4,
+            area: [w, h],
+            content: url //iframe的url
+        });
+    }
+
+    function edit(title, url, w, h) {
+        layer.open({
+            type: 2,
+            title: title,
+            shadeClose: true,
+            shade: 0.4,
+            area: [w, h],
+            content: url //iframe的url
+        });
+    }
+</script>
+<script src="../../js/vue.js"></script>
+<script src="../../js/axios.js"></script>
+<script src="../../js/elementui.js"></script>
+<script>
+    new Vue({
+        el: '#app',
+        data() {
+            return {
+                tableData: [],
+                currentPage: 1,
+                total: 10,
+                size: 10,
+                searchMap: {},
+                pojo: {},
+                formVisible: false,
+                imageUrl: ''
+            }
+        },
+        created() {
+            this.fetchData();
+        },
+        methods: {
+            fetchData() {
+                axios.get(`http://localhost:9105/user/findAuditedTeamList.do`).then(response => {
+                    this.tableData = response.data;
+                    console.log(response.data[0])
+                });
+            },
+            edit(id){
+                // console.log(id)
+                show('查看详情',`http://localhost:9105/page/Team/show_ETab.html?tid=${id}`,'1024px','90%')
+            },
+            file(id){
+                // console.log(id)
+                show('查看详情',`http://localhost:9105/page/Team/file.html?tid=${id}`,'624px','50%')
+            },
+            // save() {
+            //     // this.pojo.image= this.imageUrl; //如页面有图片上传功能放开注释
+            //     axios.post(`/order/${this.pojo.id == null ? 'add' : 'update'}.do`, this.pojo).then(response => {
+            //         this.fetchData(); //刷新列表
+            //         this.formVisible = false;//关闭窗口
+            //     });
+            // },
+            // edit(id) {
+            //     this.formVisible = true // 打开窗口
+            //     // 调用查询
+            //     axios.get(`/order/findById.do?id=${id}`).then(response => {
+            //         this.pojo = response.data;
+            //         // this.imageUrl=this.pojo.image //显示图片  如页面有图片上传功能放开注释
+            //     })
+            // },
+            // dele(id) {
+            //     this.$confirm('确定要删除此记录吗?', '提示', {
+            //         confirmButtonText: '确定',
+            //         cancelButtonText: '取消',
+            //         type: 'warning'
+            //     }).then(() => {
+            //         axios.get(`/order/delete.do?id=${id}`).then(response => {
+            //             this.fetchData(); //刷新列表
+            //         })
+            //     })
+            // },
+            /* ****图片上传相关代码  如页面有图片上传功能放开注释 ****
+            handleAvatarSuccess(res, file) {
+                this.imageUrl = file.response;
+            },
+            beforeAvatarUpload(file) {
+                const isJPG = file.type === 'image/jpeg';
+                const isLt2M = file.size / 1024 / 1024 < 2;
+
+                if (!isJPG) {
+                    this.$message.error('上传头像图片只能是 JPG 格式!');
+                }
+                if (!isLt2M) {
+                    this.$message.error('上传头像图片大小不能超过 2MB!');
+                }
+                return isJPG && isLt2M;
+            }*/
+        }
+    })
+</script>
+</body>
+</html>

@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8"/>
+
+    <link rel="stylesheet" href="../../css/bootstrap.css"/>
+    <!--<link rel="stylesheet" href="../css/layout.css" />-->
+
+    <script type="text/javascript" src="../../js/jquery.min.js"></script>
+    <script type="text/javascript" src="../../js/bootstrap.min.js"></script>
+    <script src="../../js/jquery.js"></script>
+    <script src="../../js/layer.js"></script>
+    <title></title>
+    <style>
+
+    </style>
+
+</head>
+
+<body>
+<div class="bodyer">
+<foreach name="name" item="t">
+    <button class="btn btn-default" type="submit" style="margin: 10px">
+        {$t.0}
+    </button>
+</foreach>
+
+
+
+</div>
+</body>
+<footer style="margin-top: 100px;">
+
+</footer>
+<script>
+    function show(title, url, w, h) {
+        w = w;
+        layer.open({
+            type: 2,
+            title: title,
+            shadeClose: true,
+            shade: 0.4,
+            area: [w, h],
+            content: url //iframe的url
+        });
+    }
+</script>
+
+</html>

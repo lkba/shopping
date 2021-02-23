@@ -1,0 +1,387 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="714bfce8-38ab-4ea3-a329-5f1fc1124e56" name="Default Changelist" comment="" />
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="CompilerWorkspaceConfiguration">
+    <option name="MAKE_PROJECT_ON_SAVE" value="true" />
+  </component>
+  <component name="DatabaseView">
+    <option name="SHOW_INTERMEDIATE" value="true" />
+    <option name="GROUP_DATA_SOURCES" value="true" />
+    <option name="GROUP_SCHEMA" value="true" />
+    <option name="GROUP_CONTENTS" value="false" />
+    <option name="SORT_POSITIONED" value="false" />
+    <option name="SHOW_EMPTY_GROUPS" value="false" />
+    <option name="AUTO_SCROLL_FROM_SOURCE" value="false" />
+    <option name="HIDDEN_KINDS">
+      <set />
+    </option>
+    <expand />
+    <select />
+  </component>
+  <component name="FavoritesManager">
+    <favorites_list name="lkb" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="HTML File" />
+        <option value="CSS File" />
+        <option value="JavaScript File" />
+        <option value="Class" />
+      </list>
+    </option>
+  </component>
+  <component name="MavenImportPreferences">
+    <option name="generalSettings">
+      <MavenGeneralSettings>
+        <option name="mavenHome" value="F:/apache-maven-3.6.3" />
+      </MavenGeneralSettings>
+    </option>
+    <option name="importingSettings">
+      <MavenImportingSettings>
+        <option name="importAutomatically" value="true" />
+        <option name="vmOptionsForImporter" value="-Xmx768m" />
+      </MavenImportingSettings>
+    </option>
+  </component>
+  <component name="MavenRunner">
+    <option name="vmOptions" value="-DarchetypeCatalog=internal" />
+  </component>
+  <component name="ProjectId" id="1VJovSp4fYnk1bGegXL1aJuxh6O" />
+  <component name="ProjectViewState">
+    <option name="abbreviatePackageNames" value="true" />
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showExcludedFiles" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">
+    <property name="DefaultHtmlFileTemplate" value="HTML File" />
+    <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
+    <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="aspect.path.notification.shown" value="true" />
+    <property name="jdk.selected.JAVA_MODULE" value="13.0.1" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../dreamit-web" />
+    <property name="list.type.of.created.stylesheet" value="CSS" />
+    <property name="node.js.detected.package.eslint" value="true" />
+    <property name="node.js.detected.package.tslint" value="true" />
+    <property name="node.js.path.for.package.eslint" value="project" />
+    <property name="node.js.path.for.package.tslint" value="project" />
+    <property name="node.js.selected.package.eslint" value="(autodetect)" />
+    <property name="node.js.selected.package.tslint" value="(autodetect)" />
+    <property name="nodejs_interpreter_path.stuck_in_default_project" value="undefined stuck path" />
+    <property name="nodejs_npm_path_reset_for_default_project" value="true" />
+    <property name="project.structure.last.edited" value="Modules" />
+    <property name="project.structure.proportion" value="0.15" />
+    <property name="project.structure.side.proportion" value="0.2" />
+    <property name="run.code.analysis.last.selected.profile" value="pProject Default" />
+    <property name="settings.editor.selected.configurable" value="MavenSettings" />
+  </component>
+  <component name="RebelAgentSelection">
+    <selection>jr</selection>
+  </component>
+  <component name="RecentsManager">
+    <key name="MoveClassesOrPackagesDialog.RECENTS_KEY">
+      <recent name="" />
+    </key>
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="D:\javaProject2\lkb\lkb_web_portal\src\main\webapp\goods\img" />
+      <recent name="D:\javaProject2\lkb\lkb_web_center\src\main" />
+      <recent name="D:\javaProject2\lkb\lkb_web_center\src\main\resources" />
+      <recent name="D:\javaProject2\lkb\lkb_web_center\src\main\webapp" />
+      <recent name="D:\javaProject2\lkb\lkb_web_center\src\main\java" />
+    </key>
+    <key name="CopyClassDialog.RECENTS_KEY">
+      <recent name="com.lkb.controller" />
+      <recent name="com.lkb.controller.teammanager" />
+      <recent name="com.lkb.controller.seckill" />
+      <recent name="com.lkb.dao" />
+      <recent name="com.lkb.service.impl" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="D:\javaProject2\lkb\lkb_web_manager\src\main\webapp\css\goods\files\goodsP" />
+      <recent name="D:\javaProject2\lkb\lkb_web_teammanager\src\main\webapp\js" />
+      <recent name="D:\javaProject2\lkb\lkb_web_teammanager\src\main\webapp\css" />
+      <recent name="D:\javaProject\lkb\lkb_common_web\src\main\resources" />
+      <recent name="D:\javaProject\lkb\lkb_common_service\src\main\resources" />
+    </key>
+  </component>
+  <component name="RunManager">
+    <configuration name="casClienyt1-maven" type="MavenRunConfiguration" factoryName="Maven">
+      <MavenSettings>
+        <option name="myGeneralSettings" />
+        <option name="myRunnerSettings" />
+        <option name="myRunnerParameters">
+          <MavenRunnerParameters>
+            <option name="profiles">
+              <set />
+            </option>
+            <option name="goals">
+              <list>
+                <option value="clean" />
+                <option value="tomcat7:run" />
+              </list>
+            </option>
+            <option name="pomFileName" />
+            <option name="profilesMap">
+              <map />
+            </option>
+            <option name="resolveToWorkspace" value="false" />
+            <option name="workingDirPath" value="$PROJECT_DIR$/../qingcheng/qingcheng_parent" />
+          </MavenRunnerParameters>
+        </option>
+      </MavenSettings>
+      <method v="2" />
+    </configuration>
+  </component>
+  <component name="ServiceViewManager">
+    <option name="viewStates">
+      <list>
+        <serviceView>
+          <treeState>
+            <expand />
+            <select />
+          </treeState>
+        </serviceView>
+      </list>
+    </option>
+  </component>
+  <component name="SvnConfiguration">
+    <configuration useDefault="false">C:\Users\HP\AppData\Roaming\Subversion</configuration>
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="714bfce8-38ab-4ea3-a329-5f1fc1124e56" name="Default Changelist" comment="" />
+      <created>1576980788873</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1576980788873</updated>
+      <workItem from="1576980791955" duration="510000" />
+      <workItem from="1577013821215" duration="1472000" />
+      <workItem from="1577153408983" duration="29000" />
+      <workItem from="1577450319276" duration="6570000" />
+      <workItem from="1577502556688" duration="52000" />
+      <workItem from="1577502790380" duration="5000" />
+      <workItem from="1577584502666" duration="1366000" />
+      <workItem from="1577626237013" duration="6607000" />
+      <workItem from="1577710115910" duration="1047000" />
+      <workItem from="1577711185599" duration="160000" />
+      <workItem from="1577711366077" duration="4929000" />
+      <workItem from="1577854019565" duration="2426000" />
+      <workItem from="1577856778582" duration="4531000" />
+      <workItem from="1577889953150" duration="3641000" />
+      <workItem from="1577929460565" duration="474000" />
+      <workItem from="1577930278567" duration="1056000" />
+      <workItem from="1578235676853" duration="987000" />
+      <workItem from="1578317762720" duration="3792000" />
+      <workItem from="1578660327631" duration="974000" />
+      <workItem from="1578662097445" duration="6481000" />
+      <workItem from="1578795718831" duration="1123000" />
+      <workItem from="1579312442198" duration="4778000" />
+      <workItem from="1580011089275" duration="3735000" />
+      <workItem from="1580099569105" duration="8908000" />
+      <workItem from="1580141439952" duration="10083000" />
+      <workItem from="1580219136726" duration="24949000" />
+      <workItem from="1580440921876" duration="19862000" />
+      <workItem from="1580713451414" duration="16413000" />
+      <workItem from="1580788287358" duration="1450000" />
+      <workItem from="1580799921423" duration="12061000" />
+      <workItem from="1580869683703" duration="18775000" />
+      <workItem from="1580955846545" duration="1615000" />
+      <workItem from="1580958246181" duration="1860000" />
+      <workItem from="1580960297967" duration="9104000" />
+      <workItem from="1581041171267" duration="14582000" />
+      <workItem from="1581067213024" duration="14719000" />
+      <workItem from="1581170045468" duration="7136000" />
+      <workItem from="1581222959870" duration="25940000" />
+      <workItem from="1581298963142" duration="10473000" />
+      <workItem from="1581326524527" duration="7040000" />
+      <workItem from="1581409154809" duration="7683000" />
+      <workItem from="1581427795186" duration="6857000" />
+      <workItem from="1581499317308" duration="12532000" />
+      <workItem from="1581562647935" duration="12155000" />
+      <workItem from="1581644691490" duration="3666000" />
+      <workItem from="1581683428842" duration="1555000" />
+      <workItem from="1581735408343" duration="49273000" />
+      <workItem from="1581903843995" duration="1074000" />
+      <workItem from="1581918494364" duration="43000" />
+      <workItem from="1581918555163" duration="44161000" />
+      <workItem from="1582114776060" duration="1622000" />
+      <workItem from="1582116425612" duration="6528000" />
+      <workItem from="1582162334222" duration="2105000" />
+      <workItem from="1582164461389" duration="22207000" />
+      <workItem from="1582250329316" duration="55890000" />
+      <workItem from="1582513769013" duration="6601000" />
+      <workItem from="1582529507966" duration="2976000" />
+      <workItem from="1582533093453" duration="6160000" />
+      <workItem from="1582594719210" duration="647000" />
+      <workItem from="1582816541012" duration="1391000" />
+      <workItem from="1582875199027" duration="20808000" />
+      <workItem from="1583057627746" duration="2487000" />
+      <workItem from="1583067245774" duration="10848000" />
+      <workItem from="1583152720739" duration="6249000" />
+      <workItem from="1583160072667" duration="3768000" />
+      <workItem from="1583163951816" duration="1710000" />
+      <workItem from="1583198939068" duration="8105000" />
+      <workItem from="1583328469422" duration="4668000" />
+      <workItem from="1583372967902" duration="5657000" />
+      <workItem from="1583460808961" duration="22358000" />
+      <workItem from="1583505586423" duration="14927000" />
+      <workItem from="1583559064175" duration="49839000" />
+      <workItem from="1583720114824" duration="7541000" />
+      <workItem from="1583803777259" duration="1178000" />
+      <workItem from="1583805047705" duration="20098000" />
+      <workItem from="1583850416972" duration="1429000" />
+      <workItem from="1583897412782" duration="5007000" />
+      <workItem from="1583914074330" duration="136000" />
+      <workItem from="1583914231649" duration="1187000" />
+      <workItem from="1583980132254" duration="14000" />
+      <workItem from="1584199441845" duration="1244000" />
+      <workItem from="1584368954622" duration="4484000" />
+      <workItem from="1584625333877" duration="7503000" />
+      <workItem from="1584712011267" duration="8791000" />
+      <workItem from="1584771390607" duration="1648000" />
+      <workItem from="1584773143309" duration="25316000" />
+      <workItem from="1584847824220" duration="8304000" />
+      <workItem from="1584860998898" duration="6431000" />
+      <workItem from="1584925303259" duration="2541000" />
+      <workItem from="1584936295745" duration="652000" />
+      <workItem from="1584946126408" duration="130000" />
+      <workItem from="1584946329266" duration="16195000" />
+      <workItem from="1585012897629" duration="9859000" />
+      <workItem from="1585059872228" duration="4335000" />
+      <workItem from="1585100625227" duration="1207000" />
+      <workItem from="1585188685415" duration="21742000" />
+      <workItem from="1585218176963" duration="18722000" />
+      <workItem from="1585279924237" duration="30479000" />
+      <workItem from="1585329912432" duration="1554000" />
+      <workItem from="1585362702599" duration="17551000" />
+      <workItem from="1585391158416" duration="5593000" />
+      <workItem from="1585456215194" duration="7116000" />
+      <workItem from="1585550341036" duration="11072000" />
+      <workItem from="1585621918123" duration="22947000" />
+      <workItem from="1585730845271" duration="1456000" />
+      <workItem from="1585747765446" duration="568000" />
+      <workItem from="1585753050303" duration="3393000" />
+      <workItem from="1585820598879" duration="320000" />
+      <workItem from="1585834613987" duration="5785000" />
+      <workItem from="1585877018851" duration="64000" />
+      <workItem from="1585975577035" duration="44933000" />
+      <workItem from="1586249828146" duration="5324000" />
+      <workItem from="1586272194503" duration="1471000" />
+      <workItem from="1586419580455" duration="3069000" />
+      <workItem from="1586573526275" duration="10747000" />
+      <workItem from="1586693297704" duration="7437000" />
+      <workItem from="1586706144046" duration="14706000" />
+      <workItem from="1586919944382" duration="31000" />
+      <workItem from="1586920466175" duration="30202000" />
+      <workItem from="1587007872116" duration="1780000" />
+      <workItem from="1587009705540" duration="1785000" />
+      <workItem from="1587012811384" duration="12599000" />
+      <workItem from="1587042121099" duration="9188000" />
+      <workItem from="1587098302105" duration="17226000" />
+      <workItem from="1587130178649" duration="329000" />
+      <workItem from="1587131793310" duration="321000" />
+      <workItem from="1587132188155" duration="7383000" />
+      <workItem from="1587178147260" duration="29448000" />
+      <workItem from="1587294734494" duration="6275000" />
+      <workItem from="1587438904376" duration="387000" />
+      <workItem from="1587441198185" duration="228000" />
+      <workItem from="1587443307588" duration="2566000" />
+      <workItem from="1587791815134" duration="501000" />
+      <workItem from="1587794174992" duration="4396000" />
+      <workItem from="1587862918342" duration="12000" />
+      <workItem from="1588471073914" duration="195000" />
+      <workItem from="1588481165340" duration="688000" />
+      <workItem from="1588482661711" duration="4218000" />
+      <workItem from="1588573468888" duration="284000" />
+      <workItem from="1588576670708" duration="6035000" />
+      <workItem from="1588595399655" duration="9633000" />
+      <workItem from="1588655644277" duration="4433000" />
+      <workItem from="1588696310885" duration="1675000" />
+      <workItem from="1588737418335" duration="633000" />
+      <workItem from="1588739678918" duration="4000" />
+      <workItem from="1588739816722" duration="17000" />
+      <workItem from="1588739911259" duration="116000" />
+      <workItem from="1588742300425" duration="5665000" />
+      <workItem from="1588748050524" duration="8683000" />
+      <workItem from="1588767611125" duration="42000" />
+      <workItem from="1588767712307" duration="17000" />
+      <workItem from="1588767770160" duration="10801000" />
+      <workItem from="1588814643297" duration="1103000" />
+      <workItem from="1588816131314" duration="61000" />
+      <workItem from="1588816214824" duration="248000" />
+      <workItem from="1588816496250" duration="3245000" />
+      <workItem from="1588820387741" duration="27702000" />
+      <workItem from="1588902157678" duration="10808000" />
+      <workItem from="1588922570190" duration="934000" />
+      <workItem from="1588930220731" duration="45000" />
+      <workItem from="1589891134584" duration="3737000" />
+      <workItem from="1592028278281" duration="417000" />
+      <workItem from="1593080649970" duration="69000" />
+      <workItem from="1595496795994" duration="927000" />
+      <workItem from="1613904854306" duration="1916000" />
+      <workItem from="1613956084832" duration="4347000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="1" />
+  </component>
+  <component name="WindowStateProjectService">
+    <state x="549" y="167" key="FileChooserDialogImpl" timestamp="1613956157523">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state x="549" y="167" key="FileChooserDialogImpl/0.0.1536.824@0.0.1536.824" timestamp="1613956157523" />
+    <state x="449" y="236" key="com.intellij.ide.util.TipDialog" timestamp="1613956121322">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state x="449" y="236" key="com.intellij.ide.util.TipDialog/0.0.1536.824@0.0.1536.824" timestamp="1613956121322" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="javascript">
+          <url>file://$PROJECT_DIR$/lkb_web_teammanager/src/main/webapp/page/Team/team_list_out.html</url>
+          <line>156</line>
+          <option name="timeStamp" value="1" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="javascript">
+          <url>file://$PROJECT_DIR$/lkb_web_teammanager/src/main/webapp/page/Team/team_list.html</url>
+          <line>134</line>
+          <option name="timeStamp" value="2" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="javascript">
+          <url>file://$PROJECT_DIR$/lkb_web_teammanager/src/main/webapp/page/Team/input_team.html</url>
+          <line>549</line>
+          <option name="timeStamp" value="3" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="javascript">
+          <url>file://$PROJECT_DIR$/lkb_web_teammanager/src/main/webapp/page/Table/list_grade.html</url>
+          <line>212</line>
+          <option name="timeStamp" value="4" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="javascript">
+          <url>file://$PROJECT_DIR$/lkb_web_teammanager/src/main/webapp/page/Match/add.html</url>
+          <line>169</line>
+          <option name="timeStamp" value="5" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="javascript">
+          <url>file://$PROJECT_DIR$/lkb_web_manager/src/main/webapp/order/order.html</url>
+          <line>292</line>
+          <option name="timeStamp" value="7" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/lkb_web_teammanager/src/main/java/com/lkb/controller/UserTeamController.java</url>
+          <line>23</line>
+          <option name="timeStamp" value="8" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
+  </component>
+</project>

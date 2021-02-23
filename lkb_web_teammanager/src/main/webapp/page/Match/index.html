@@ -1,0 +1,118 @@
+
+<!doctype html>
+<html xmlns:v-on="http://www.w3.org/1999/xhtml">
+<head>
+	<meta charset="utf-8">
+	<title></title>
+
+	    <link rel="stylesheet" href="../../css/el-index.css">
+<!--	<link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">-->
+	<link rel="stylesheet" href="../../plugins/font-awesome/css/font-awesome.min.css">
+	<!--    <link rel="stylesheet" href="../../css/style-el.css">-->
+	<link rel="stylesheet" type="text/css" href="../../css/backstage.css">
+	<link rel="stylesheet" type="text/css" href="../../css/bootstrap.min.css"/>
+	<link rel="stylesheet" type="text/css" href="../../css/teacher.css"/>
+	<link rel="stylesheet" type="text/css" href="../../css/common.css">
+	<!--<script type="text/javascript" src="./js/bootstrap.min.js"></script>-->
+	<script src="../../js/jquery.min.js"></script>
+	<script type="text/javascript" src="../../js/bootstrap.win.js"></script>
+	<script type="text/javascript" src="../../js/common.js"></script>
+	<script src="../../js/layer.js"></script>
+	<script src="../../js/jquery.js"></script>
+	<script src="../../js/util.js"></script>
+</head>
+
+<body class="hold-transition">
+<div style="padding: 10px 50px 20px 50px;width: 80%" id="app">
+
+		<caption>
+			<h2 style="color: #0063a1;">赛事列表</h2>
+			<button type="button" class="btn btn-info fr" onclick="add()">添加赛事</button>
+		</caption>
+	<el-table :data="tableData" border style="width: 100%;margin-top:80px ">
+		<el-table-column prop="cid" label="序列" width="80"></el-table-column>
+
+		<el-table-column prop="cname" label="赛事类型" width="180"></el-table-column>
+
+		<el-table-column
+				label="操作">
+			<template slot-scope="scope">
+				<el-button @click="show(scope.row.cid)" size="mini" type="primary" size="small">
+					赛事详情
+				</el-button>
+			</template>
+		</el-table-column>
+	</el-table>
+
+	<div class="app-container">
+		<template>
+			<div class="block">
+				<el-pagination
+						class="pagiantion"
+						@size-change="fetchData"
+						@current-change="fetchData"
+						:current-page.sync="currentPage"
+						:page-sizes="[10, 20, 30, 40]"
+						:page-size="size"
+						layout="total, sizes, prev, pager, next, jumper"
+						:total="total">
+				</el-pagination>
+			</div>
+		</template>
+	</div>
+</div>
+
+<script type="text/javascript">
+	function add(){
+		window.location.href="http://localhost:9105/page/Match/add.html";
+	}
+
+</script>
+
+
+<script src="../../js/vue.js"></script>
+<script src="../../js/axios.js"></script>
+<script src="../../js/elementui.js"></script>
+<script src="../../js/util.js"></script>
+<script>
+	new Vue({
+		el: '#app',
+		data() {
+			return {
+				tableData: [],
+				currentPage: 1,
+				total: 10,
+				size: 10,
+				searchMap: {},
+				seaAreawork: "",
+				seaTime: "",
+				times: "",
+				pojo: {},
+				formVisible: false,
+				imageUrl: ''
+			}
+		},
+		created() {
+			this.fetchData();
+		},
+		methods: {
+			fetchData() {
+				axios.post(`http://localhost:9105/matchCategory/findPage.do?page=${this.currentPage}&size=${this.size}`, this.searchMap).then(response => {
+
+					this.tableData = response.data.rows;
+					this.total = response.data.total;
+					// console.log("all");
+					console.log(response.data)
+				});
+			},
+			show(id) {
+				// console.log(id)
+				// show('查看详情', `http://localhost:9105/page/Table/show_GTab.html?gid=${id}`, '1024px', '90%')
+				window.location.href="http://localhost:9105/page/Match/match_list.html?cid="+id;
+			},
+
+		}
+	})
+</script>
+</body>
+</html>

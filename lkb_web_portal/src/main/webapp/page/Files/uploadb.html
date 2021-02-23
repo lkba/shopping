@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+<!--		<link rel="stylesheet" href="../../t_css/bootstrap.min.css" />-->
+
+		<link rel="stylesheet" href="../../t_css/style.css" />
+<!--		<link rel="stylesheet" type="text/css" href="../../t_css/layout.css"/>-->
+<!--		<script type="text/javascript" src="../../t_js/jquery.min.js"></script>-->
+		<link rel="stylesheet" href="../../t_css/elementui.css" />
+
+		<link rel="stylesheet" href="../../t_css/layout.css"/>
+		<!--    <link rel="stylesheet" type="text/css" href="../../t_css/student.css"/>-->
+		<script src="../../t_js/jquery.js"></script>
+		<script src="../../t_js/layer.js"></script>
+		<script type="text/javascript" src="../../t_js/jquery.min.js"></script>
+		<script type="text/javascript" src="../../t_js/bootstrap.min.js"></script>
+		<title></title>
+	</head>
+	<body>
+		<div style="width: 370px;padding: 0 0 10px 0;" id="app">
+			<div class="title"><h3>上传仅限zip,rar的压缩格式</h3></div>
+			<p>注：新上传的压缩包将会覆盖以往上传的旧压缩包！且大小不得高过10MB！</p>
+<div style="margin: 20px auto;text-align: center">
+	<el-upload
+			class="avatar-uploader"
+			action="/upload/native.do"
+			:show-file-list="false"
+			:on-success="handleAvatarSuccess"
+			:before-upload="beforeAvatarUpload">
+		<img v-if="imageUrl" :src="imageUrl" class="avatar">
+		<i v-else class="el-icon-plus avatar-uploader-icon"></i>
+	</el-upload>
+	<el-button type="primary" @click="save()">提交</el-button>
+</div>
+
+
+<!--			<form method="post" enctype='multipart/form-data'> -->
+<!--			<div class="add_t">-->
+<!--			    -->
+<!--			    <a href="javascript:;" class="file" title="上传计划书">选择文件-->
+<!--                        <input type="file" class="file" name="cont" style="float:left;" value="" placeholder="请选择文件"/>-->
+<!--                </a>-->
+<!--			    <div class="showFileName1"></div>-->
+<!--                <div class="fileerrorTip1"></div>-->
+<!--			      -->
+<!--			  -->
+<!--			</div> -->
+<!--			<div class="set_m_2"> -->
+<!--			  <input type="submit" value="上传" id="sub"> -->
+<!--			</div> -->
+<!--			</form>-->
+		</div> 
+	</body>
+</html>
+<script src="../../t_js/axios.js"></script>
+<script src="../../t_js/vue.js"></script><!-- vue -->
+<script src="../../t_js/elementui.js"></script><!-- element-ui -->
+<script src="../../js/util.js"></script>
+<script>
+	new Vue({
+		el: '#app',
+		data() {
+			return {
+				tableData: [],
+				enter: {},
+				user: {},
+				basics: {},
+				team: [],
+				teachers: [],
+				len: "",
+				len2: "",
+				times: "",
+				tid: null,
+				currentPage: 1,
+				total: 10,
+				size: 10,
+				searchMap: {},
+				pojo: {},
+				formVisible: false,
+				imageUrl: '',
+				username: '',
+				phone: '',
+			}
+		},
+		created() {
+			// this.tid = getQueryString("tid")
+
+			// this.searchMap = {tid: getQueryString("tid")}
+			this.fetchData();
+		},
+		methods: {
+			fetchData() {
+				//查使用者账户
+				axios.get(`/login/username.do`).then(response => {
+					this.username = response.data.username;
+
+				})
+				axios.get(`/user/getPhone.do`).then(response => {
+					this.phone = response.data.phone;
+					console.log("getPhone")
+					console.log(this.phone)
+					this.searchMap = {'username': this.phone}
+					// console.log(this.searchMap)
+					if (this.phone!=''){
+						this.searchMap = {'username': this.phone}
+						axios.post(`/userTeam/findList.do`, this.searchMap).then(response => {
+							this.user = response.data[0];
+							console.log(this.user);
+							this.searchMap = {'tid': this.user.tid}
+							axios.post(`/tableEnter/findList.do`, this.searchMap).then(response => {
+								this.enter = response.data[0];
+							});
+							axios.post(`/basicInfor/findList.do`, this.searchMap).then(response => {
+								// response.date[0].regTime=new Date(response.date[0].regTime).format("yyyy-MM-dd");
+								this.basics = response.data[0];
+								console.log(this.basics)
+							});
+							axios.post(`/teacher/findList.do`, this.searchMap).then(response => {
+								this.teachers = response.data;
+								if (this.teachers.length <= 0 || this.teachers.length == "") {
+									// this.teachers[0].id = "1";
+									this.teachers[0] = {phone: ""};
+									this.teachers[0] = {department: ""};
+									this.teachers[0] = {position: ""};
+									this.teachers[0] = {field: ""};
+								}
+								if (this.teachers.length > 1) {
+									this.len = this.teachers.length * 2 + this.teachers.length;
+								} else {
+									this.len = this.teachers.length * 2;
+								}
+
+							});
+						});
+					}
+				})
+
+			},
+			upload(title,url,w,h){
+				layer.open({
+					type: 2,
+					title: title,
+					shadeClose: true,
+					shade: 0.4,
+					area: [w, h],
+					content: url //iframe的url
+				});
+			},
+			save(){
+				this.enter.datas=this.imageUrl;
+				console.log(this.enter)
+				axios.post(`/tableEnter/update.do`, this.enter).then(response => {
+					layer.msg('添加成功');
+					console.log(response.data)
+					// var index = parent.layer.getFrameIndex(window.name);
+					// window.parent.location.reload();
+				});
+			},
+			/* ****图片上传相关代码  如页面有图片上传功能放开注释 *****/
+            handleAvatarSuccess(res, file) {
+                this.imageUrl = file.response;
+            },
+            beforeAvatarUpload(file) {
+                // const isJPG = file.type === 'image/jpeg';
+                const isLt2M = file.size / 1024 / 1024 < 10;
+
+                // if (!isJPG) {
+                //     this.$message.error('上传头像图片只能是 JPG 格式!');
+                // }
+                if (!isLt2M) {
+                    this.$message.error('上传头像图片大小不能超过 2MB!');
+                }
+                return  isLt2M;
+            }
+		}
+	})
+</script>
+
+<script>
+	function out() {
+		window.location.href = "http://localhost:9102/logout/cas";
+	}
+
+	// $("#{$Think.CONTROLLER_NAME}_{$Think.ACTION_NAME}").addClass("select");
+</script>
+<script>
+	function getUrlParam() {
+      	var reg = new RegExp("success"); //构造一个含有目标参数的正则表达式对象
+		      	var r = window.location.href.match(reg); //匹配目标参数
+		      	if (r == 'success'){
+			      	var index = parent.layer.getFrameIndex(window.name);
+					parent.layer.close(index);
+			    }   
+  	}
+	window.getUrlParam();
+	$(".file").on("change", "input[type='file']", function () {
+        var filePath = $(this).val();
+        if (filePath.indexOf("rar") != -1 || filePath.indexOf("zip") != -1) {
+            $(".fileerrorTip1").html("").hide();
+            var arr = filePath.split('\\');
+            var fileName = arr[arr.length - 1];
+            $(".showFileName1").html(fileName);
+        } else {
+            $(".showFileName1").html("");
+            $(".fileerrorTip1").html("您未上传文件，或者您上传文件类型有误！").show();
+            return false
+        }
+    })
+	$("form").submit(function () { //表单提交时判断
+        var filePath = $("input[type='file']").val();
+        if (filePath.indexOf("rar") == -1 && filePath.indexOf("zip") == -1) {
+            alert('您未上传文件，或者您上传文件类型有误！');
+            return false;
+        }
+		$("#sub").attr('disabled','disabled');
+    });
+</script>
+<style>
+    /*样式2*/
+    .file {
+        position: relative;
+        display: inline-block;
+        background: #D0EEFF;
+        border: 1px solid #99D3F5;
+        border-radius: 4px;
+        padding: 4px 12px;
+        overflow: hidden;
+        color: #1E88C7;
+        text-decoration: none;
+        text-indent: 0;
+        line-height: 20px;
+    }
+
+    .file input {
+        position: absolute;
+        font-size: 100px;
+        right: 0;
+        top: 0;
+        opacity: 0;
+    }
+
+    .file:hover {
+        background: #AADFFD;
+        border-color: #78C3F3;
+        color: #004974;
+        text-decoration: none;
+    }
+</style>

@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html xmlns:v-on="http://www.w3.org/1999/xhtml">
+
+<head>
+    <meta charset="utf-8"/>
+
+    <link rel="stylesheet" href="../../css/el-index.css">
+    <!--    <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">-->
+    <link rel="stylesheet" href="../../plugins/font-awesome/css/font-awesome.min.css">
+    <!--    <link rel="stylesheet" href="../../css/style-el.css">-->
+    <link rel="stylesheet" type="text/css" href="../../css/backstage.css">
+    <link rel="stylesheet" type="text/css" href="../../css/bootstrap.min.css"/>
+    <link rel="stylesheet" type="text/css" href="../../css/teacher.css"/>
+    <link rel="stylesheet" type="text/css" href="../../css/common.css">
+    <!--<script type="text/javascript" src="./js/bootstrap.min.js"></script>-->
+    <script src="../../js/jquery.min.js"></script>
+    <script type="text/javascript" src="../../js/bootstrap.win.js"></script>
+    <script type="text/javascript" src="../../js/common.js"></script>
+    <script src="../../js/layer.js"></script>
+    <script src="../../js/jquery.js"></script>
+    <script src="../../js/util.js"></script>
+
+    <title></title>
+    <style>
+        /*浏览器出现滚动条*/
+        html {
+            overflow: scroll;
+        }
+
+        .pr li {
+            float: left;
+            margin: 10px 10px;
+        }
+
+        .pr, .pt {
+            margin-left: 100px;
+            margin-right: 100px;
+        }
+
+        .pf li {
+            /*width: 100px;*/
+            float: left;
+            margin: 10px 15px;
+        }
+
+        .dec {
+            text-align: center;
+            margin: 0 auto;
+        }
+
+        .dec span {
+            font-size: 14px;
+            text-align: center;
+            margin: 10px;
+        }
+
+        .contents {
+            font-size: 16px;
+            margin: 10px 50px;
+        }
+
+        .ml {
+            margin-left: 50px;
+        }
+
+        .mr {
+            margin-right: 50px;
+        }
+
+        img {
+            width: 300px;
+            height: 300px;
+        }
+    </style>
+</head>
+
+<body>
+<div class="bodyer" id="app">
+    <h1 style="color: #0063a1;margin-top: 10px" class="center">{{match.title}}</h1>
+    <div class="clear dec">
+        <span>举办方：{{match.hostMain}}</span>
+        <span>开始时间：{{match.hostTime}}</span>
+        <span>报名情况:
+            <a v-on:click="edit_status()">
+<!--            <a href="__CONTROLLER__/change/status/match.status/id/match.id/cid/match.cid" v-on:click="edit_status()">-->
+            <span v-if="match.statuss=='yes'">
+                                开启
+                            </span>
+                <span v-else>
+                                关闭
+                            </span>
+                <!--            <eq name="match.status" value="yes">开启<else/>关闭</eq>-->
+        </a>
+        </span>
+        <span>是否发布:
+            <a v-on:click="edit_IsBest()">
+                 <span v-if="match.isBest=='yes'">
+                                是
+                            </span>
+                <span v-else>
+                                否
+                            </span>
+                <!--            <eq name="match.is_best" value="yes">是<else/>否</eq>-->
+        </a>
+        </span>
+        <span>是否删除：<a v-on:click="del_match()">删除</a></span>
+
+    </div>
+    <div class="contents mr ml" id="">
+        &nbsp;&nbsp;<div v-html="match.content">{{match.content}}</div>
+    </div>
+
+    <div class=" mr ml" style="clear: both;margin-top: 10px;margin-bottom: 10px;">
+        <h2>展示简介</h2>
+        <img :src="picture.thumb">
+        <div>{{picture.describes}}</div>
+    </div>
+    <div class="ml">
+        <span>参加团队：{{actor_num}}</span><br>
+        <ul class="center list-group pf">
+            <li v-for="t in actor">
+                <span v-if="t.mfile!=null">
+                    <a class="list-group-item" :href="t.mfile">文:{{t.tname}}</a>
+                </span>
+                <span v-else>
+                    <a class="list-group-item" v-on:click="show(t.tid)">{{t.tname}}</a>
+                </span>
+            </li>
+        </ul>
+    </div>
+    <div class="mr right clear" style="margin: 10px 0 50px 0 ">
+        编辑时间：{{match.date}}
+    </div>
+
+</div>
+</body>
+
+
+<script src="../../js/vue.js"></script>
+<script src="../../js/axios.js"></script>
+<script src="../../js/elementui.js"></script>
+<script src="../../js/util.js"></script>
+<script>
+    new Vue({
+        el: '#app',
+        data() {
+            return {
+                tableData: [],
+                currentPage: 1,
+                total: 10,
+                size: 10,
+                match: {},
+                picture: {},
+                actor_num: "",
+                actor: [],
+                id: null,
+                searchMap: {},
+                searchMap2: {},
+                seaAreawork: "",
+                seaTime: "",
+                times: "",
+                pojo: {},
+                formVisible: false,
+                imageUrl: ''
+            }
+        },
+        created() {
+            this.searchMap.id = getQueryString("id")
+            this.searchMap2.mid = getQueryString("id")
+            this.id = getQueryString("id")
+            this.fetchData();
+        },
+        methods: {
+            fetchData() {
+                axios.get(`http://localhost:9105/match/findById.do?id=${this.id}`).then(response => {
+                    this.match = response.data;
+                    // console.log("all");
+                    console.log(response.data)
+                });
+                axios.post(`http://localhost:9105/matchPicture/findList.do`, this.searchMap2).then(response => {
+                    this.picture = response.data[0];
+                    console.log("picture");
+                    console.log(response.data)
+                });
+                axios.post(`http://localhost:9105/matchActor/findList.do`, this.searchMap2).then(response => {
+                    this.actor = response.data;
+                    // console.log("all");
+                    console.log("matchActor")
+                    console.log(response.data)
+                });
+                axios.post(`http://localhost:9105/matchActor/findActorCount.do`, this.searchMap).then(response => {
+                    this.actor_num = response.data;
+                    // console.log("all");
+                    console.log("matchActor")
+                    console.log(response.data)
+                });
+            },
+            edit_status() {
+                this.pojo.id = this.id;
+                if (this.match.statuss == "yes") {
+                    this.pojo.statuss = "no";
+                } else {
+                    this.pojo.statuss = "yes";
+                }
+                axios.post(`http://localhost:9105/match/update.do`, this.pojo).then(response => {
+                    // var index = parent.layer.getFrameIndex(window.name);
+                    // window.parent.location.reload();
+                    console.log(this.pojo)
+                    this.fetchData(); //刷新列表
+                    // this.formVisible = false;//关闭窗口
+                });
+            },
+            edit_IsBest() {
+                this.pojo.id = this.id;
+                if (this.match.isBest == "yes") {
+                    this.pojo.isBest = "no";
+                } else {
+                    this.pojo.isBest = "yes";
+                }
+                axios.post(`http://localhost:9105/match/update.do`, this.pojo).then(response => {
+                    // var index = parent.layer.getFrameIndex(window.name);
+                    // window.parent.location.reload();
+                    console.log(this.pojo)
+                    this.fetchData(); //刷新列表
+                    // this.formVisible = false;//关闭窗口
+                });
+            },
+            show(id) {
+                // show('查看详情','__MODULE__/Team/team/tid/{$t.tid}','1024px','90%');
+                // console.log(id)
+                // show('查看详情', `http://localhost:9105/page/Team/team.html?tid=${id}`, '1024px', '90%')
+
+                window.location.href = `http://localhost:9105/page/Team/team.html?tid=${id}`
+            },
+            del_match() {
+                this.$confirm('确定要删除此记录吗?', '提示', {
+                    confirmButtonText: '确定',
+                    cancelButtonText: '取消',
+                    type: 'warning'
+                }).then( () => {
+                    axios.get(`http://localhost:9105/match/delete.do?id=`+this.id).then(response => {
+                        axios.get(`http://localhost:9105/matchActor/delete.do?mid=`+this.id).then(response => {
+
+                        })
+                        axios.get(`http://localhost:9105/matchPicture/delete.do?mid=`+this.id).then(response => {
+                            this.fetchData (); //刷新列表
+                            var index = parent.layer.getFrameIndex(window.name);
+                            window.parent.location.reload();
+                        })
+                    })
+                })
+            },
+            edit(id) {
+                // console.log(id)
+                show('查看详情', `http://localhost:9105/page/Match/show.html?id=${id}`, '1024px', '90%')
+            },
+
+        }
+    })
+</script>
+<footer style="margin-top: 100px;">
+
+</footer>
+</body>
+</html>
+
+<script>
+    $(document).ready(function () {
+        function back() {
+            window.history.back(-1);
+        }
+
+        function restore_str_js(str) {
+            var str = str.replace('&quot;', '"');
+            str = str.replace('&lt;', '<');
+            str = str.replace('&gt;', '>');
+            str = str.replace('&amp;', '&');
+            str = str.replace('char(10)', '\r\n');//将换行符 还原展示于页面
+//        alert(str);
+            return str;
+        }
+
+        var text0 = $('#content1').html();
+
+        // for (var i = 0; i < text0.length; i++) {
+        //     text0 = restore_str_js(text0);
+        // }
+        // console.log($('#content1').html())
+        $('#content1').html($.trim(text0));
+
+        function show(title, url, w, h) {
+            w = w;
+            layer.open({
+                type: 2,
+                title: title,
+                shadeClose: true,
+                shade: 0.4,
+                area: [w, h],
+                content: url //iframe的url
+            });
+        }
+
+        function del_match(obj, id, name) {
+            layer.confirm('是否删除', {icon: 3, title: "删除：" + name}, function (index) {
+                $.get("__CONTROLLER__/del_match", {id: id}, function (msg) {
+                    layer.msg('删除通过!', {icon: 1, time: 1000, title: "确认"}, function (res) {
+                        var index = parent.layer.getFrameIndex(window.name);
+                        window.parent.location.reload();
+                    });
+                }, "text");
+                layer.close(index);
+            });
+        }
+    });
+
+
+</script>

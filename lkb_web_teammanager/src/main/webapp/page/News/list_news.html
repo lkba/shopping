@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8"/>
+    <title></title>
+    <link rel="stylesheet" href="../../css/el-index.css">
+    <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
+    <link rel="stylesheet" href="../../plugins/font-awesome/css/font-awesome.min.css">
+
+
+    <!--    <link rel="stylesheet" href="../../css/style-el.css">-->
+
+    <link rel="stylesheet" type="text/css" href="../../css/backstage.css">
+    <link rel="stylesheet" type="text/css" href="../../css/bootstrap.min.css"/>
+    <link rel="stylesheet" type="text/css" href="../../css/teacher.css"/>
+    <link rel="stylesheet" type="text/css" href="../../css/common.css">
+
+    <!--<script type="text/javascript" src="./js/bootstrap.min.js"></script>-->
+    <script src="../../js/jquery.min.js"></script>
+    <script type="text/javascript" src="../../js/bootstrap.win.js"></script>
+    <script type="text/javascript" src="../../js/common.js"></script>
+    <script src="../../js/layer.js"></script>
+    <script src="../../js/jquery.js"></script>
+    <script src="../../js/util.js"></script>
+    <style>
+        #so {
+            margin: 0 10px;
+            height: 25px;
+        }
+    </style>
+</head>
+
+<body>
+
+<div style="padding: 10px 50px 20px 50px;width: 70%"  id="app">
+    <div style="margin: 0px 0 60px 0 ;clear: both">
+        <h2 style="color: #0063a1;">资讯列表</h2>
+        <button type="button" class="btn btn-info fr" onclick="add()">编辑资讯
+        </button>
+    </div>
+
+
+    <el-table :data="tableData" border style="width: 100%;margin-top:10px ">
+        <el-table-column prop="id" label="序列" width="180"></el-table-column>
+        <el-table-column prop="content" label="资讯内容" width="100"></el-table-column>
+        <el-table-column prop="teamName" label="项目名称" width="100"></el-table-column>
+        <el-table-column prop="date" label="发送时间" width="100"></el-table-column>
+        <el-table-column
+                label="操作" >
+            <template slot-scope="scope">
+                <el-button @click="dele(scope.row.id)" size="mini" type="primary" size="small">
+                    删除
+                </el-button>
+
+            </template>
+        </el-table-column>
+    </el-table>
+
+    <div class="app-container">
+        <template>
+            <div class="block">
+                <el-pagination
+                        class="pagiantion"
+                        @size-change="fetchData"
+                        @current-change="fetchData"
+                        :current-page.sync="currentPage"
+                        :page-sizes="[10, 20, 30, 40]"
+                        :page-size="size"
+                        layout="total, sizes, prev, pager, next, jumper"
+                        :total="total">
+                </el-pagination>
+            </div>
+        </template>
+    </div>
+</div>
+
+</body>
+
+</html>
+<script type="text/javascript">
+    function add(){
+        window.location.href="http://localhost:9105/page/News/edit_news.html";
+    }
+    function del(obj, id, name) {
+        layer.confirm('是否删除' + name, {icon: 3, title: "删除：" + name}, function (index) {
+            $.get("__CONTROLLER__/del", {id: id}, function (msg) {
+                layer.msg('成功删除！', {icon: 1, time: 1000, title: "确认"}, function (res) {
+//                        var index = parent.layer.getFrameIndex(window.name);
+                    window.location.reload();
+                });
+            }, "text");
+            layer.close(index);
+        });
+    }
+</script>
+<script src="../../js/vue.js"></script>
+<script src="../../js/axios.js"></script>
+<script src="../../js/util.js"></script>
+<script src="../../js/elementui.js"></script>
+<script>
+    new Vue({
+        el: '#app',
+        data() {
+            return {
+                tableData: [],
+                currentPage: 1,
+                total: 10,
+                size: 10,
+                searchMap: {},
+                pojo: {},
+                formVisible: false,
+                imageUrl: ''
+            }
+        },
+        created() {
+            // this.tid = getQueryString("tid")
+            // this.searchMap = {tid: getQueryString("tid")}
+            this.fetchData();
+        },
+        methods: {
+            fetchData() {
+                axios.get(`http://localhost:9105/news/findPage.do?page=${this.currentPage}&size=${this.size}`).then(response => {
+                    this.tableData = response.data.rows;
+                    this.total = response.data.total;
+                    console.log(response.data)
+                });
+            },
+            dele(id) {
+                this.$confirm('确定要删除此记录吗?', '提示', {
+                    confirmButtonText: '确定',
+                    cancelButtonText: '取消',
+                    type: 'warning'
+                }).then(() => {
+                    axios.get(`http://localhost:9105/news/delete.do?id=${id}`).then(response => {
+                        this.fetchData(); //刷新列表
+                    })
+                })
+            },
+
+        }
+    })
+</script>

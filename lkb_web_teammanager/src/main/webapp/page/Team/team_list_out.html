@@ -1,0 +1,402 @@
+<!doctype html>
+<html xmlns:v-on="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8">
+    <title></title>
+        <link rel="stylesheet" href="../../css/el-index.css">
+    <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
+    <link rel="stylesheet" href="../../plugins/font-awesome/css/font-awesome.min.css">
+
+
+    <!--    <link rel="stylesheet" href="../../css/style-el.css">-->
+
+    <link rel="stylesheet" type="text/css" href="../../css/backstage.css">
+    <link rel="stylesheet" type="text/css" href="../../css/bootstrap.min.css"/>
+    <link rel="stylesheet" type="text/css" href="../../css/teacher.css"/>
+    <link rel="stylesheet" type="text/css" href="../../css/common.css">
+
+    <!--<script type="text/javascript" src="./js/bootstrap.min.js"></script>-->
+    <script src="../../js/jquery.min.js"></script>
+    <script type="text/javascript" src="../../js/bootstrap.win.js"></script>
+    <script type="text/javascript" src="../../js/common.js"></script>
+    <script src="../../js/layer.js"></script>
+    <script src="../../js/jquery.js"></script>
+    <script src="../../js/util.js"></script>
+</head>
+
+<body class="hold-transition">
+<div class="content clearfix">
+    <div class="main">
+
+        <!--右侧内容-->
+
+        <div style="padding: 10px 50px 20px 50px;" id="app">
+
+            <div style="padding: 10px 10px;margin-bottom: 35px">
+                <caption>
+                    <h2 style="color: #0063a1;" id="asd">进驻的团队</h2>
+                    <select class="form-control fr btn-primary" style="width: 120px;height: auto" id="time"
+                            onchange="requirement_time(this.value,'')">
+                        <!--//当有更改的时候调用-->
+                        <option value="">-入驻时间-</option>
+                        <template v-for="time_qs in times">
+                            <option :value="time_qs.time">{{time_qs.time}}</option>
+                        </template>
+                    </select>
+                    <select class="form-control fr btn-primary" style="width: 135px;margin: 0px 10px" id="areawork"
+                            onchange='requirement_areawork("",this.value)'>
+                        <!--//当有更改的时候调用-->
+                        <option value="">-入驻场地-</option>
+                        <option value="创新创业学院">创新创业学院</option>
+                        <option value="实践园">实践园</option>
+                    </select>
+
+                    <div class="fr" id="so" style="width: 250px;margin: 0 10px;height: 25px;">
+                        <div class="input-group">
+                            <input type="text" class="form-control" id="search" onkeydown="onKeyDown(event)"/>
+                            <span class="input-group-addon" onclick="search()">
+								<a href="#">
+								<i class="glyphicon glyphicon-search"> <span>搜索</span></i>
+								</a>
+							</span>
+                        </div>
+                    </div>
+                    <!--<input type="search" name="search" id="search" value="" />-->
+                </caption>
+            </div>
+
+            <el-table :data="tableData" border style="width: 100%;margin-top:10px ">
+                <el-table-column prop="tid" label="序列" width="180"></el-table-column>
+
+                <el-table-column prop="team" label="企业或名称" width="80"></el-table-column>
+
+
+                <el-table-column prop="project" label="项目名称" width="80"></el-table-column>
+                <el-table-column prop="in_time" label="入驻时间" width="80"></el-table-column>
+                <el-table-column prop="business_scope" label="项目类型" width="80"></el-table-column>
+                <el-table-column prop="money" label="注册资本（万元）" width="90">
+
+                </el-table-column>
+
+
+                <el-table-column prop="persons" label="吸纳员工人数" width="80"></el-table-column>
+                <el-table-column prop="name" label="法定代表或负责人姓名" width="120"></el-table-column>
+
+                <el-table-column prop="phone" label="办公电话/移动电话" width="80"></el-table-column>
+
+                <el-table-column prop="areawork" label="孵化情况" width="80">
+                    <template slot-scope="scope">
+
+                        <select class="" style="width: 50px;color: #1E9FFF;"
+                                @change='out_input(scope.row.tid,1,"is_out")'>
+                            <!--//当有更改的时候调用-->
+                            <option value="0">退出</option>
+                            <option value="1">在孵</option>
+                        </select>
+<!--                        <el-select v-model="value" placeholder="请选择">-->
+<!--                            <el-option  @click="out_input(scope.row.tid,1,'is_out')"-->
+<!--                                    v-for="item in options"-->
+<!--                                    :key="item.value"-->
+<!--                                    :label="item.label"-->
+<!--                                    :value="item.value"-->
+<!--                                   >-->
+<!--                            </el-option>-->
+<!--                        </el-select>-->
+                    </template>
+                </el-table-column>
+
+                <el-table-column
+                        label="操作">
+                    <template slot-scope="scope">
+                        <el-button @click="edit(scope.row.tid)" size="mini" type="primary" size="small">
+                            表格详情
+                        </el-button>
+                        <el-button @click="file(scope.row.tid);" size="mini" type="primary" size="small">
+                            表格文件
+                        </el-button>
+                    </template>
+                </el-table-column>
+            </el-table>
+            <div class="app-container">
+                <template>
+                    <div class="block">
+                        <el-pagination
+                                class="pagiantion"
+                                @size-change="fetchData"
+                                @current-change="fetchData"
+                                :current-page.sync="currentPage"
+                                :page-sizes="[1, 2, 3, 4]"
+                                :page-size="size"
+                                layout="total, sizes, prev, pager, next, jumper"
+                                :total="total">
+                        </el-pagination>
+                    </div>
+                </template>
+            </div>
+        </div>
+
+        <script type="text/javascript">
+            // function out_input(id, val, field){
+            //     layer.confirm('是否修改', {icon: 3, title: "修改：" + name, offset: '300px'}, function (index) {
+            //         $.get("http://localhost:9105/user/reviseTeam.do", {
+            //             tid: id,
+            //             val: 1,
+            //             fields: field
+            //         }, function (msg) {
+            //             this.value=msg.val;
+            //             console.log("val"+msg.val);
+            //             layer.msg('修改成功!', {icon: 1, time: 1000, title: "确认"}, function (res) {
+            //                 var index = parent.layer.getFrameIndex(window.name);
+            //                 window.parent.location.reload();
+            //             });
+            //         }, "text");
+            //         layer.close(index);
+            //     });
+            // }
+            /* 搜索框  */
+            function onKeyDown(event) {
+                var e = event || window.event || arguments.callee.caller.arguments[0];
+                if (e && e.keyCode == 27) { // 按 Esc
+                    //要做的事情
+//            alert("你按下了Esc");
+                }
+                if (e && e.keyCode == 113) { // 按 F2
+                    //要做的事情
+//            alert("你按下了F2");
+                }
+                if (e && e.keyCode == 13) { // enter 键
+                    search()
+                }
+            }
+
+            function search() {
+                var key = $("#search").val();
+                if (key == "") {
+                    alert("请输入搜索内容");
+                } else {
+                    window.location.href = "__MODULE__/Team/find/key/" + key;
+                }
+            }
+
+            function getUrlParam() {
+                var reg = new RegExp("success"); //构造一个含有目标参数的正则表达式对象
+                var r = window.location.href.match(reg); //匹配目标参数
+                if (r == 'success') {
+                    var index = parent.layer.getFrameIndex(window.name);
+                    window.parent.location.reload();
+                }
+            }
+
+            window.getUrlParam();
+
+
+            function requirement_time(new_time, new_areawork) {
+                new_areawork = decodeURI(escape(getQueryString("areawork")));
+                // console.log("requirement_time：new_areawork="+ console.log("requirement_areawork：new_time="+decodeURI(escape(getQueryString("areawork")))))
+                if (new_time == "") {
+                    new_time = null;
+                }
+                if (new_areawork == "") {
+                    new_areawork = null;
+                }
+                window.location = "http://localhost:9105/page/Team/team_list.html?time=" + new_time + "&areawork=" + new_areawork;
+            }
+
+            function requirement_areawork(new_time, new_areawork) {
+                new_time = decodeURI(escape(getQueryString("time")));
+                // console.log("requirement_areawork：new_time="+decodeURI(escape(getQueryString("time"))))
+                if (new_time == "") {
+                    new_time = null;
+                }
+                if (new_areawork == "") {
+                    new_areawork = null;
+                }
+                window.location = "http://localhost:9105/page/Team/team_list.html?time=" + new_time + "&areawork=" + new_areawork;
+            }
+
+
+            function add_input(obj, id) {
+                var data = '<div id="revise' + id + '">';
+                data += '<input type="text"  style="width: 100%;margin:0 5px " name="time" class="form-control" id="val' + id + '"/>';
+                data += '<input type="button" class="btn btn-info" value="取消" id="" onclick="remove_input(this,' + id + ')">';
+                data += '<input type="button" class="btn btn-info" value="确定" id="" onclick="submit_input(this,' + id + ',\'re_money\'' + ')"></div>';
+                var objJquery = $(obj);
+                $("#revise2" + id).after(data);
+                $("#revise2" + id).remove();
+            }
+
+            function remove_input(obj, id) {
+                var data = '<input type="button" value="修改" onclick="add_input(this,' + id + ')" id="revise2' + id + '" style="color: #1E9FFF;">';
+                var objJquery = $(obj);
+                $("#revise" + id).after(data);
+                $("#revise" + id).remove();
+            }
+
+            function submit_input(obj, id, field) {
+                var val = $('#val' + id).val();
+//        alert(val);
+//        alert(field);
+                if (val != "") {
+                    layer.confirm('是否修改', {icon: 3, title: "修改：" + name, offset: '300px'}, function (index) {
+                        $.get("__CONTROLLER__/revise_team", {
+                            tid: id,
+                            val: val,
+                            field: field
+                        }, function (msg) {
+                            layer.msg('审核成功!', {icon: 1, time: 1000, title: "确认"}, function (res) {
+                                var index = parent.layer.getFrameIndex(window.name);
+                                window.parent.location.reload();
+                            });
+                        }, "text");
+                        layer.close(index);
+                    });
+                } else {
+                    alert("修改值或者取消");
+                    $('#val' + id).focus();
+                }
+            }
+        </script>
+    </div>
+</div>
+</body>
+<script src="../../js/vue.js"></script>
+<script src="../../js/axios.js"></script>
+
+
+<script src="../../js/elementui.js"></script>
+<script>
+    new Vue({
+        el: '#app',
+        data() {
+            return {
+                tableData: [],
+                currentPage: 1,
+                total: 10,
+                size: 2,
+                searchMap: {
+                    "time": "",
+                    "areawork": "",
+                },
+                seaAreawork: "",
+                seaTime: "",
+                times: "",
+                pojo: {},
+                formVisible: false,
+                imageUrl: ''
+            }
+        },
+        created() {
+
+            this.fetchData();
+        },
+        methods: {
+            fetchData() {
+                // http://localhost:9105/page/Team/team_list.hml?time=" + new_time + "&areawork=" + new_areawork;
+
+                if (getQueryString("time") != null) {
+                    this.searchMap.time = getQueryString("time");
+                } else {
+                    this.searchMap.time = ""
+                }
+                if (getQueryString("areawork") != null) {
+                    this.searchMap.areawork = getQueryString("areawork");
+                } else {
+                    this.searchMap.areawork = ""
+                }
+                console.log("created:")
+                console.log(this.searchMap)
+
+
+                axios.post(`http://localhost:9105/user/findPageTeamOutList.do?page=${this.currentPage}&size=${this.size}`, this.searchMap).then(response => {
+
+                    this.tableData = response.data.rows;
+                    this.total = response.data.total.length;
+                    this.value=0;
+                    axios.get(`http://localhost:9105/user/getTeamCache.do`).then(response2 => {
+                        $("#areawork").val(response2.data.areawork);
+                        $("#time").val(response2.data.time);
+                    });
+                });
+                axios.get(`http://localhost:9105/enterTime/findAll.do`).then(response => {
+                    this.times = response.data;
+
+                });
+
+            },
+            add_input(tid) {
+                show('查看详情', `http://localhost:9105/page/Team/edit_money.html?tid=${tid}`, '450px', '50%')
+            },
+            out_input(id, val, field){
+                layer.confirm('是否修改', {icon: 3, title: "修改：" + name, offset: '300px'}, function (index) {
+                    $.get("http://localhost:9105/user/reviseTeam.do", {
+                        tid: id,
+                        val: 1,
+                        fields: field
+                    }, function (msg) {
+                        this.value=msg.val;
+                        console.log("val"+msg.val);
+                        layer.msg('修改成功!', {icon: 1, time: 1000, title: "确认"}, function (res) {
+                            // var index = parent.layer.getFrameIndex(window.name);
+                            window.location.reload();
+                        });
+                    }, "text");
+                    layer.close(index);
+                });
+            },
+            reqSearch: function (new_time, new_areawork) {
+                if (new_time == "") {
+                    new_time = "";
+                }
+                if (new_areawork == "" || new_areawork == "undefined") {
+                    new_areawork = "";
+                }
+                window.location = "http://localhost:9105/page/Team/team_list.html?time=" + new_time + "&areawork=" + new_areawork;
+                // $("#areawork").val(getQueryString("areawork"));
+                // $("#time").val(getQueryString("time"));
+            }
+            ,
+            save() {
+                // this.pojo.image= this.imageUrl; //如页面有图片上传功能放开注释
+                axios.post(`/order/${this.pojo.id == null ? 'add' : 'update'}.do`, this.pojo).then(response => {
+                    this.fetchData(); //刷新列表
+                    this.formVisible = false;//关闭窗口
+                });
+
+            }
+            ,
+            edit(id) {
+                // console.log(id)
+                show('查看详情', `http://localhost:9105/page/Team/team.html?tid=${id}`, '1024px', '90%')
+            },
+            dele(id) {
+                this.$confirm('确定要删除此记录吗?', '提示', {
+                    confirmButtonText: '确定',
+                    cancelButtonText: '取消',
+                    type: 'warning'
+                }).then(() => {
+                    axios.get(`/order/delete.do?id=${id}`).then(response => {
+                        this.fetchData(); //刷新列表
+                    })
+                })
+            }
+            ,
+            /* ****图片上传相关代码  如页面有图片上传功能放开注释 ****
+            handleAvatarSuccess(res, file) {
+                this.imageUrl = file.response;
+            },
+            beforeAvatarUpload(file) {
+                const isJPG = file.type === 'image/jpeg';
+                const isLt2M = file.size / 1024 / 1024 < 2;
+
+                if (!isJPG) {
+                    this.$message.error('上传头像图片只能是 JPG 格式!');
+                }
+                if (!isLt2M) {
+                    this.$message.error('上传头像图片大小不能超过 2MB!');
+                }
+                return isJPG && isLt2M;
+            }*/
+        }
+    })
+</script>
+</html>

@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<link rel="stylesheet" href="../../css/bootstrap.min.css" />
+		<link rel="stylesheet" href="../../css/style.css" />
+		<link rel="stylesheet" type="text/css" href="../../css/layout.css"/>
+		<script type="text/javascript" src="../../js/jquery.min.js"></script>
+		<title></title>
+	</head>
+	<body>
+		<div style="width: 370px;padding: 0 0 10px 0;">
+			<div class="title"><h3>上传仅限zip,rar的压缩格式</h3></div>
+			<p>注：新上传的压缩包将会覆盖以往上传的旧压缩包！</p>
+			<form method="post" enctype='multipart/form-data'> 
+			<div class="add_t">
+			    
+			    <a href="javascript:;" class="file" title="上传计划书">选择文件
+                        <input type="file" class="file" name="cont" style="float:left;" value="" placeholder="请选择文件"/>
+                </a>
+			    <div class="showFileName1"></div>
+                <div class="fileerrorTip1"></div>
+			      
+			  
+			</div> 
+			<div class="set_m_2"> 
+			  <input type="submit" value="上传" id="sub"> 
+			</div> 
+			</form>
+		</div> 
+	</body>
+</html>
+<script>
+	function getUrlParam() {
+      	var reg = new RegExp("success"); //构造一个含有目标参数的正则表达式对象
+		      	var r = window.location.href.match(reg); //匹配目标参数
+		      	if (r == 'success'){
+			      	var index = parent.layer.getFrameIndex(window.name);
+					parent.layer.close(index);
+			    }   
+  	}
+	window.getUrlParam();
+	$(".file").on("change", "input[type='file']", function () {
+        var filePath = $(this).val();
+        if (filePath.indexOf("rar") != -1 || filePath.indexOf("zip") != -1) {
+            $(".fileerrorTip1").html("").hide();
+            var arr = filePath.split('\\');
+            var fileName = arr[arr.length - 1];
+            $(".showFileName1").html(fileName);
+        } else {
+            $(".showFileName1").html("");
+            $(".fileerrorTip1").html("您未上传文件，或者您上传文件类型有误！").show();
+            return false
+        }
+    })
+	$("form").submit(function () { //表单提交时判断
+        var filePath = $("input[type='file']").val();
+        if (filePath.indexOf("rar") == -1 && filePath.indexOf("zip") == -1) {
+            alert('您未上传文件，或者您上传文件类型有误！');
+            return false;
+        }
+		$("#sub").attr('disabled','disabled');
+    });
+</script>
+<style>
+    /*样式2*/
+    .file {
+        position: relative;
+        display: inline-block;
+        background: #D0EEFF;
+        border: 1px solid #99D3F5;
+        border-radius: 4px;
+        padding: 4px 12px;
+        overflow: hidden;
+        color: #1E88C7;
+        text-decoration: none;
+        text-indent: 0;
+        line-height: 20px;
+    }
+
+    .file input {
+        position: absolute;
+        font-size: 100px;
+        right: 0;
+        top: 0;
+        opacity: 0;
+    }
+
+    .file:hover {
+        background: #AADFFD;
+        border-color: #78C3F3;
+        color: #004974;
+        text-decoration: none;
+    }
+</style>

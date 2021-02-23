@@ -1,0 +1,63 @@
+{__NOLAYOUT__}<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<link rel="stylesheet" href="__PUBLIC__/css/bootstrap.css" />
+		<link rel="stylesheet" href="__PUBLIC__/css/style.css" />
+		<link rel="stylesheet" type="text/css" href="__PUBLIC__/css/layout.css"/>
+		<script type="text/javascript" src="__PUBLIC__/js/jquery.js" ></script>
+		<script type="text/javascript" src="__PUBLIC__/js/bootstrap.min.js" ></script>
+		<title></title>
+		<style>
+			.box{
+				background-image: url(__PUBLIC__/img/index.png);
+				background-repeat: no-repeat;
+				background-size: 100% 100%;
+				margin-top: 10px;
+				padding: 30px 0 30px 0;
+			}
+			.logo{
+				 background-image: url(__PUBLIC__/img/logo.png);
+				 background-size: 100px 100px;
+				 width: 100px;
+				 height: 100px;
+				 margin-bottom: 5px;
+			}
+			input{
+				border: 1px solid #45a9e7 !important;
+				background: none;
+			}
+		</style>
+	</head>
+	<body>
+		<div class="header"><span><a href="__MODULE__/Index/index">创新创业学院团队管理系统</a></span></div>
+		<div class="box">
+			<div class="bodyer" style="margin-top: 70px;margin-bottom: 70px;">
+				<center style="width: 400px"><div class="logo"></div></center>
+				<form method="post" style="width: 400px">
+					<div class="login" style="height: 350px;border: 1px solid #45a9e7 !important;background-color:rgb(255,255,255,0.5);">
+						<p style="margin-top: 10px;">还没注册？&nbsp;&nbsp;&nbsp;<a href="__CONTROLLER__/register">注册账号</a></p>
+						<div style="margin-top: 0;">用户名：<input type="text" name="user_name" id="user_name" required="required"></div>
+						<div style="margin-bottom: 0px;">密&nbsp;&nbsp;&nbsp;码：<input type="password" name="user_password" id="user_password" required="required"></div>
+						<div style="margin: 0;text-align: right;font-size: 12px;"><p style="margin: 10px 50px 10px 0;"><a href="__CONTROLLER__/forget">忘记密码?</a></p></div>
+						<div style="margin-top: 0px;">验证码：<input type="text" id="stu_code_hide" name="verify" value=""   autocomplete="off"/></div>
+						<img src="__CONTROLLER__/getVerify" title="点击更换" alt="验证码占位图" onclick="this.src='__CONTROLLER__/getVerify/'+Math.random()" />
+					</div>
+					<div class="login_2">
+						<input type="button" onclick="back()"  value="返&nbsp;&nbsp;回" />
+						<input type="submit"  value="登&nbsp;&nbsp;录">
+					</div>
+				</form>
+			</div>
+		</div>
+		<div class="footer text-center" >
+			<span>技术支持：阔鱼飞鸟云孵平台</span>
+			<span> &nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp; 联系方式：xxxxxxxxxx</span> 
+		</div> 
+		<script>
+			function back(){
+				window.location.href = "__MODULE__/Index/index";
+			}
+		</script>
+	</body>
+</html>

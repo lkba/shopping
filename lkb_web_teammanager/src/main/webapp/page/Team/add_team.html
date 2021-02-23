@@ -1,0 +1,82 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title></title>
+    <link rel="stylesheet" type="text/css" href="../../css/backstage.css">
+    <link rel="stylesheet" type="text/css" href="../../css/bootstrap.min.css"/>
+    <link rel="stylesheet" type="text/css" href="../../css/teacher.css"/>
+    <link rel="stylesheet" type="text/css" href="../../css/common.css">
+
+    <!--<script type="text/javascript" src="./js/bootstrap.min.js"></script>-->
+    <script src="../../js/jquery.min.js"></script>
+    <script type="text/javascript" src="../../js/bootstrap.win.js"></script>
+    <script type="text/javascript" src="../../js/common.js"></script>
+    <script src="../../js/layer.js"></script>
+    <script src="../../js/jquery.js"></script>
+
+</head>
+
+<body>
+<div class="content clearfix">
+
+    <div class="main">
+        <!--右侧内容-->
+<form action="" method="post" onsubmit="return dosubmit()" enctype="multipart/form-data" style="width: 600px;">
+    <div style="padding: 10px 50px 20px 50px;">
+        <h2 style="color: #0063a1;">添加团队</h2>
+        <table class="table table-striped">
+            <caption>
+                <button type="button" class="btn btn-info fr"
+                        onclick="show('查看详情','__MODULE__/Team/add_mteam','724px','90%');" style="margin: 0 10px;">自动增加账户
+                </button>
+
+            </caption>
+            <tr>
+                <td align="right">团队账号</td>
+                <td><input type="text" name="username" placeholder="请输入团队账号" class="form-control"/></td>
+            </tr>
+            <tr>
+                <td align="right">团队密码</td>
+                <td><input type="password" name="password" class="form-control"/></td>
+            </tr>
+            <tr>
+                <td align="right">选择期数</td>
+                <td>
+                    <select class="form-control fl" style="width: 120px" id="" name="time"
+                            onchange="change(this.value)">
+                        <!--//当有更改的时候调用-->
+                        <foreach name="time.list" item="t">
+                            <option value="{$t.time}">{$t.time}</option>
+                        </foreach>
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <td align="right">负责人名称</td>
+                <td><input type="text" name="name" class="form-control"/></td>
+            </tr>
+
+            <tr>
+                <td colspan="2"><input class="btn btn-primary" type="submit" value="添加团队"/></td>
+            </tr>
+
+        </table>
+    </div>
+</form>
+<script>
+    var isCommitted = false;//表单是否已经提交标识，默认为false
+    function dosubmit() {
+        if (isCommitted == false) {
+            isCommitted = true;//提交表单后，将表单是否已经提交标识设置为true
+            return true;//返回true让表单正常提交
+        } else {
+            return false;//返回false那么表单将不提交
+        }
+    }
+
+</script>
+    </div>
+</div>
+</body>
+</html>

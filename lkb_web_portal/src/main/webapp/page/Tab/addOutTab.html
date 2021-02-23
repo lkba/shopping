@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html xmlns:v-on="http://www.w3.org/1999/xhtml">
+<head>
+	<meta charset="utf-8"/>
+	<link rel="stylesheet" href="../../t_css/bootstrap.css"/>
+	<link rel="stylesheet" href="../../t_css/layout.css"/>
+	<link rel="stylesheet" type="text/css" href="../../t_css/student.css"/>
+	<script type="text/javascript" src="../../t_js/jquery.min.js"></script>
+	<script type="text/javascript" src="../../t_js/bootstrap.min.js"></script>
+		<title></title>
+		<style>
+			.header{
+				margin-bottom: 50px;
+			}
+			label{
+				margin:0 72px 0 10px;
+				display: inline-block;
+			    vertical-align:middle;
+			}
+			input[type="radio"]{
+			    vertical-align:middle;
+			    margin: 0;
+			}
+			input[type="checkbox"]{
+			    margin: 10px;
+			}
+			input[type="text"]{
+				margin: 0;
+				padding: 0;
+			    background:none;
+			    BORDER-TOP-STYLE: none; 
+			    BORDER-RIGHT-STYLE: none; 
+			    BORDER-LEFT-STYLE: none; 
+			    BORDER-BOTTOM-STYLE: solid !important;
+			    width: 400px;
+			}
+			td{
+				vertical-align: middle !important;	
+			}
+			table th{	
+				vertical-align: middle !important;		
+				text-align: center;
+				width: 160px;
+			}
+			textarea{resize:none;word-wrap: break-word;background:none;height: 100%;width: 100%;overflow:hidden;}
+		</style>
+		<script>
+			function getUrlParam() {
+		      	var reg = new RegExp("success"); //构造一个含有目标参数的正则表达式对象
+				      	var r = window.location.href.match(reg); //匹配目标参数
+				      	if (r == 'success'){
+					      	var index = parent.layer.getFrameIndex(window.name);
+							window.parent.location.reload();
+					    }   
+		  	}
+			window.getUrlParam();
+		</script>
+	</head>
+	<body>
+	<div id="app">
+		<div class="header"><span>团队云孵综合平台</span></div>
+		<div class="bodyer">
+			<center style="margin: 30px;"><h1>项目退出申请表</h1></center>
+			<form method="post">
+			<input type="hidden" value="{$tid}" name="tid"/>
+			<div style="float: right;"><h4><span style="color: red;">*</span>填表时间：  <input type="date" required name="edate" v-model="pojo.edate"/></h4></div>
+			<table class="table table-bordered">
+			  <tr>
+			  	<th colspan="1">团队名称</th>
+			  	<td colspan="3">{{basics.team}}</td>
+			  	<th colspan="1">申请入驻时间</th>
+			  	<td colspan="3">{{basics.inTime}}</td>
+			  </tr>
+			  <tr>
+			  	<th colspan="1">公司是否注册</th>
+			  	<td colspan="1">{{basics.registered}}</td>
+			  	<th colspan="1">注册时间</th>
+			  	<td colspan="2">{{basics.regTime}}</td>
+			  	<th colspan="1">注册资金<br>（万元）</th>
+			  	<td colspan="2">{{basics.money}}</td>
+			  </tr>
+			  <tr>
+			  	<th colspan="1">经营范围<br>（产品/服务）</th>
+			  	<td colspan="7">{{basics.businessScope}}</td>
+			  </tr>
+			  <tr>
+			  	<th>行业类别</th>
+			  	<td colspan="7">
+			  		{{basics.classPor}}
+			  	</td>
+			  </tr>
+			  
+			  <tr><th rowspan="4" colspan="1">项目主创<br>团队人员<br>基本情况</th></tr>
+			  <tr>
+			  	<th colspan="1">负责人</th>
+			  	<td colspan="2">{{user.name}}</td>
+			  	<th colspan="1">年龄</th><td colspan="1">{{user.age}}</td>
+			  	<th colspan="1">性别</th><td colspan="1" style="width: 180px;">{{user.sex}}</td></tr>
+			  <tr>
+			  	<th colspan="1">系别</th>
+			  	<td colspan="2">{{user.department}}</td>
+			  	<th colspan="2">专业班级</th><td colspan="2">{{user.professional}}</td>
+			  	</tr>
+			  <tr>
+			  	<th colspan="1">手机号码</th>
+			  	<td colspan="2">{{user.phone}}</td>
+			  	<th colspan="2">E-mail/QQ</th><td colspan="2">{{user.email}}</td>
+			  </tr>
+			  			  
+			  <tr>
+			  	<th colspan="1">项目基本情况<br>（概括）</th>
+			  	<td colspan="7"><textarea rows="3" cols="80" overflow="hidden" maxlength="150" name="base_stiu" required v-model="pojo.baseStiu"></textarea></td>
+			  </tr>
+			  
+			  <tr>
+			  	<th>退出原因</th>
+			  	<td colspan="7" style="padding-left: 72px;">
+			  		<label style="width: 145px;"><input class="reason" type="checkbox"  value="项目停止" v-model="outReason"/>项目停止</label>
+			  		<label><input class="reason" type="checkbox"  value="项目变更" v-model="outReason"/>项目变更</label>
+			  		<label><input class="reason" type="checkbox"  value="团队成员解散" v-model="outReason"/>团队成员解散</label>  <br>
+			  		<label><input class="reason" type="checkbox"  value="公司业务发展需要" v-model="outReason"/>公司业务发展需要</label>
+			  		<label><input class="reason" type="checkbox"  value="场地受限" v-model="outReason"/>场地受限</label> <br>
+			  		<label><input class="reason" type="checkbox"  value="" id="other" v-model="outReason"/>其他：
+			  			<input type="text" style="border-bottom: 1px;" onfocus="other.checked=true" onblur="other.value=this.value" id="txt" v-model="outReason"/></label>
+			  	</td>
+			  </tr>
+			  
+			  <tr>
+			  	<th colspan="1">对两创学院建议</th>
+			  	<td colspan="7"><textarea rows="3" cols="80" overflow="hidden" maxlength="600" name="idea" required v-model="pojo.idea"></textarea></td>
+			  </tr>
+			  <tr>
+			  	<th colspan="1">申请人</th><td colspan="3"><textarea rows="2" maxlength="255" name="proposer" v-model="pojo.proposer" required></textarea></td>
+			  	<th colspan="1">申请退出时间</th><td colspan="3"><input type="date" name="outdate" v-model="pojo.outdate" required/></td>
+			  </tr>
+			  
+			  <tr>
+			  	<th colspan="1">团队办公区域<br>（座位号）</th><td colspan="3"><textarea rows="2" maxlength="255" name="workarea" required v-model="pojo.workarea"></textarea></td>
+			  	<th colspan="1">蝴蝶账号密码</th><td colspan="3"><textarea rows="2" maxlength="255" name="account" required v-model="pojo.account"></textarea></td>
+			  </tr>
+			  
+			  <tr>
+			  	<th colspan="1">卫生情况<br>（由两创验收）</th><td colspan="3"><textarea rows="2" maxlength="300" name="health" required v-model="pojo.health"></textarea></td>
+			  	<th colspan="1">办公设备验收<br>（由两创验收）</th><td colspan="3"><textarea rows="2" maxlength="300" name="equip" required v-model="pojo.equip"></textarea></td>
+			  </tr>
+			  
+			  <tr height="150px">
+			  	<th colspan="1">两创学院审批意见<br>（由主管领导批复）</th>
+			  	<td colspan="7" style="position: relative;">
+			  	<div style="position: absolute;bottom: 30px;right: 100px;">审批人：</div>
+			  	<div style="position: absolute;bottom: 5px;right: 50px;">&nbsp;&nbsp;&nbsp;&nbsp;年&nbsp;&nbsp;&nbsp;&nbsp;月&nbsp;&nbsp;&nbsp;&nbsp;日</div>
+			  	</td>
+			  </tr>
+			  
+			</table>
+			<button type="button" class="btn btn-info" style="float: right;margin-left: 20px;margin-bottom: 100px;" onclick="back()">返回</button>
+			<button type="reset" class="btn btn-info" style="float: right;margin-left: 20px;">重置</button>
+			<button type="button" class="btn btn-info" style="float: right;margin-left: 20px;" id="sub" @click="save()">添加</button>
+			</form>
+		</div>
+	</div>
+	</body>
+</html>
+<script src="../../t_js/vue.js"></script>
+<script src="../../t_js/axios.js"></script>
+<!--<script src="../../js/util.js"></script>-->
+<!--<script src="../../js/elementui.js"></script>-->
+<script src="../../t_js/util.js"></script>
+<script>
+	new Vue({
+		el: '#app',
+		data() {
+			return {
+				tableData: [],
+				enter: [],
+				user: {},
+				basics: {},
+				team: [],
+				teachers: [],
+				outReason:[],
+				len: "",
+				len2: "",
+				times: "",
+				tid: null,
+				sid: null,
+				currentPage: 1,
+				total: 10,
+				size: 10,
+				searchMap: {},
+				pojo: {},
+				formVisible: false,
+				imageUrl: ''
+			}
+		},
+		created() {
+
+			// this.tid = getQueryString("tid")
+			// this.sid = getQueryString("sid")
+			// this.searchMap = {tid: getQueryString("tid")}
+			this.fetchData();
+		},
+		methods: {
+			fetchData() {
+				//查使用者账户
+				axios.get(`/login/username.do`).then(response => {
+					this.username = response.data.username;
+
+				}),
+						axios.get(`/user/getPhone.do`).then(response => {
+							this.phone = response.data.phone;
+							console.log("getPhone")
+							console.log(this.phone)
+							this.searchMap = {'username': this.phone}
+							// console.log(this.searchMap)
+							if (this.phone != '') {
+								this.searchMap = {'username': this.phone}
+								axios.post(`/userTeam/findList.do`, this.searchMap).then(response => {
+									this.user = response.data[0];
+									console.log(this.user);
+									this.searchMap = {'tid': this.user.tid}
+									this.tid=this.user.tid;
+									axios.post(`/tableEnter/findList.do`, this.searchMap).then(response => {
+										this.enter = response.data[0];
+									});
+									axios.post(`/basicInfor/findList.do`, this.searchMap).then(response => {
+										// response.date[0].regTime=new Date(response.date[0].regTime).format("yyyy-MM-dd");
+										this.basics = response.data[0];
+										console.log(this.basics)
+									});
+									// axios.post(`/tableSelf/findPage.do?page=${this.currentPage}&size=${this.size}`, this.searchMap).then(response => {
+									// 	this.tableSelfDate = response.data.rows;
+									// 	this.total = response.data.total;
+									// 	console.log(response.data)
+									// });
+								});
+							}
+						})
+
+			},
+			subTable(){
+				// this.pojo.isSub=1;
+				// this.pojo={"tid":this.user.tid}
+				axios.post(`/tableSelf/update.do`, this.pojo).then(response => {
+					this.fetchData();
+					// // this.user = response.data[0];
+					// console.log(response.data);
+					// console.log(this.user);
+				});
+			},
+			save (){
+				// this.pojo.image= this.imageUrl; //如页面有图片上传功能放开注释
+				this.pojo.tid=this.tid;
+				this.pojo.isSub="1";
+				this.pojo.outReason=this.outReason;
+				axios.post(`/tableOut/${this.pojo.oid==null?'add':'update'}.do`,this.pojo).then(response => {
+					this.fetchData (); //刷新列表
+					// this.formVisible = false ;//关闭窗口
+					var index = parent.layer.getFrameIndex(window.name); //先得到当前iframe层的索引
+					parent.layer.close(index); //再执行关闭
+				});
+			},
+			edit (oid){
+				this.formVisible = true // 打开窗口
+				// 调用查询
+				axios.get(`/tableOut/findById.do?oid=${oid}`).then(response => {
+					this.pojo = response.data;
+					// this.imageUrl=this.pojo.image //显示图片  如页面有图片上传功能放开注释
+				})
+			},
+			dele (oid){
+				this.$confirm('确定要删除此记录吗?', '提示', {
+					confirmButtonText: '确定',
+					cancelButtonText: '取消',
+					type: 'warning'
+				}).then( () => {
+					axios.get(`/tableOut/delete.do?oid=${oid}`).then(response => {
+						this.fetchData (); //刷新列表
+					})
+				})
+			},
+
+			/* ****图片上传相关代码  如页面有图片上传功能放开注释 ****
+            handleAvatarSuccess(res, file) {
+                this.imageUrl = file.response;
+            },
+            beforeAvatarUpload(file) {
+                const isJPG = file.type === 'image/jpeg';
+                const isLt2M = file.size / 1024 / 1024 < 2;
+
+                if (!isJPG) {
+                    this.$message.error('上传头像图片只能是 JPG 格式!');
+                }
+                if (!isLt2M) {
+                    this.$message.error('上传头像图片大小不能超过 2MB!');
+                }
+                return isJPG && isLt2M;
+            }*/
+		}
+	})
+</script>
+<script>
+	function back(){
+		var index = parent.layer.getFrameIndex(window.name); //先得到当前iframe层的索引
+		parent.layer.close(index); //再执行关闭
+	}
+	$("form").submit(function(){ //表单提交时判断
+		if($(".reason:checked").length==0){
+			$("#txt").focus();
+		 	alert('请填写退出原因！');
+		 	return false;
+		}
+		if($("#other").is(":checked") && $("#txt").val().trim().length==0){
+			$("#txt").val('');
+			$("#txt").focus();
+		 	alert('请补充“其他”退出的原因！');
+		 	return false;
+		}
+		$("#sub").attr('disabled','disabled');
+	});
+</script>

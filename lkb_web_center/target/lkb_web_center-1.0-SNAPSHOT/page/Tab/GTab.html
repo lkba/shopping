@@ -1,0 +1,75 @@
+{__NOLAYOUT__}<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<link rel="stylesheet" href="__PUBLIC__/css/bootstrap.css" />
+		<link rel="stylesheet" href="__PUBLIC__/css/layout.css" />
+		<link rel="stylesheet" type="text/css" href="__PUBLIC__/css/student.css"/>
+		<script src="__PUBLIC__/js/jquery.js"></script>
+		<script src="__PUBLIC__/js/jquery.jqprint-0.3.js"></script>
+		<link href="__PUBLIC__/css/print2.css" rel="stylesheet" type="text/css" >
+		<script type="text/javascript" src="__PUBLIC__/js/bootstrap.min.js" ></script>
+		<title></title>
+		<style>
+			.header{
+				margin-bottom: 50px;
+			}
+		</style>
+	</head>
+	<body>
+		<div class="header"><span>创新创业学院团队管理系统</span></div>
+		<div class="bodyer">
+			<div id="print-area">
+			<center><h1>考核评分表</h1></center>
+			<div style="float: right;"><h4>评审时间：   {$grade.date}</h4></div>
+			<table class="table table-bordered">
+			  <tr><th>一级指标</th><th class="w100">二级指标</th><th>分值</th><th>要求</th><th>评分</th></tr>
+			  <tr><th rowspan="3">日常管理<br>(46分)</th><th>会议、沙龙等<br>参加次数</th><th >8</th><th>1、会议不能迟到，不得缺席，每人每次扣2分.<br>2、参会次数以及人数达总数的80%.</th><td>{$grade.meeting}</td></tr>
+			  <tr><th>参加创业<br>报告数目</th><th >8</th><th>次数以及人数达总数的80%.</th><td>{$grade.report}</td></tr>
+			  <tr><th>出勤考核</th><th >30</th><th>每日出勤考核（30次）.</th><td>{$grade.check}</td></tr>
+			  
+			  <tr><th rowspan="3">工作场地<br>(12分)</th><th>创业工作室卫生</th><th >4</th><th>1、保持办公室桌面清洁整齐，不得摆放与工作无关的物品（2分）.<br>2、	保持室内卫生，垃圾要及时清理（2分）.</th><td>{$grade.studio_hea}</td></tr>
+			  <tr><th>公共区域卫生</th><th >4</th><th>1.保持公共区域卫生清洁（2分）.<br>2.保持桌面玻璃清洁卫生（2分）.</th><td>{$grade.public_hea}</td></tr>
+			  <tr><th>工作室墙体宣传资料</th><th >4</th><th>按规定对创业工作室进行布置，制作“公司简介、公司<br>文化、公司管理、商业模式、科研成果”等展示（4分）.</th><td>{$grade.propagate}</td></tr>
+
+			  <tr><th rowspan="2">安全情况<br>(8分)</th><th>营运项目的安全性</th><th >4</th><th>定期对公司营运项目进行考核，不得危害同学和<br>学校利益。一经发现，视情节给予相应处罚（4分）.</th><td>{$grade.pro_safe}</td></tr>
+			  <tr><th>使用设备的安全性</th><th >4</th><th>1、定期对各种设备进行全面检查，保证安全（2分）.<br>2、注意用电安全及防火防盗安全（2分）.</th><td>{$grade.equip_safe}</td></tr>
+			  
+			  <tr><th>运营材料上报<br>（6分）</th><th>学期运营报告</th><th>6</th><th>团队考核前需提交创业团队花名册、内部管理制度、学期工作计划、学期运营报告、（含财务报表、团队承担的业务统计表和合同复印件、媒体报道、团队成员在创业方面获得的荣誉材料）、营业执照以及其他要求提供的材料（电子版和纸质版各一份）（6分）.</th><td>{$grade.operating}</td></tr>
+			  
+			  <tr><th rowspan="5">运营汇报评审<br>(15分)</th><th>组织制度、文化建设</th><th >3</th><th>组织制度健全，有团队文化（3分）.</th><td>{$grade.culture}</td></tr>
+			  <tr><th>工作计划总结、实施监控</th><th >3</th><th>有计划、有目标、有成效（3分）.</th><td>{$grade.control}</td></tr>
+			  <tr><th>盈利状况分析</th><th>3</th><th>真实、标准、不得造假（3分）.</th><td>{$grade.profit}</td></tr>
+			  <tr><th>创新点</th><th>3</th><th>技术、商业模式（3分）.</th><td>{$grade.innovate}</td></tr>
+			  <tr><th>创业成果展示</th><th >3</th><th>开展的具体商业成果（3分）.</th><td>{$grade.ent_achi}</td></tr>
+			  
+			  <tr><th rowspan="2">支持配合工作<br>(8分)</th><th>提出建设性创业意见</th><th >4</th><th>为创业教育提宝贵意见，给予适当的奖励（4分）.</th><td>{$grade.ent_opinion}</td></tr>
+			  <tr><th>服从创新创业基地部门的管理</th><th >4</th><th>服从组织管理（4分）.</th><td>{$grade.mana}</td></tr>
+			  
+			  <tr><th>荣誉（5分）</th><th>参加比赛</th><th>5</th><th>参加比赛获奖（5分）.</th><td>{$grade.match}</td></tr>
+			  
+			  <tr><th colspan="1">评审总得分</th><td colspan="4">{$grade.total_score}</td></tr>
+			  <tr><th colspan="1">评审结论</th><td colspan="4">{$grade.conclusion}</td></tr>
+			  <tr><th colspan="1">参加评审人员</th><td colspan="4">{$grade.judge}</td></tr>
+			</table>
+			</div>
+			<button type="button" class="btn btn-info" style="float: right;margin-left: 20px;margin-bottom: 50px;" onclick="print()">打印</button>
+			<button type="button" class="btn btn-info" style="float: right;margin-left: 20px;" onclick="back()">关闭</button>		
+		</div>
+	</body>
+</html>
+<script>
+	function back(){
+		var index = parent.layer.getFrameIndex(window.name); //先得到当前iframe层的索引
+		parent.layer.close(index); //再执行关闭
+	}
+	//打印
+	function print(){
+		$("#print-area").jqprint({
+			debug: false, 
+			importCSS: true, 
+			printContainer: true, 
+			operaSupport: false
+		});
+	}
+</script>

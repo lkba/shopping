@@ -1,0 +1,294 @@
+<!doctype html>
+<html xmlns:v-on="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8">
+    <title></title>
+
+    <link rel="stylesheet" href="../../css/el-index.css">
+    <!--	<link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">-->
+    <link rel="stylesheet" href="../../plugins/font-awesome/css/font-awesome.min.css">
+    <!--    <link rel="stylesheet" href="../../css/style-el.css">-->
+    <link rel="stylesheet" type="text/css" href="../../css/backstage.css">
+    <link rel="stylesheet" type="text/css" href="../../css/bootstrap.min.css"/>
+    <link rel="stylesheet" type="text/css" href="../../css/teacher.css"/>
+    <link rel="stylesheet" type="text/css" href="../../css/common.css">
+    <!--<script type="text/javascript" src="./js/bootstrap.min.js"></script>-->
+    <script src="../../js/jquery.min.js"></script>
+    <script type="text/javascript" src="../../js/bootstrap.win.js"></script>
+    <script type="text/javascript" src="../../js/common.js"></script>
+    <script src="../../js/layer.js"></script>
+    <script src="../../js/jquery.js"></script>
+    <script src="../../js/util.js"></script>
+    <script type="text/javascript" charset="utf-8" src="../../js/plugins/kindeditor/kindeditor.js"></script>
+    <script type="text/javascript" charset="utf-8" src="../../js/plugins/kindeditor/lang/zh_CN.js"></script>
+    <script>
+        KindEditor.ready(function (K) {
+            window.editor = K.create('#editor_id');
+        });
+        KindEditor.sync();
+
+        function validate(){
+            var title =$.trim( $("#title").val());
+            // var content = $.trim($("#editor_id").val());
+            editor.sync();
+            var content=  $("#editor_id").val();
+            console.log(content)
+            if(content == ""){
+                alert("内容不能为空")
+
+                return false;
+            }
+            return true;
+        }
+
+
+        $(document).ready(function () {
+            $("#selectFileBtn").click(function () {
+                $fileField = $('<input type="file" name="thumbs[]"/>');
+                $fileField.hide();
+                $("#attachList").append($fileField);
+                $fileField.trigger("click");
+                $fileField.change(function () {
+                    $path = $(this).val();
+                    $filename = $path.substring($path.lastIndexOf("\\") + 1);
+                    $attachItem = $('<div class="attachItem"><div class="left">a.gif</div><div class="right"><a href="#" title="删除附件">删除</a></div></div>');
+                    $attachItem.find(".left").html($filename);
+                    $("#attachList").append($attachItem);
+                });
+            });
+            $("#attachList>.attachItem").find('a').live('click', function (obj, i) {
+                $(this).parents('.attachItem').prev('input').remove();
+                $(this).parents('.attachItem').remove();
+            });
+        });
+    </script>
+</head>
+
+<body class="hold-transition">
+<div style="padding: 10px 50px 20px 50px;width: 80%" id="app">
+    <div class="title"></div>
+    <h2 style="color: #0063a1;">赛事添加</h2>
+    <div class="" style="margin: 10px 70px 0 0;overflow: auto">
+        <form method="post" enctype="multipart/form-data">
+            <!--            <input type="hidden" value="{$cid}" name="cid"/>-->
+
+            <!--            <input type="hidden" value="{$cname}" name="period"/>-->
+            <table class="table">
+                <tr>
+                    <th style="width: 100px">赛事分类：</th>
+                    <td>
+                        <select class="form-control fl" style="width: 220px" id="" name="cname"
+                                v-model="pojo.cid">
+                            <!--//当有更改的时候调用-->
+                            <template v-for="mC in matchCategorys">
+                                <option :value="mC.cid">{{mC.cname}}</option>
+                            </template>
+                        </select>
+                    </td>
+                </tr>
+                <tr>
+                    <th style="width: 100px">赛事名称：</th>
+                    <td><input type="text" value="" class="form-control" name="title" id="title" v-model="pojo.title"/>
+                    </td>
+                </tr>
+                <tr>
+                    <th style="width: 100px">举办方：</th>
+                    <td><input type="text" name="host" class="form-control" placeholder="" id="host" v-model="pojo.hostMain"/></td>
+                </tr>
+                <tr>
+                    <th style="width: 100px">开始时间：</th>
+                    <td><input type="text" name="host_time" class="form-control" placeholder="2018-12-06" id="host_time"
+                               v-model="pojo.hostTime"/>
+                    </td>
+                </tr>
+                <tr>
+                    <th style="width: 100px">举办地点：</th>
+                    <td><input type="text" name="host_place" class="form-control" placeholder="" id="host_place"
+                               v-model="pojo.hostPlace"/></td>
+                </tr>
+                <tr>
+                    <th>报名状态：</th>
+                    <td><select name="statuss" v-model="pojo.statuss">
+                        <option value="no">关闭</option>
+                        <option value="yes">开启</option>
+                    </select></td>
+                </tr>
+                <tr>
+                    <th>是否发布：</th>
+                    <td><select name="is_best" v-model="pojo.isBest">
+                        <option value="no">否</option>
+                        <option value="yes">是</option>
+                    </select></td>
+                </tr>
+                <!--内容拿出-->
+                <tr>
+                    <th>比赛描述：</th>
+                    <td><textarea name="content" id="editor_id" style="width:100%;height:350px;"  v-model="pojo.content" id="content"></textarea>
+                    </td>
+                </tr>
+
+                <!--、内容拿出-->
+                <tr>
+                    <th>简介照片：</th>
+                    <td>
+                        <!--                        <input type="file" name="thumb" class="file"/>-->
+                        <span class="file" title="图片">
+                        <el-upload
+                                class="avatar-uploader"
+                                action="/upload/oss.do"
+                                :show-file-list="false"
+                                :on-success="handleAvatarSuccess"
+                                :before-upload="beforeAvatarUpload">
+                            <img v-if="imageUrl" :src="imageUrl" class="avatar">
+                            <i v-else class="el-icon-plus avatar-uploader-icon"></i>
+                        </el-upload>
+                    </span>
+                    </td>
+                </tr>
+                <tr class="tr_btn center">
+                <tr>
+                    <th>赛事简介：</th>
+                    <td><textarea name="describe" class="form-control" style="width:100%;height:50px;" id="describe" v-model="picture.describes"></textarea></td>
+                </tr>
+                <td colspan="2"><input v-on:click="save()" class="btn" value="确定"/><input type="reset" class="btn" value="重置"/>
+<!--                    <input v-on:click="test()" class="btn" value="测试"/>-->
+                    <input onclick="validate()" class="btn" value="测试"/>
+                </td>
+
+                </tr>
+            </table>
+
+        </form>
+    </div>
+</div>
+
+<script src="../../js/vue.js"></script>
+<script src="../../js/axios.js"></script>
+<script src="../../js/elementui.js"></script>
+<script src="../../js/util.js"></script>
+<script>
+    new Vue({
+        el: '#app',
+        data() {
+            return {
+                tableData: [],
+                currentPage: 1,
+                matchCategorys: [],
+                total: 10,
+                size: 10,
+                searchMap: {},
+                seaAreawork: "",
+                seaTime: "",
+                times: "",
+                pojo: {},
+                picture: {},
+                formVisible: false,
+                imageUrl: ''
+            }
+        },
+        created() {
+            this.fetchData();
+        },
+        methods: {
+            fetchData() {
+                axios.get(`http://localhost:9105/matchCategory/findAll.do`).then(response => {
+                    this.matchCategorys = response.data;
+                    // console.log("all");
+                    // console.log(response.data)
+                });
+            },
+            save() {
+                this.picture.thumb = this.imageUrl; //如页面有图片上传功能放开注释
+                this.pojo.thumb = this.imageUrl; //如页面有图片上传功能放开注释
+                this.pojo.describes = this.picture.describes;
+                editor.sync();
+                // var content=  $("#editor_id").val();
+                // console.log(content)
+                this.pojo.content=$("#editor_id").val();
+                // console.log(this.pojo.content)
+                // layer.confirm('确认要添加吗？', {icon: 3, title: "是否保存?"}, function (index)
+                console.log(this.pojo)
+                // return;
+                axios.post(`http://localhost:9105/match/add.do`, this.pojo).then(response => {
+                    console.log(response.data)
+                    axios.get(`http://localhost:9105/match/findMacthLast.do`).then(response => {
+                        // console.log("response")
+                        // console.log(response.data)
+                        this.picture.mid=response.data.id;
+                        axios.post(`http://localhost:9105/matchPicture/add.do`, this.picture).then(response => {
+                            // console.log(response.data)
+                            window.location.href="http://localhost:9105/page/Match/match_list.html?cid="+this.pojo.cid;
+                        });
+                    });
+
+                });
+
+                // layer.close(index);
+
+                // });
+            },
+            /* ****图片上传相关代码  如页面有图片上传功能放开注释 *****/
+            handleAvatarSuccess(res, file) {
+                this.imageUrl = file.response;
+                console.log(this.imageUrl)
+            },
+            beforeAvatarUpload(file) {
+                // const isJPG = file.type === 'docx/doc';
+                const isLt2M = file.size / 1024 / 1024 < 10;
+
+                // if (!isJPG) {
+                //     this.$message.error('上传头像图片只能是 docx/doc 格式!');
+                // }
+                if (!isLt2M) {
+                    this.$message.error('上传头像图片大小不能超过 10MB!');
+                }
+                // return isJPG && isLt2M;
+                return isLt2M;
+            }
+
+        }
+    })
+</script>
+</body>
+</html>
+<script>
+    $(document).ready(function () {
+        var isCommitted = false;//表单是否已经提交标识，默认为false
+        $("form").submit(function () { //表单提交时判断
+            var describe = $('#describe').val();
+            var title = $('#title').val();
+            var host = $('#host').val();
+            var host_time = $('#host_time').val();
+            var host_place = $('#host_place').val();
+            var content = $('#content').val();
+            var len = describe.length;
+            if (len >= 200) {
+                $("#describe").focus();
+                alert("赛事简介超过200字");
+                return false;
+            } else if (title == "") {
+                $("#title").focus();
+                return false;
+            } else if (host == "") {
+                $("#host").focus();
+                return false;
+            } else if (host_time == "") {
+                $("#host_time").focus();
+                return false;
+            } else if (host_place == "") {
+                $("#host_place").focus();
+                return false;
+            } else if (content == "") {
+                $("#content").focus();
+                return false;
+            }
+            if (isCommitted == false) {
+                isCommitted = true;//提交表单后，将表单是否已经提交标识设置为true
+                return true;//返回true让表单正常提交
+            } else {
+                return false;//返回false那么表单将不提交
+            }
+        });
+    });
+
+</script>

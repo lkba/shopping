@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="CompilerConfiguration">
+    <annotationProcessing>
+      <profile name="Maven default annotation processors profile" enabled="true">
+        <sourceOutputDir name="target/generated-sources/annotations" />
+        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
+        <outputRelativeToContentRoot value="true" />
+        <module name="lkb_web_team" />
+        <module name="lkb_web_manager" />
+        <module name="lkb_web_seckill" />
+        <module name="lkb_service_seckill" />
+        <module name="lkb_service_sms" />
+        <module name="lkb_common" />
+        <module name="lkb_interface" />
+        <module name="lkb_service_goods" />
+        <module name="lkb_web_center" />
+        <module name="lkb_service_config" />
+        <module name="lkb_pojo" />
+        <module name="lkb_service_system" />
+        <module name="lkb_common_service" />
+        <module name="lkb_service_order" />
+        <module name="lkb_common_cas" />
+        <module name="lkb_web_portal" />
+        <module name="lkb_service_information" />
+        <module name="lkb_service_teammanager" />
+        <module name="lkb_service_team" />
+        <module name="lkb_service_user" />
+        <module name="lkb_web_teammanager" />
+        <module name="lkb_common_web" />
+        <module name="lkb_service_business" />
+        <module name="lkb_web_manager (1) (com.lkb)" />
+      </profile>
+    </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="lkb_common_goods" target="8" />
+    </bytecodeTargetLevel>
+  </component>
+</project>

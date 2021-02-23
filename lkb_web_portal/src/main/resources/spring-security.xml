@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans:beans xmlns="http://www.springframework.org/schema/security"
+             xmlns:beans="http://www.springframework.org/schema/beans"
+             xmlns:context="http://www.springframework.org/schema/context"
+             xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+             xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+	                http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
+						http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security.xsd">
+
+    <http pattern="/register.html" security="none"></http>
+    <http pattern="/index.do" security="none"></http>
+    <http pattern="/index.html" security="none"></http>
+    <http pattern="/" security="none"></http>
+    <http pattern="http://localhost:9102/user/sendSms.do?phone=*" security="none"></http>
+    <http pattern="http://localhost:9102/user/sendSms.do?phone=**" security="none"></http>
+    <http pattern="/search.do" security="none"></http>
+    <http pattern="/search.do?*" security="none"></http>
+    <http pattern="/teststomp.html" security="none"></http>
+    <http pattern="/page/Index/index.html" security="none"></http>
+    <http pattern="/page/Index/**" security="none"></http>
+    <http pattern="/wxpay/notify.do" security="none"></http>
+    <http pattern="/picture/findAll.do" security="none"></http>
+    <http pattern="/match/**" security="none"></http>
+    <!--    <http pattern="/" security="none"></http>-->
+    <!--    <http pattern="/match/*" security="none"></http>-->
+    <http pattern="/notice/**" security="none"></http>
+    <http pattern="/notice/findNoticeOnReleaseTimeDesc.do" security="none"></http>
+    <http pattern="/match/findMatchOnReleaseTimeDesc.do" security="none"></http>
+    <http pattern="http://localhost:9102/goods/*" security="none"></http>
+
+    <!--    <security:http auto-config="true" use-expressions="true">-->
+    <!--            <security:headers>-->
+    <!--                <security:frame-options policy="SAMEORIGIN"/>-->
+    <!--            </security:headers>-->
+    <!--    </security:http>-->
+    <http pattern="/page/*/*" auto-config="true" use-expressions="true">
+        <headers>
+            <frame-options policy="SAMEORIGIN"></frame-options>
+        </headers>
+    </http>
+</beans:beans>

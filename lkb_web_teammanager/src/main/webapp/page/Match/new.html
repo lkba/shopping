@@ -1,0 +1,16 @@
+<h2 style="color: #0063a1;">赛事添加 - 请选择分类</h2>
+<div class="data-list clear" style="height: 300px"><h8 style="color: #0063a1;">请选择赛事分类：
+	<select name="cid" onchange="getGoodsByCid(this)">
+		<option value="0">未选择</option>
+		<foreach name="cate" item="v">
+		<option value="{$v.cid}" >
+			{:str_repeat('--',$v['deep']).$v['cname']}
+		</option>
+		</foreach>
+	</select>
+</h8></div>
+<script>
+    function getGoodsByCid(obj) {
+        window.location.href = "__ACTION__/cid/" + $(obj).val();
+    }
+</script>

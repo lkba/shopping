@@ -1,0 +1,27 @@
+html {
+    overflow: scroll;
+}
+
+table {
+    table-layout: fixed;
+}
+
+table tr td:first-child, table tr td:first-child {
+    width: 200px;
+}
+
+table tr th:first-child, table tr th:first-child {
+    width: 140px;
+}
+
+.select {
+    background-color: #1688d0 !important;
+}
+
+#icon {
+    background-color: red;
+    width: 40px;
+    margin: 0px 5px;
+    height: 20px;
+    border-radius: 50%;
+}

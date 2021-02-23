@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html xmlns:v-on="http://www.w3.org/1999/xhtml">
+	<head>
+		<meta charset="utf-8" />
+		<link rel="stylesheet" href="../../t_css/bootstrap.css" />
+		<link rel="stylesheet" href="../../t_css/layout.css" />
+		<link rel="stylesheet" type="text/css" href="../../t_css/student.css"/>
+		<script src="../../t_js/jquery.js"></script>
+		<script src="../../t_js/layer.js"></script>
+		<script src="../../t_js/jquery.jqprint-0.3.js"></script>
+		<link href="../../t_css/print3.css" rel="stylesheet" type="text/css" >
+		<script type="text/javascript" src="../../t_js/bootstrap.min.js" ></script>
+		<title></title>
+		<style>
+			.header{
+				margin-bottom: 50px;
+			}
+		</style>
+	</head>
+	<body>
+<!--		<div class="header"><span>创新创业学院团队管理系统</span></div>-->
+		<div class="bodyer" id="app">
+			<div id="print-area">
+			<center style="margin: 30px;"><h1>创新创业学院创业孵化基地入驻项目自查表</h1></center>
+			<table class="table table-bordered">
+				<tr>
+					<th colspan="1">团队名称</th>
+					<td colspan="7">{{basic.team}}</td>
+				</tr>
+				<tr>
+					<th colspan="1">项目名称</th>
+					<td colspan="7">{{basic.project}}</td>
+				</tr>
+				<tr>
+					<th colspan="1">公司是否注册</th>
+					<td colspan="1" id="registered">{{basic.registered}}</td>
+					<th colspan="1">注册时间</th>
+					<td colspan="2" id="reg_time">
+						{{basic.regTime}}
+
+					</td>
+					<th colspan="1">注册资金<br>（万元）</th>
+					<td colspan="2" id="money">{{basic.money}}</td>
+				</tr>
+				<tr>
+					<th colspan="1">经营范围<br>（产品/服务）</th>
+					<td colspan="7">{{basic.businessScope}}</td>
+				</tr>
+				<tr>
+					<th>行业类别</th>
+					<td colspan="7">
+						{{basic.class_por}}
+					</td>
+				</tr>
+				<template  v-for="(teacher, key ,index)  in teachers">
+					<tr>
+						<th id="th1" :rowspan="len" colspan="1" v-if="key<=0">项目指导教师</th>
+						<!--                <foreach name="teacher" item="v">-->
+						<th colspan="1">姓名</th>
+						<td colspan="2">{{teacher.name}}</td>
+						<th colspan="2">系别</th>
+						<td colspan="2">{{teacher.department}}</td>
+					</tr>
+					<tr>
+						<th colspan="1">职务</th>
+						<td colspan="2">{{teacher.position}}</td>
+						<th colspan="2">负责领域</th>
+						<td colspan="2">{{teacher.field}}</td>
+					<tr>
+						<!--                </foreach>-->
+				</template >
+				<tr>
+					<th rowspan="3" colspan="1">项目主创<br>团队人员<br>基本情况</th>
+					<th colspan="1">负责人</th>
+					<td colspan="2">{{user.name}}</td>
+					<th colspan="1">年龄</th>
+					<td colspan="1" style="width: 180px;">{{user.age}}</td>
+					<th colspan="1">性别</th>
+					<td colspan="1">{{user.sex}}</td>
+				</tr>
+				<tr>
+					<th colspan="1">系别</th>
+					<td colspan="2">{{user.department}}</td>
+					<th colspan="2">专业班级</th>
+					<td colspan="2">{{user.professional}}</td>
+				</tr>
+				<tr>
+					<th colspan="1">手机号码</th>
+					<td colspan="2">{{user.phone}}</td>
+					<th colspan="2">E-mail/QQ</th>
+					<td colspan="2">{{user.email}}</td>
+				</tr>
+
+				<tr>
+					<th :rowspan="len2" colspan="1">核心团队成员信息（不超9个）</th>
+					<th colspan="1">姓名</th>
+					<th colspan="1">性别</th>
+					<th colspan="1">系别</th>
+					<th colspan="2">专业班级</th>
+					<th colspan="1">手机号码</th>
+					<th colspan="1">E-mail/QQ</th>
+				</tr>
+				<!--            <foreach name="team" item="vv">-->
+				<tr v-for="vv in team">
+					<td colspan="1">{{vv.name}}</td>
+					<td colspan="1">{{vv.sex}}</td>
+					<td colspan="1">{{vv.department}}</td>
+					<td colspan="2">{{vv.professional}}</td>
+					<td colspan="1">{{vv.phone}}</td>
+					<td colspan="1">{{vv.email}}</td>
+				</tr>
+			  <tr>
+			  	<th colspan="1">项目入孵时概况</th>
+			  	<td colspan="7">{{pojo.situations}}</td>
+			  </tr>
+			  
+			  <tr>
+			  	<th colspan="1">项目现阶段概况<br>（对比入孵取得进展）</th>
+			  	<td colspan="7">{{pojo.progress}}</td>
+			  </tr>
+			  <tr>
+			  	<th colspan="1">项目下一阶段规划</th>
+			  	<td colspan="7">{{pojo.plan}}</td>
+			  </tr>
+			  
+			  <tr>
+			  	<th colspan="1">参赛情况及<br>获奖情况</th>
+			  	<td colspan="7">{{pojo.prize}}</td>
+			  </tr>
+			  <tr>
+			  	<th colspan="1">孵化基地<br>提供服务<br>的建议或意见<br>（例如提供工商登记协助、<br>投资对接洽谈等）</th>
+			  	<td colspan="7">{{pojo.adminIdea}}</td>
+			  </tr>
+			  <tr>
+			  	<th colspan="1">是否继续“孵化”<br>（如需退出孵化基地，<br>可在此栏备注）</th>
+			  	<td colspan="7">{{pojo.hatch}}</td>
+			  </tr>
+			  
+			  <tr height="150px">
+			  	<th colspan="1">创业团队<br>负责人所<br>在系意见</th>
+			  	<td colspan="7" class="w">
+<!--			  		{$self.department_idea}-->
+			  	<div style="position: absolute;bottom: 30px;right: 100px;">（盖章）</div>
+			  	<div style="position: absolute;bottom: 5px;right: 50px;">&nbsp;&nbsp;&nbsp;&nbsp;年&nbsp;&nbsp;&nbsp;&nbsp;月&nbsp;&nbsp;&nbsp;&nbsp;日</div>
+			  	</td>
+			  </tr>  
+			</table>
+			</div>
+			<button type="button" class="btn btn-info" style="float: right;margin-left: 20px;" v-on:click="subTable()">提交</button>
+			<button type="button" class="btn btn-info" style="float: right;margin-left: 20px;margin-bottom: 50px;" onclick="print()">打印</button>
+			<button type="button" class="btn btn-info" style="float: right;margin-left: 20px;" onclick="back()">关闭</button>		
+		</div>
+	</body>
+</html>
+<script src="../../t_js/vue.js"></script>
+<script src="../../t_js/axios.js"></script>
+<!--<script src="../../js/util.js"></script>-->
+<!--<script src="../../js/elementui.js"></script>-->
+<script src="../../t_js/util.js"></script>
+<script>
+	new Vue({
+		el: '#app',
+		data() {
+			return {
+				tableData: [],
+				enter: [],
+				user: {},
+				basic: {},
+				team: [],
+				teachers: [],
+				len: "",
+				len2: "",
+				times: "",
+				tid: null,
+				sid: null,
+				currentPage: 1,
+				total: 10,
+				size: 10,
+				searchMap: {},
+				pojo: {},
+				formVisible: false,
+				imageUrl: ''
+			}
+		},
+		created() {
+
+			this.tid = getQueryString("tid")
+			this.sid = getQueryString("sid")
+			this.searchMap = {tid: getQueryString("tid")}
+			this.fetchData();
+		},
+		methods: {
+			fetchData() {
+				axios.get(`/tableSelf/findById.do?sid=`+this.sid).then(response=>{
+					this.pojo= response.data;
+					console.log(response.data)
+				})
+				axios.post(`/tableEnter/findList.do`, this.searchMap).then(response => {
+					this.enter = response.data[0];
+				});
+				axios.post(`/userTeam/findList.do`, this.searchMap).then(response => {
+					this.user = response.data[0];
+					// console.log(this.user)
+				});
+				axios.post(`/basicInfor/findList.do`, this.searchMap).then(response => {
+					// response.date[0].regTime=new Date(response.date[0].regTime).format("yyyy-MM-dd");
+					this.basic = response.data[0];
+					// console.log(response.data)
+				});
+				axios.post(`/teammate/findList.do`, this.searchMap).then(response => {
+					this.team = response.data;
+					if (this.team.length <= 0 || this.team.length == "") {
+						this.team.content = "";
+					}
+					this.len2 = this.team.length + 1;
+				});
+				axios.post(`/teacher/findList.do`, this.searchMap).then(response => {
+					this.teachers = response.data;
+					if (this.teachers.length <= 0 || this.teachers.length == "") {
+						// this.teachers[0].id = "1";
+						this.teachers[0] = {phone: ""};
+						this.teachers[0] = {department: ""};
+						this.teachers[0] = {position: ""};
+						this.teachers[0] = {field: ""};
+					}
+					if(this.teachers.length>1){
+						this.len = this.teachers.length * 2 +this.teachers.length;
+					}else {
+						this.len = this.teachers.length * 2 ;
+					}
+
+					// $('#th1').css('rowspan', "2");
+				});
+
+			},
+			subTable(){
+				this.pojo.isSub=1;
+				// this.pojo={"tid":this.user.tid}
+				axios.post(`/tableSelf/update.do`, this.pojo).then(response => {
+					this.fetchData();
+					// // this.user = response.data[0];
+					// console.log(response.data);
+					// console.log(this.user);
+					var index = parent.layer.getFrameIndex(window.name); //先得到当前iframe层的索引
+					parent.layer.close(index); //再执行关闭
+
+				});
+			},
+
+			/* ****图片上传相关代码  如页面有图片上传功能放开注释 ****
+            handleAvatarSuccess(res, file) {
+                this.imageUrl = file.response;
+            },
+            beforeAvatarUpload(file) {
+                const isJPG = file.type === 'image/jpeg';
+                const isLt2M = file.size / 1024 / 1024 < 2;
+
+                if (!isJPG) {
+                    this.$message.error('上传头像图片只能是 JPG 格式!');
+                }
+                if (!isLt2M) {
+                    this.$message.error('上传头像图片大小不能超过 2MB!');
+                }
+                return isJPG && isLt2M;
+            }*/
+		}
+	})
+</script>
+
+<script>
+	function back() {
+		var index = parent.layer.getFrameIndex(window.name); //先得到当前iframe层的索引
+		parent.layer.close(index); //再执行关闭
+	}
+	$(function () {
+		if ($('#registered').text() == '否') {
+			$('#reg_time').text('无');
+			$('#money').text('无');
+		}
+	});
+	$("form").submit(function(){ //表单提交时判断
+		$("#sub").attr('disabled','disabled');
+	});
+</script>
+<script>
+	function back(){
+		var index = parent.layer.getFrameIndex(window.name); //先得到当前iframe层的索引
+		parent.layer.close(index); //再执行关闭
+	}
+	//
+	function sub(obj,id,name){
+		layer.confirm('确认提交吗？',{icon:3,title : "是否确认提交？"},function(index){
+			$.get("__CONTROLLER__/Isub", {sid: id}, function (msg) {
+				if (msg.flag === true) {
+					layer.msg('已提交!',{icon:1,time:1000,title : "确认"});
+					var t=setTimeout("window.parent.location.reload();",1000);
+								
+				}else{
+					alert(msg.msg);
+				}
+			}, "json");	
+		});
+	}
+	//打印
+	function print(){
+		$("#print-area").jqprint({
+			debug: false, 
+			importCSS: true, 
+			printContainer: true, 
+			operaSupport: false
+		});
+	}
+	$(function () {
+		if($('#registered').text()=='否'){
+			$('#reg_time').text('无');
+			$('#money').text('无');
+		}
+    });
+</script>

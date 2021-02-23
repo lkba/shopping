@@ -1,0 +1,39 @@
+				<div style="padding: 10px 50px 20px 50px;margin-bottom: 65px;">
+					<table class="table table-striped">
+					  <caption>评分表<button type="button" class="btn btn-info" style="float: right;" onclick="back()">返回</button></caption>
+					  <thead>
+					    <tr>
+					      <th>序号</th>
+					      <th>日期</th>
+					      <th>操作</th></tr>
+					  </thead>
+					  <tbody>
+					  	<foreach name="grade" item="v" key='key'>
+					    <tr>
+					      <td>{$key+($pn-1)*5+1}</td>
+					      <td>{$v.date}</td>
+					      <td><a title="查看" href="javascript:;" onclick="show('查看','__CONTROLLER__/GTab/gid/{$v.gid}','80%','90%')">查看</a></td></tr>
+					  	</foreach>
+					  </tbody>
+					</table>
+					<center>
+						<ol class="pagination">
+							{$page}
+						</ol>
+					</center>
+				</div>
+<script>
+	function show(title,url,w,h){
+		layer.open({
+		  type: 2,
+		  title: title,
+		  shadeClose: true,
+		  shade: 0.4,
+		  area: [w, h],
+		  content: url,//iframe的url
+		}); 
+	}
+	function back(){
+		window.location.href = "__MODULE__/Tab/index";
+	}
+</script>

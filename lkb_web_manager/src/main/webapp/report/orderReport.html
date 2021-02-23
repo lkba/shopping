@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>商品类目统计</title>
+    <!-- 引入样式 -->
+<!--    <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">-->
+
+    <link rel="stylesheet" href="../plugins/font-awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../css/el-index.css">
+
+</head>
+<body>
+<div id="app" style="margin: 30px ">
+    <el-date-picker
+            v-model="dateRange"
+            type="daterange"
+            range-separator="至"
+            start-placeholder="开始日期"
+            end-placeholder="结束日期"
+            @change="fetchData()">
+    </el-date-picker>
+
+    <div id="main" style="width: 700px;height:400px;"></div>
+
+    <el-table
+            :data="tableData"
+            border
+            style="width: 100%">
+        <el-table-column
+                prop="count_date"
+                label="订单日期"
+               >
+        </el-table-column>
+        <el-table-column
+                prop="pay_money"
+                label="付款金额"
+              >
+        </el-table-column>
+        <el-table-column
+                prop="pay_people"
+                label="付款人数"
+                >
+        </el-table-column>
+        <el-table-column
+                prop="order_total"
+                label="订单总数"
+               >
+        </el-table-column>
+        <el-table-column
+                prop="pay_goods"
+                label="付款件数"
+                >
+        </el-table-column>
+        <el-table-column
+                label="付款转化率"
+                >
+            <template slot-scope="scope">
+                {{(scope.row.pay_people/scope.row.order_total*100).toFixed(0)}}%
+            </template>
+        </el-table-column>
+    </el-table>
+
+</div>
+
+</body>
+<script src="/js/util.js"></script>
+<script src="/js/vue.js"></script>
+<script src="/js/axios.js"></script>
+<script src="/js/elementui.js"></script>
+<script src="/js/echarts.common.min.js"></script>
+<script>
+    new Vue({
+        el:'#app',
+        data(){
+            return {
+                tableData:[],
+                dateRange:[],
+                totalNum:0,
+                totalMoney:0
+            }
+        },
+        // created(){
+        //     this.fetchData()
+        // },
+        methods:{
+            fetchData(){
+                let date1=this.dateRange[0].Format('yyyy-MM-dd');
+                let date2=this.dateRange[1].Format('yyyy-MM-dd');
+                console.log(this.tableData)
+                axios.get(`/orderReport/order1Count.do?date1=${date1}&date2=${date2}`).then( response=>{
+                    this.tableData=response.data;
+                    console.log(this.tableData)
+                    //计算总销售数量和总销售金额
+                    // this.totalNum=0;
+                    // this.totalMoney=0;
+                    // for(let i=0;i<this.tableData.length;i++){
+                    //     this.totalNum+=this.tableData[i].num;
+                    //     this.totalMoney+=this.tableData[i].money;
+                    // }
+
+                    let countDate=[];//统计时间
+                    let payMoney=[];//付款金额
+                    let payPeople=[];//付款人数
+                    let orderTotal=[];//订单总数
+                    let payGoods=[];//付款件数
+                    let percent=[];//付款转化率
+                    // let pay=[];//付款金额
+                    for(let i=0;i<this.tableData.length;i++){
+                        countDate.push( this.tableData[i].count_date.split(" ")[0] );
+                        payMoney.push( this.tableData[i].pay_money  );
+                        payPeople.push( this.tableData[i].pay_people  );
+                        orderTotal.push( this.tableData[i].order_total  );
+                        payGoods.push( this.tableData[i].pay_goods  );
+                        percent.push( this.tableData[i].pay_people/this.tableData[i].order_total*100  );
+                    // .push( this.tableData[i].payMoney  );
+                        // numData.push( { name:this.tableData[i].categoryName   ,value:this.tableData[i].num  } );
+                        // moneyData.push( { name:this.tableData[i].categoryName   ,value:this.tableData[i].money  } );
+                    }
+
+                    //创建折线图
+                    let myChart = echarts.init(document.getElementById('main'));
+                    let option = {
+                        title: {
+                            text: '订单统计表'
+                        },
+                        tooltip: {
+                            trigger: 'axis'
+                        },
+                        legend: {
+                            data: ['付款金额', '付款人数', '订单总数', '付款件数', '付款转化率']
+                        },
+                        grid: {
+                            left: '3%',
+                            right: '4%',
+                            bottom: '3%',
+                            containLabel: true
+                        },
+                        toolbox: {
+                            feature: {
+                                saveAsImage: {}
+                            }
+                        },
+                        xAxis: {
+                            type: 'category',
+                            boundaryGap: false,
+                            data: countDate
+
+                        },
+                        yAxis: {
+                            type: 'value'
+                        },
+                        series: [
+                            {
+                                name: '付款金额',
+                                type: 'line',
+                                stack: '总量',
+                                data: payMoney
+                            },
+                            {
+                                name: '付款人数',
+                                type: 'line',
+                                stack: '总量',
+                                data: payPeople
+                            },
+                            {
+                                name: '订单总数',
+                                type: 'line',
+                                stack: '总量',
+                                data: orderTotal
+                            },
+                            {
+                                name: '付款件数',
+                                type: 'line',
+                                stack: '总量',
+                                data: payGoods
+                            },
+                            {
+                                name: '付款转化率',
+                                type: 'line',
+                                stack: '总量',
+                                data: percent
+                            },
+                        ]
+                    };
+
+
+                    // 使用刚指定的配置项和数据显示图表。
+                    myChart.setOption(option);
+
+
+
+                })
+            }
+
+        }
+
+
+    })
+
+
+</script>
+
+
+</html>

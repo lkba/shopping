@@ -1,0 +1,28 @@
+<div style="padding: 10px 50px 20px 50px;">
+	<ol class="ol">
+		<li>
+			<a onclick="upload('上传资料','__CONTROLLER__/uploadb','600px','370px')" title="上传计划书">
+				<img src="__PUBLIC__/img/up.png" width="72px"/>
+				<center>上传资料</center>
+			</a>
+		</li>
+		<li>
+			<a href="__CONTROLLER__/down">
+				<img src="__PUBLIC__/img/down.png" width="72px"/>
+				<center>下载资料</center></a>
+		</li>
+	</ol>
+</div>
+<script>
+	//上传
+	function upload(title,url,w,h){
+		layer.open({
+		  type: 2,
+		  title: title,
+		  shadeClose: true,
+		  shade: 0.4,
+		  area: [w, h],
+		  content: url //iframe的url
+		});	
+	}
+</script>
